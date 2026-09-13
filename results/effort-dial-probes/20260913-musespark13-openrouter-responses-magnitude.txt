@@ -1,0 +1,79 @@
+Is OpenRouter's effort dial inert for Muse Spark 1.3? NO - AND A PUBLISHED ROW SAID IT WAS - 2026-09-13
+
+VERDICT: THE DIAL WORKS ON THE SURFACE THE HARNESS ACTUALLY USES, AND FOUR EARLIER RECEIPTS MISSED
+IT BECAUSE THEY PROBED A DIFFERENT SURFACE. This board published Muse Spark 1.3 / Muse Code /
+OpenRouter as effort=default, effort_status=inert_default, on the strength of four receipts at up to
+n=9. Every one of them probed https://openrouter.ai/api/v1/MESSAGES with a flat top-level
+`reasoning_effort`. Muse Code does not use that surface. It speaks the RESPONSES API, and the shim
+in the path forwards to https://openrouter.ai/api/v1/RESPONSES touching only the model id, the
+provider pin and the stream flag. On that surface, with the nested `reasoning:{effort}` object the
+harness actually sends, the dial is not inert at all.
+
+    POST https://openrouter.ai/api/v1/responses  model meta/muse-spark-1.3
+    reasoning:{effort:...}, n=3 per tier, 18 calls, same fixed prompt as the Meta first-party probe
+    (20260913-musespark13-meta-effort-magnitude.txt) so the two tables are directly comparable.
+
+    tier      reasoning tokens         mean     output tokens        wall
+    minimal      843, 1003,   689       845     2034- 2253       12- 17s
+    low         2899, 2119,  2915      2644     3810- 4630       28- 85s
+    medium      4501, 4913,  5920      5111     6133- 7567       49-129s
+    high        8573, 7497,  7505      7858     8863-10138       59-173s
+    xhigh       8491,12264,  9589     10114    10228-14187       69-113s
+    max        12112,12910, 14709     13243    14277-16888       88-103s
+
+    controls
+    field omitted      200   echoes medium, 5723 reasoning tokens - the route's default is MEDIUM
+    bogus_zzz          400   invalid_prompt / Invalid Responses API request
+    bad model id       400   `meta/muse-spark-1.3-zzz is not a valid model ID` - a different error
+
+    real OpenRouter credits delta for the whole probe: $0.6311
+
+THE MAGNITUDE READING. Worst within-tier spread is 1.46x (minimal). Bottom-to-top ratio of means is
+13243/845 = 15.7x, which clears it ten times over. The bands are very nearly a clean staircase:
+minimal, low, medium and high are mutually disjoint, and the only overlaps anywhere are two narrow
+ones at the top boundaries (high tops out at 8573 against xhigh's floor of 8491; xhigh tops out at
+12264 against max's floor of 12112). This is a BETTER BEHAVED DIAL THAN META'S OWN ENDPOINT, where
+high, xhigh and max overlap almost entirely and one max call thought less than two high calls.
+
+    tier      Meta first-party mean    OpenRouter /responses mean
+    minimal            817                       845
+    low               2238                      2644
+    medium            5774                      5111
+    high              9385                      7858
+    xhigh            10757                     10114
+    max              12655                     13243
+
+Read that pair carefully: the two routes agree closely on what each tier COSTS in thinking, which is
+itself evidence that nothing is being dropped or rewritten in transit. What differs is the top end,
+where the aggregator separates and the first-party endpoint does not - at n=3, on one prompt, so
+that difference is noted and not claimed.
+
+AND HERE IS THE PART THAT CHANGES A PUBLISHED ROW. The arm ran with NO --reasoning-effort flag, and
+an unflagged Muse Code does not omit the field. Captured at the request body:
+
+    muse exec ... (no --reasoning-effort at all)
+      call 1  MAIN LOOP  reasoning.effort = "high"
+      call 2  observer   reasoning.effort = "low"
+      call 3  observer   reasoning.effort = "minimal"
+      call 4  observer   reasoning.effort = "high"
+
+So the main loop asserted `high`, the shim forwarded it untouched, and the route applied it. The
+published row did not run at "the provider default" - the route's own default is MEDIUM, per the
+omitted-field control above, and the row never used it. THE ROW RAN AT high. Its effort label is
+being corrected from default/inert_default to high/verified.
+
+WHY THIS HAPPENED, AND IT IS THE SECOND TIME. On 2026-09-12 a probe of GLM-5.3 Flash sent Z.ai's own
+DOCUMENTED field name (`reasoning_effort`) instead of the one Claude Code puts on the wire
+(`output_config.effort`), got HTTP 200 on an invented tier, and would have published a validated
+dial as inert. That one was caught before publication and its receipt made the near-miss the
+headline. This is the same error - probe the surface and the field THE HARNESS USES, not the one the
+vendor documents or the one a previous probe happened to use - and this time it shipped, and sat on
+the public board for a day. The rule now has a code path rather than a paragraph: a wire tap that
+records what a harness actually sends is a standing instrument here, and asserting a tier requires
+running it first.
+
+WHAT THIS RECEIPT DOES NOT SHOW. Thinking volume is not quality, and nothing here says the extra
+tokens buy better bug-finding. It is one prompt at n=3 per tier. It also does not retroactively
+validate the four /messages receipts: on THAT surface the flat field really did produce overlapping
+distributions at n=9, and that finding stands for that surface. Both things are true, which is the
+whole point - a dial is a property of a serving path, and a serving path includes which API you call.

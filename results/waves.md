@@ -1585,7 +1585,7 @@ Meta's own endpoint answers 402 here, so that run does not exist yet.
 
 | | score | cost | wall | genuine extras | claimed-only |
 |---|---:|---:|---:|---:|---:|
-| Muse Spark 1.3 — Muse Code / OpenRouter | 18/105 | $9.53 | 53.3 min | 17 | 0 |
+| Muse Spark 1.3 — Muse Code / OpenRouter, high | 18/105 | $9.53 | 53.3 min | 17 | 0 |
 | Muse Spark 1.2 — Claude Code / Meta API, xhigh | 17/105 | $13.99 | 35.7 min | 12 | — |
 | Muse Spark 1.2 — Claude Code / OpenRouter, default | 14/105 | $19.52 | 65.2 min | 3 | — |
 
@@ -1728,7 +1728,7 @@ and **two things changed at once**:
 
 | | route | effort |
 |---|---|---|
-| Muse Spark 1.3 — 18/105 | OpenRouter | dropped in transit (`inert_default`) |
+| Muse Spark 1.3 — 18/105 | OpenRouter | `high` (corrected — see below) |
 | Muse Spark 1.3 — 33/105 | Meta first-party | `max`, validated and echoed back |
 
 The pair brackets a whole stack change and isolates neither half. This board holds a control
@@ -1771,6 +1771,49 @@ a ceiling that exists, not a purchase that pays.
 **Both Qwen3.8 probes found exactly this shape on Alibaba's stack.** Two vendors, two serving
 stacks, the same answer: the expensive end of a published effort dial is where it stops doing
 anything. That is worth expecting rather than treating as one vendor's quirk.
+
+**Correction, 2026-09-13: the OpenRouter row's effort label was wrong, and the error is the same
+one twice** ([receipt](effort-dial-probes/20260913-musespark13-openrouter-responses-magnitude.txt)).
+That row shipped as `default` / `inert_default`, on four receipts at up to n=9 showing every tier
+overlapping and an invented tier returning HTTP 200. **Every one of those receipts probed
+`api/v1/messages` with a flat top-level `reasoning_effort`.** Muse Code speaks the **Responses API**,
+and the shim forwards to `api/v1/responses` touching only the model id, the provider pin and the
+stream flag. Re-probed on the surface the harness actually uses, with the nested `reasoning:{effort}`
+it actually sends — same prompt as the Meta probe, n=3 per tier:
+
+| tier | reasoning tokens | mean |
+|---|---|---:|
+| `minimal` | 843, 1003, 689 | 845 |
+| `low` | 2899, 2119, 2915 | 2644 |
+| `medium` | 4501, 4913, 5920 | 5111 |
+| `high` | 8573, 7497, 7505 | 7858 |
+| `xhigh` | 8491, 12264, 9589 | 10114 |
+| `max` | 12112, 12910, 14709 | 13243 |
+
+**15.7× against a 1.46× worst within-tier spread**, `minimal` through `high` mutually disjoint,
+`bogus_zzz` refused **400**, and an omitted field echoing `medium`. The dial is not inert — it is
+*better behaved than Meta's own endpoint*, which saturates across the top three.
+
+**And the row never used that default anyway.** Captured at the request body, an unflagged Muse Code
+does not omit the field — it sends `reasoning.effort: "high"` on its main loop. So the row ran at
+**`high`**, the route applied it, and the label was false twice: wrong tier, and wrong claim about
+the route. It is relabelled **`high` / `verified`** and renamed. **The score, cost, wall and extras
+are unchanged — only the label was ever wrong.**
+
+**This is the second time this board has made this exact mistake.** A day earlier, a GLM-5.3 Flash
+probe sent Z.ai's own *documented* field name instead of the one Claude Code puts on the wire, got
+200 on an invented tier, and nearly published a working dial as inert. That one was caught before
+publication. This one shipped and sat on the public board for a day. The rule — **probe the surface
+and the field the harness uses, not the one the vendor documents or the one a previous probe
+happened to use** — now has a code path instead of a paragraph — a wire tap that records every request
+body — and the four
+superseded receipts carry a correction banner rather than being deleted, because their finding
+stands for the surface they measured.
+
+**What it does to the comparison above: it improves it.** With the OpenRouter row now known to be
+`high`, the leg running at `high` on Meta's own endpoint is a **pure route comparison** — same model,
+same harness, same tier, one hop apart — which is a cleaner experiment than the one originally
+planned.
 
 **And it makes a prediction, which is running now.** If `high` and `max` are indistinguishable in
 thinking volume, a bench leg at `high` should land near 33 — and the 18/105 this model scored through

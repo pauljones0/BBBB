@@ -57,7 +57,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 38 | GLM-5.3 | Claude Code / Z.ai API | max | **19** | 9 | 10 | 2 | 40 min | $15.93 | 2026-09-10 |
 | 39 | Hy4 Preview | Claude Code / OpenRouter | default | **18** | 9 | 9 | 2 | 68 min | $3.13 bill | 2026-08-28 |
 | 40 | GPT-5.6 Terra | Codex CLI | high | **18** | 7 | 11 | 17 | 28 min | $5.89 | 2026-08-27 |
-| 41 | Muse Spark 1.3 | Muse Code / OpenRouter | default | **18** | 6 | 12 | 17 | 53 min | $9.53 bill | 2026-09-12 |
+| 41 | Muse Spark 1.3 | Muse Code / OpenRouter | high | **18** | 6 | 12 | 17 | 53 min | $9.53 bill | 2026-09-12 |
 | 42 | Grok 4.5 | Grok Build CLI (ACP) | high | **17** | 5 | 12 | 10 | 28 min | $8.50 floor | 2026-08-06 |
 | 43 | Muse Spark 1.2 | Claude Code / Meta API | xhigh | **17** | 6 | 11 | 12 | 36 min | $13.99 | 2026-08-06 |
 | 44 | Ox Alpha (stealth) | Claude Code / OpenRouter | default | **16** | 8 | 8 | 3 | 59 min | free | 2026-08-25 |
