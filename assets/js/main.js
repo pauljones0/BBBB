@@ -665,14 +665,23 @@ function forwardMovedAnchor() {
   return true;
 }
 
-/* The board shows exactly one run per (model, effort): the newest by date.
+/* The board shows exactly one run per (model, effort, HARNESS): the newest by date.
    Superseded rows and older duplicates drop out of every view, the picker and the
    export — the full history stays on GitHub. Order is preserved from the data file
-   (emitted vendor -> model -> effort), so filtering never reshuffles the groups. */
+   (emitted vendor -> model -> effort), so filtering never reshuffles the groups.
+
+   HARNESS IS IN THE KEY ON PURPOSE (2026-09-13). Without it this function hid a row
+   nothing had superseded: `Gemini 3.7 Flash (high)` on the retired Gemini CLI (22/105)
+   collided with the Antigravity CLI re-test at the same model and tier (16/105) and
+   lost on date, so it vanished from the table, the charts, the picker, Coverage and
+   the run count — while the wave write-up went on comparing the two. This board treats
+   harness and route as measured variables (same model, same tier, different stack is
+   the commonest experiment on it), so two harnesses are two runs, never a duplicate.
+   Hiding a row is what `superseded=` is for, and that field is honoured above. */
 function newestPerTier(runs) {
   const newest = new Map();
   for (const r of runs) {
-    const k = `${r.model}|${r.effort}`;
+    const k = `${r.model}|${r.effort}|${r.harness || ''}`;
     const cur = newest.get(k);
     if (!cur || String(r.date || '') > String(cur.date || '')) newest.set(k, r);
   }
