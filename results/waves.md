@@ -1748,6 +1748,35 @@ the two repos, 14 of 45 on repo 1 and 19 of 60 plus 3 partials on repo 2, and no
 that had not actually been made. That honesty profile is the most consistent thing about Meta's rows
 here, and it survived the model getting twice as effective.
 
+**The dial is real, and it is four rungs sold as six**
+([receipt](effort-dial-probes/20260913-musespark13-meta-effort-magnitude.txt)). One fixed prompt,
+n=3 per tier, 18 calls, every call echoing back the tier it was asked for:
+
+| tier | reasoning tokens | mean |
+|---|---|---:|
+| `minimal` | 668, 823, 962 | 817 |
+| `low` | 1760, 2254, 2701 | 2238 |
+| `medium` | 5394, 5691, 6237 | 5774 |
+| `high` | 7824, 8664, 11668 | 9385 |
+| `xhigh` | 8348, 9590, 14335 | 10757 |
+| `max` | 7928, 12654, 17383 | 12655 |
+
+**15.5× from bottom to top against a 2.19× worst within-tier spread**, so the dial genuinely changes
+how much the model thinks — and `minimal`, `low` and `medium` sit in bands that touch nothing else.
+Then it stops. `high`, `xhigh` and `max` overlap almost entirely, and **one `max` call thought less
+than two of the three `high` calls**. So `max` is the top of a real dial that buys nothing measurable
+over `high`. This row's label moves from `first_party` to **`verified_ceiling`** on that evidence —
+a ceiling that exists, not a purchase that pays.
+
+**Both Qwen3.8 probes found exactly this shape on Alibaba's stack.** Two vendors, two serving
+stacks, the same answer: the expensive end of a published effort dial is where it stops doing
+anything. That is worth expecting rather than treating as one vendor's quirk.
+
+**And it makes a prediction, which is running now.** If `high` and `max` are indistinguishable in
+thinking volume, a bench leg at `high` should land near 33 — and the 18/105 this model scored through
+OpenRouter would then be the **route**, not the tier. The receipt was written before that leg
+reported, which is the only order in which a prediction counts.
+
 **One caveat that belongs next to the score rather than under it.** `max` is asserted, validated in
 two layers and echoed back applied — but it describes **the main loop**, not the run. Muse Code's
 reminder-observer side agent runs at a fixed `low`/`high` the flag does not reach, and on a

@@ -1,0 +1,65 @@
+Does Meta's effort dial change how much Muse Spark 1.3 THINKS? - 2026-09-13
+
+VERDICT: YES AT THE BOTTOM, NO AT THE TOP. A FOUR-RUNG DIAL SOLD AS SIX. minimal, low and medium
+occupy bands that do not touch each other or anything above them. high, xhigh and max overlap almost
+entirely and cannot be told apart at this sample size. So the field is not merely READ on this
+endpoint - which the sibling receipt already established by two-layer validation and an echoed tier -
+it CHANGES THE WORK, across the bottom half of its range and not the top.
+
+    POST https://api.meta.ai/v1/responses, model muse-spark-1.3, reasoning:{effort:...}
+    One fixed prompt (a concurrency-reasoning question with an exhaustive-enumeration instruction),
+    n=3 per tier, 18 calls, interleaved by repetition rather than run tier-by-tier.
+
+    tier      reasoning tokens        mean     output tokens        wall
+    minimal     668,  823,   962        817     2377- 2823        17-22s
+    low        1760, 2254,  2701       2238     3454- 4367        24-30s
+    medium     5394, 5691,  6237       5774     6849- 7994        50-56s
+    high       7824, 8664, 11668       9385     9882-13423        69-94s
+    xhigh      8348, 9590, 14335      10757     9882-15787        77-98s
+    max        7928,12654, 17383      12655     9700-19438        67-118s
+
+    Every call echoed back the tier it was asked for. No 429s, no retries, no fallbacks.
+
+THE MAGNITUDE READING, BY THIS BOARD'S RULE: no gap counts until it clears the worst within-condition
+spread. The worst within-tier spread here is max, 17383/7928 = 2.19x. The bottom-to-top ratio of
+means is 12655/817 = 15.5x, which clears it by seven times over. So the dial is real.
+
+WHERE IT BINDS, PRECISELY. Four disjoint bands, not six:
+
+    minimal  [  668,   962 ]  ---- disjoint
+    low      [ 1760,  2701 ]  ---- disjoint
+    medium   [ 5394,  6237 ]  ---- disjoint
+    high     [ 7824, 11668 ]  \
+    xhigh    [ 8348, 14335 ]   >-- mutually overlapping, indistinguishable at n=3
+    max      [ 7928, 17383 ]  /
+
+medium's ceiling (6237) sits below high's floor (7824), so the separation survives all the way up to
+high. Above that it stops: max's range CONTAINS most of high's, and a single max call (7928) thought
+less than two of the three high calls. The means still rise - 9385, 10757, 12655 - and the ranges say
+that ordering is not resolvable here. Establishing it would need a much larger n, and the honest
+statement at n=3 is that paying for max over high buys nothing measurable.
+
+THIS IS THE SAME SHAPE ALIBABA'S DIAL SHOWS, ON A DIFFERENT VENDOR'S STACK. Both Qwen3.8 probes on
+this board found a dial that binds hard at the bottom and saturates across the top three tiers, with
+means that do not order cleanly. Two vendors, two serving stacks, same shape. That is worth noticing
+precisely because it is the shape a buyer is least likely to assume: the expensive end of a published
+effort dial is where it stops doing anything.
+
+WHAT THIS CHANGES FOR THE BOARD. The Muse Spark 1.3 first-party rows can carry `verified` rather than
+`first_party`, because the levels are now separated on this serving path rather than merely accepted
+by it. The max row carries `verified_ceiling`: max is the top of the dial that exists - `none` is
+refused CLI-side before any call, `ultra` is a closed feature gate that silently substitutes xhigh
+(receipt: 20260912-musecode-cli-effort-vs-wire.txt), and nothing above max is servable - and the
+ceiling is REAL BUT FLAT, in the same sense the Qwen rows are.
+
+AND IT MAKES A PREDICTION THE NEXT ARM WILL TEST. If high and max are indistinguishable in thinking
+volume, a bench leg at high should land near the max row's 33/105, and the 18/105 the same model
+scored through OpenRouter should then be attributable to the ROUTE rather than to the tier. That leg
+is running. This receipt is written before its result is known, which is the only order in which a
+prediction is worth anything.
+
+WHAT THIS RECEIPT DOES NOT SHOW. Thinking volume is not quality. Nothing here says the extra tokens
+at max are useful, or that minimal's 817 are insufficient - only that the tiers command different
+amounts of work. It is also one prompt: a dial that separates on a concurrency-reasoning question
+might behave differently on a refactor or a search task. n=3 per tier supports the bottom-half
+separation comfortably and supports no claim at all about the ordering of the top three.
