@@ -1772,6 +1772,15 @@ than two of the three `high` calls**. So `max` is the top of a real dial that bu
 over `high`. This row's label moves from `first_party` to **`verified_ceiling`** on that evidence —
 a ceiling that exists, not a purchase that pays.
 
+> **Correction, 2026-09-13 — the sentence above is falsified and the label is not.** Both rungs
+> below `max` have since been run on the real benchmark: `high` scores **19/105** and `xhigh` scores
+> **20/105**, against this row's **33**. So `max` buys about **thirteen points** over either
+> neighbour and *is* a purchase that pays on this stack. `verified_ceiling` stands — `max` is still
+> the top tier that exists — but "a ceiling that exists, not a purchase that pays" was wrong, and it
+> was wrong because a token-volume sweep was used to price a rung. What survived from the probe is
+> the *grouping*: `high` and `xhigh` really are one rung, on score as well as on tokens. See the
+> last section of this page.
+
 **Both Qwen3.8 probes found exactly this shape on Alibaba's stack.** Two vendors, two serving
 stacks, the same answer: the expensive end of a published effort dial is where it stops doing
 anything. That is worth expecting rather than treating as one vendor's quirk.
@@ -1862,3 +1871,53 @@ three-step probe at `max`, 4 of 10 calls carried `max`. The harness section abov
 other row on this board has needed that distinction, because no other harness here runs a second
 agent.
 
+
+### And the rung between them: `xhigh`, where the dial stops being worth anything
+
+**20 of 105, $15.58, 73 minutes, 7 genuine extras, zero claimed-only — and no partials on either
+repo, which is a first for Muse.** This is the third and last rung of Meta's first-party dial to be
+run here, and it turns a pair into a curve.
+
+| tier | score | reasoning tokens | list cost | wall | $/fix |
+|---|---:|---:|---:|---:|---:|
+| `high` | 19/105 | 178,300 | $10.81 | 64.5 min | $0.57 |
+| `xhigh` | **20/105** | **225,766** | **$15.58** | **73.0 min** | **$0.78** |
+| `max` | 33/105 | 286,242 | $19.83 | 102.3 min | $0.60 |
+
+**Everything you pay for rises smoothly. The score does not.** Reasoning volume goes up by almost
+exactly **27% at each rung** — 178,300 → 225,766 → 286,242. The first 27% buys **one point**, which
+is noise. The second 27% buys **thirteen**. Going from `high` to `xhigh` costs **44% more** and
+changes nothing measurable; going on to `max` costs another 27% and is the largest effort effect on
+this board. `xhigh` is the worst-value rung of the three on the only metric that combines both
+columns: **78 cents per fix**, against 57 at `high` and 60 at `max`.
+
+**This is what falsifies the magnitude probe properly, rather than just embarrassing it.** The probe
+merged `high`, `xhigh` and `max` into one saturated rung. The bench says the top of this dial is
+**two** rungs, not one and not three:
+
+    { high 19, xhigh 20 }        { max 33 }
+
+So the probe **grouped correctly** — `high` and `xhigh` are one rung on the score exactly as they
+were on the tokens — and then **pulled `max` into the wrong group**, which is the half a buyer pays
+for. A token-volume sweep can group tiers. It cannot price them.
+
+**And the failure is not that the tokens were mis-measured.** They were measured fine, and the step
+sizes on the real workload have the same shape the toy prompt showed. The failure is that **equal
+increments of thinking bought nothing and then bought everything**. Volume is not the currency.
+
+**`xhigh` does not reliably think more than `high` on the real workload either, and the aggregate
+hides a sign flip.** Repo 1 at `xhigh` spent 178,161 reasoning tokens against `high`'s 115,670 — up
+54%. Repo 2 spent 47,605 against 62,630 — **down 24%**. The combined +27% is one repo carrying it.
+No measurement on this board separates `xhigh` from `high`: not toy-prompt tokens, not bench tokens,
+not score. The row is published as the evidence for that, not against it.
+
+**What it does for the `max` claim: it upgrades it from one observation to something closer to a
+finding.** The `high` row shipped with an honest caveat that its 14-point gap to `max` was n=1
+against n=1. Two independent runs at the top-but-one now sit **within a point of each other** while
+the single `max` run sits thirteen above both — which is the closest thing to a run-to-run spread
+estimate this dial has, and the gap clears it comfortably. It is still not a replicate **at `max`**,
+which is the leg that would settle it, and the row says so.
+
+**What is not claimed.** That `xhigh` is broken or ignored — it is accepted by the endpoint, echoed
+back applied, sits inside a dial measured real at the bottom, and on repo 1 it genuinely did think
+54% harder. It just did not convert. And 19 against 20 is not evidence that `xhigh` beats `high`.

@@ -72,3 +72,4 @@ gpt-oss-20b,Claude Code / OpenRouter,0,0,0,0,3.8,0.11
 "GLM-5.3 Flash (max effort, Z.ai API)",Claude Code / Z.ai API,19,10,9,4,58.4,0.94
 "Muse Spark 1.3 (max effort, Muse Code, Meta API)",Muse Code / Meta API,33,14,19,16,102.3,19.83
 "Muse Spark 1.3 (high effort, Muse Code, Meta API)",Muse Code / Meta API,19,8,11,10,64.5,10.81
+"Muse Spark 1.3 (xhigh effort, Muse Code, Meta API)",Muse Code / Meta API,20,8,12,7,73.0,15.58

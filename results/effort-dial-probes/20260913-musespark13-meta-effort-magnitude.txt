@@ -63,3 +63,41 @@ at max are useful, or that minimal's 817 are insufficient - only that the tiers 
 amounts of work. It is also one prompt: a dial that separates on a concurrency-reasoning question
 might behave differently on a refactor or a search task. n=3 per tier supports the bottom-half
 separation comfortably and supports no claim at all about the ordering of the top three.
+
+
+================================================================================================
+OUTCOME - APPENDED 2026-09-13, AFTER BOTH LEGS RAN. THE PREDICTION ABOVE IS FALSIFIED.
+================================================================================================
+
+The prediction above is left exactly as published. It said that if high and max are indistinguishable
+in thinking volume, a bench leg at high should land near the max row's 33/105. Both rungs below max
+have now been run on the real benchmark:
+
+    tier   bench score   reasoning tokens (bench)   list cost   wall
+    high      19/105            178,300              $10.81     64.5 min
+    xhigh     20/105            225,766              $15.58     73.0 min
+    max       33/105            286,242              $19.83    102.3 min
+
+high landed at 19, not near 33. The top of this dial is TWO rungs, not one and not three: high and
+xhigh are within a point of each other, and max is thirteen points above both.
+
+WHICH HALF OF THIS RECEIPT SURVIVED. The GROUPING did. high and xhigh really are one rung - the toy
+prompt could not separate them, and neither can the benchmark, on score or on tokens. The error was
+extending that group upward to max, which is the half a buyer pays for.
+
+WHAT THE TOKEN COLUMN DOES ON THE REAL WORKLOAD, WHICH IS THE PART WORTH KEEPING. Reasoning volume
+rises by almost exactly 27% at each of the top two rungs - 178,300 to 225,766 to 286,242 - and the
+score does not move for the first 27% and jumps thirteen on the second. So the failure here is NOT
+that this receipt mis-measured the tokens. It measured them correctly and the step sizes on the bench
+are the same shape. The failure is that token volume is not a proxy for capability gain at all: equal
+increments of thinking bought nothing and then bought everything.
+
+THE RULE THIS BOARD TAKES FROM IT. A magnitude probe shows whether a dial is CONNECTED. It does not
+show what a rung is WORTH, and it cannot be used to argue that one tier is not worth paying for. Only
+a bench pair can do that. Applied backwards, the same caution attaches to the Qwen3.8 saturation
+findings cited above: those are statements about thinking volume on a fixed prompt, and no bench pair
+was ever run to test whether Alibaba's top rungs differ in score.
+
+Per-repo detail, because the aggregate hides a sign flip: repo 1 at xhigh spent 178,161 reasoning
+tokens against high's 115,670 (up 54%), while repo 2 at xhigh spent 47,605 against high's 62,630
+(down 24%). The combined +27% is one repo carrying it. xhigh is not separated from high by anything.
