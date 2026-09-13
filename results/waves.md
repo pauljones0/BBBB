@@ -1800,6 +1800,27 @@ does not omit the field — it sends `reasoning.effort: "high"` on its main loop
 the route. It is relabelled **`high` / `verified`** and renamed. **The score, cost, wall and extras
 are unchanged — only the label was ever wrong.**
 
+**And yes — the same model on the same aggregator really does have a live dial on one API and a dead
+one on the other.** That claim was worth one field name's evidence when first published, so it got
+re-tested with three field shapes on `/messages`, `minimal` against `max`, n=3 each:
+
+| field shape | `minimal` | mean | `max` | mean | `bogus_zzz` |
+|---|---|---:|---|---:|---|
+| flat `reasoning_effort` | 4284, 5967, 5587 | 5279 | 5153, 6213, 4793 | 5386 | **200**, ignored |
+| `output_config.effort` | **400 ×3** | — | 4396, 5089, 5382 | 4955 | **400** |
+| nested `reasoning.effort` | 5048, 5160, 4849 | 5019 | 5715, 5790, 4938 | 5481 | **200**, ignored |
+
+**Not one of them moves it.** Every mean sits between 4955 and 5481 whatever you ask — and ~5000 is
+almost exactly what `/responses` returns for `medium`, which is also what it returns with the field
+omitted. The Messages surface serves this model at its default and ignores the question.
+
+**The `output_config` row is the most deceptive result on this page.** That field is *validated*
+here — `minimal` refused 400, `bogus_zzz` refused 400 — and *not applied*, since `max` lands in the
+same band as everything else. **An endpoint that 400s on a bad value looks exactly like one that
+honours a good one.** This board already carried the rule (OpenRouter validates effort enums at its
+own gateway, so a 400 there says the gateway parsed the field, not that the provider used it); this
+is that rule with a counterexample sitting in the same table as the behaviour it mimics.
+
 **This is the second time this board has made this exact mistake.** A day earlier, a GLM-5.3 Flash
 probe sent Z.ai's own *documented* field name instead of the one Claude Code puts on the wire, got
 200 on an invented tier, and nearly published a working dial as inert. That one was caught before

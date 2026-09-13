@@ -72,6 +72,35 @@ the public board for a day. The rule now has a code path rather than a paragraph
 records what a harness actually sends is a standing instrument here, and asserting a tier requires
 running it first.
 
+IS /messages REALLY INERT, OR WAS THE OLD PROBE JUST USING THE WRONG FIELD NAME? - TESTED, AND IT IS
+REALLY INERT. The first version of this receipt asserted that a dial is a property of a serving path
+and left it there, which was one field name's worth of evidence for a claim about a whole endpoint.
+Re-tested on 2026-09-13 with THREE field shapes on /api/v1/messages, minimal against max, n=3 each:
+
+    field shape                minimal thinking tokens      max thinking tokens         bogus_zzz
+    reasoning_effort (flat)    4284, 5967, 5587  (5279)     5153, 6213, 4793  (5386)    200 IGNORED
+    output_config:{effort}     400 x3 - rejected            4396, 5089, 5382  (4955)    400 REFUSED
+    reasoning:{effort}         5048, 5160, 4849  (5019)     5715, 5790, 4938  (5481)    200 IGNORED
+
+NOT ONE OF THEM MOVES IT. Every mean on this surface sits between 4955 and 5481 whatever is asked,
+against 845 to 13243 for the same six tiers on /responses. And the cluster is telling: ~5000 is
+almost exactly what /responses returns for `medium`, which is also what /responses returns when the
+field is OMITTED. The Messages surface appears to serve this model at its default and ignore the
+question.
+
+THE output_config ROW IS THE MOST DECEPTIVE RESULT ON THIS PAGE AND DESERVES ITS OWN SENTENCE. That
+field is VALIDATED here - `minimal` is refused 400 and so is `bogus_zzz` - and it is NOT APPLIED, as
+max lands in the same band as everything else. An endpoint that 400s on a bad value looks exactly
+like an endpoint that honours a good one, and this is a counterexample sitting in the same table as
+the behaviour it mimics. It is a live confirmation of a rule this board already carried: OpenRouter
+400-validates effort enums at its OWN gateway, so a 400 there says the gateway parsed the field and
+says nothing about whether the provider used it. ONLY A MEASURED SWEEP COUNTS.
+
+SO THE ANSWER TO "TWO ENDPOINTS, ONE WITH A DEAD DIAL" IS YES. Same vendor, same model slug, same
+account, same day: /responses implements the dial across six tiers with near-disjoint bands, and
+/messages ignores it under every field name it will accept. That is now three independent field
+shapes rather than one, which is what the claim needed before it was worth making.
+
 WHAT THIS RECEIPT DOES NOT SHOW. Thinking volume is not quality, and nothing here says the extra
 tokens buy better bug-finding. It is one prompt at n=3 per tier. It also does not retroactively
 validate the four /messages receipts: on THAT surface the flat field really did produce overlapping
