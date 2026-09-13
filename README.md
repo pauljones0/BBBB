@@ -9,7 +9,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 <!-- leaderboard:start -->
 ![Bug Hunt Bench leaderboard, the featured runs, updated Sep 13, 2026](assets/leaderboard.png?v=2026-09-13)
 
-**Updated Sep 13, 2026 · 72 scored runs · 28 models · 38 of 105 bugs have never been fixed by any model.**
+**Updated Sep 13, 2026 · 73 scored runs · 28 models · 38 of 105 bugs have never been fixed by any model.**
 
 **Current leader:** GPT-6 Astra at `max` effort — **48 / 105** (24/45 on repo 1, 24/60 on repo 2).
 
@@ -54,10 +54,10 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 35 | Gemini 3.8 Flash | Antigravity CLI | high | **20** | 7 | 13 | 6 | 30 min | $9.78 | 2026-09-02 |
 | 36 | DeepSeek V4.1 Flash | Claude Code / DeepSeek API | high | **19** | 9 | 10 | 4 | 26 min | $0.31 bill | 2026-09-10 |
 | 37 | GLM-5.3 Flash | Claude Code / Z.ai API | max | **19** | 10 | 9 | 4 | 58 min | $0.94 | 2026-09-12 |
-| 38 | GLM-5.3 | Claude Code / Z.ai API | max | **19** | 9 | 10 | 2 | 40 min | $15.93 | 2026-09-10 |
-| 39 | Hy4 Preview | Claude Code / OpenRouter | default | **18** | 9 | 9 | 2 | 68 min | $3.13 bill | 2026-08-28 |
-| 40 | GPT-5.6 Terra | Codex CLI | high | **18** | 7 | 11 | 17 | 28 min | $5.89 | 2026-08-27 |
-| 41 | Muse Spark 1.3 | Muse Code / OpenRouter | high | **18** | 6 | 12 | 17 | 53 min | $9.53 bill | 2026-09-12 |
+| 38 | Muse Spark 1.3 | Muse Code / Meta API | high | **19** | 8 | 11 | 10 | 64 min | $10.81 | 2026-09-13 |
+| 39 | GLM-5.3 | Claude Code / Z.ai API | max | **19** | 9 | 10 | 2 | 40 min | $15.93 | 2026-09-10 |
+| 40 | Hy4 Preview | Claude Code / OpenRouter | default | **18** | 9 | 9 | 2 | 68 min | $3.13 bill | 2026-08-28 |
+| 41 | GPT-5.6 Terra | Codex CLI | high | **18** | 7 | 11 | 17 | 28 min | $5.89 | 2026-08-27 |
 | 42 | Grok 4.5 | Grok Build CLI (ACP) | high | **17** | 5 | 12 | 10 | 28 min | $8.50 floor | 2026-08-06 |
 | 43 | Muse Spark 1.2 | Claude Code / Meta API | xhigh | **17** | 6 | 11 | 12 | 36 min | $13.99 | 2026-08-06 |
 | 44 | Ox Alpha (stealth) | Claude Code / OpenRouter | default | **16** | 8 | 8 | 3 | 59 min | free | 2026-08-25 |
@@ -80,7 +80,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 61 | gpt-oss-120b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 1 | 4 min | $0.13 bill | 2026-09-12 |
 
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
-11 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
+12 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
 <!-- leaderboard:end -->
 
 ## What Bug Hunt Bench is
