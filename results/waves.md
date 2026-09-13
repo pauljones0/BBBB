@@ -2050,6 +2050,14 @@ than implying a measurement it didn't make.
 
 ### Muse Spark 1.3 at `medium`: nearly the same money, less than half the score
 
+> **Superseded, 2026-09-14.** This section is a single run. `medium` has since been run three times
+> (9, 15, 15) and `low` three times (12, 13, 4), and the mean row on the board is now **13/105**, not
+> 9. The numbers below are all correct for the run they describe, but two of the conclusions drawn
+> from them do not survive the repeat: "less than half the score" and the `$1.11`-per-fix outlier
+> claim are both retracted, and the reasoning-volume inversion turned out to be one verbose run
+> rather than a property of the tier. See **Sep 13-14 - the board's first n=3** at the end of this
+> file for the full accounting of what holds and what does not.
+
 **9 of 105, $10.02, 61.7 minutes, 8 genuine extras.** The bottom measured rung of Meta's first-party
 dial — and it sits one notch **below** this endpoint's measured default, because omitting
 `reasoning.effort` echoes back `high`. `medium` is a tier you have to ask for in order to do worse.
@@ -2102,3 +2110,111 @@ that it **reproduces on both repos independently**, 8→4 and 11→5, each rough
 against 4 apiece on the `high`, `xhigh` and `max` arms. Retries are transparent to the model and cost
 wall clock rather than correctness, so 61.7 minutes here is not cleanly comparable with 64.5 at `high`.
 The comparison this row rests on is cost and score, not wall.
+
+
+## Sep 13-14 — the board's first n=3, and it moves the row it was run to check
+
+Every score on this page until now is **n=1**: one model, one prompt, one harness, one run. That is a
+stated limitation on nearly every wave here, and it has never been measured. This wave measures it.
+
+**Muse Spark 1.3's bottom two rungs were each run three times.** Same model, same two repos, same
+prompt, same harness, same first-party route, same effort flag, same judge. Nothing varies but the run.
+
+| rung | run 1 | run 2 | run 3 | **mean (published)** | range |
+|---|---:|---:|---:|---:|---:|
+| `low` | 12/105 | 13/105 | 4/105 | **10/105** | **9 points** |
+| `medium` | 9/105 | 15/105 | 15/105 | **13/105** | **6 points** |
+
+They publish as two rows, each one mean with all three of its legs listed in the metrics receipts:
+**Muse Spark 1.3 (low effort, Muse Code, Meta API) - mean of 3** and
+**Muse Spark 1.3 (medium effort, Muse Code, Meta API) - mean of 3**. The scoreboard carries the mean;
+`results/repo1-metrics.csv` and `results/repo2-metrics.csv` carry every individual leg, so the spread
+above is auditable rather than asserted.
+
+**The run-to-run range is larger than the gap between the two tiers.** `low` and `medium` differ by
+about 3 points in the mean. A single `low` run can land anywhere across a 9-point window, and a single
+`medium` run across a 6-point window. **Those windows overlap almost completely** — 4-13 against 9-15.
+One run of each, drawn at random, has a real chance of ranking them backwards, and that is exactly
+what happened the first time: run 1 gave `low` 12 and `medium` 9, an inversion that disappears at n=3.
+
+### What this changes on the board
+
+The dial now reads **10 → 13 → 19 → 20 → 33** across `low`, `medium`, `high`, `xhigh`, `max`. Still
+monotone. But the bottom two rungs are now means of three and the top three are still single runs, so
+**the only honest comparison on this dial is between the two rungs that were repeated.**
+
+The single-run `medium` row (9/105) stays on the board with its numbers intact and an annotation
+pointing here. It was not wrong; it was one draw, and it was the lowest of the three.
+
+**The claims that row carried have to be revised, and two of them do not survive.**
+
+| claim, as published from n=1 | at n=3 |
+|---|---|
+| "`medium` costs 93 cents on `high`'s dollar and returns 9 against 19" — nearly the same money, **less than half the score** | $9.24 against $10.81 for **13 against 19**. Cheaper and worse, but "less than half" is **retracted**. |
+| `$1.11` per fix, "the worst buy on the board by a factor of two" | **$0.71** per fix. Mid-pack, not an outlier. **Retracted.** |
+| "Reasoning volume does not explain any of it" — `medium` emitted **more** reasoning than `high` | That inversion was one run. The `medium` mean is **149,769** tokens against `high`'s 178,300. **Retracted** — the lower tier does emit less, on average. |
+| On repo 2, `medium` costs **more in absolute dollars** than `high` | **Survives.** $5.05 against $3.98, a 27% premium, for 8/60 against 11/60. More money for less result, at the mean, not just in one run. |
+| The pre-registered branch: `medium` "well below 19" means the dial moves score at the bottom while `high`→`xhigh` is a dead middle | **Survives**, on a smaller margin. It fired on 9 against 19; the real gap is 13 against 19. |
+
+The one that survives is the one worth keeping: **paying less for a lower tier is not guaranteed even
+within a single vendor's own dial.**
+
+### Why a fixed tier produces a 9-point spread
+
+The effort flag does not pin down how much work happens. Held completely fixed, the three `low` runs
+did measurably different amounts of it:
+
+| `low`, repo 1 | run 1 | run 2 | run 3 |
+|---|---:|---:|---:|
+| model calls | 221 | 202 | **147** |
+| reasoning tokens | 69,796 | 45,411 | **40,238** |
+| cost | $3.77 | $3.45 | **$2.83** |
+| fixed | 8/45 | 5/45 | **2/45** |
+
+That 6-point range on repo 1 is **twice the 3-point gap from `low`'s mean up to `high`** on the same repo, and `low` and `medium` tie there at the mean (5.0 and 5.3): at the bottom of this dial the within-tier spread is larger than the between-tier signal.
+
+On that leg the ordering is clean, and the cheap run is cheap **because it did less** — not because
+the tier made it efficient. Across all six legs the relationship is looser: the `medium` leg with the
+most calls scored lowest of its three, and on repo 2 a 151-call run beat a 167-call run 8 to 4. So the
+honest statement is the weaker one: **a tier name fixes a request field, not an amount of work**, and
+the work actually performed varies by roughly a third run to run inside one tier.
+
+This is also why cost is not a stable proxy for effort here. The three `low` pairs cost $6.28, $5.97
+and $4.60 — a 37% spread with one flag value and one prompt.
+
+### What it means for every other row on this page
+
+**Do not read a 1-3 point difference between any two rows here as a ranking.** That was always the
+stated caveat; it now has a number behind it, at least for this model at these tiers: **a single run
+of a fixed configuration moved 9 points**, and 9 points is more than the distance between most
+adjacent rows on the combined board.
+
+Two specific consequences:
+
+- The 1-point `high` → `xhigh` step on this same dial (19 → 20) was already called noise. It is
+  comfortably inside the measured run-to-run window.
+- Comparisons that rest on a **large** gap — the 13-point `xhigh` → `max` step, or a model scoring
+  double another — are unaffected. The spread is a floor on what counts as a difference, not a reason
+  to distrust the whole board.
+
+**`high` has not been repeated yet.** It is the rung every other claim on this dial is measured
+against, and it is still a single run. Repeating it at n=3 is the next measurement owed, and until it
+lands, every comparison *to* `high` on this page carries the same n=1 caveat this wave just quantified.
+
+### One survivor fell
+
+**37 of the 105 planted bugs have now survived every model in every run on this board**, down from 38.
+The one that fell went to a `medium` leg, in repo 2: an optional value that can legitimately be absent
+was being converted to a string unconditionally, so "absent" and "present" took the same path
+downstream. The fix separates them before the conversion. No run on this board had repaired it before.
+
+**Only published runs move that count.** It is computed from the verdict files of runs that have a
+public row here; anything scored privately cannot change a number nobody can audit.
+
+### Honesty profile
+
+All six legs are clean: judge-visible fixes only, no handicap disclosures, exit 0 on every leg, zero
+shim errors, and dependency installs green in all six. Claimed-but-not-fixed entries are low and
+consistent with the rest of this model's rows — 5 across the three `low` legs and 3 across the three
+`medium` legs, against 105 planted bugs apiece. Genuine extras (real defects found outside the planted
+set) are the one place the tiers separate sharply: **6 at `low` against 18 at `medium`**, per the mean.
