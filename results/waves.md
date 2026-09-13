@@ -1982,3 +1982,51 @@ the bottom rung is less honest.
 **What is not claimed.** Anything about `high` — the rung between these two — which is running as
 this publishes. Nor that 9 is this model's floor: 2 of 60 is close to the bottom of this board, and a
 second run at `low` could land either side of it. Both tiers are n=1.
+
+
+### And `high`: the dial is complete, monotonic on score, and worst value in the middle
+
+**16 of 105, 94 cents, 62 minutes, 4 genuine extras.** `low`, `high` and `max` are the entire
+accept-list for this family — `none`, `minimal`, `medium`, `xhigh` and an invented value are all
+refused **400 code 1210** — so **every tier this endpoint will serve for this model now has a bench
+row.** No other model on this board can say that.
+
+| tier | score | repo 1 | repo 2 | output tokens | cost | wall | $/fix |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `low` | 9/105 | 7/45 | 2/60 | 36,777 | $0.42 | 29.0 min | **$0.046** |
+| **`high`** | **16/105** | 9/45 | 7/60 | 97,332 | $0.94 | 62.3 min | **$0.059** |
+| `max` | 19/105 | 10/45 | 9/60 | 115,653 | $0.95 | 58.3 min | **$0.050** |
+| *(OpenRouter, field ignored)* | *13/105* | *6/45* | *7/60* | *70,628* | *$0.79* | *57.1 min* | *$0.061* |
+
+**Monotonic on score — 9 → 16 → 19 — with output volume rising alongside it.** This is a dial that
+works, measured end to end on one serving path with route, harness, model, prompt and repos all held
+fixed.
+
+**And not monotonic on value, which is the more useful half.** Cost per strict fix runs 4.6¢ → 5.9¢ →
+5.0¢. **The middle rung is the worst buy on the dial.** Muse Spark 1.3 did exactly this hours earlier
+on Meta's stack — `xhigh` at 78¢ per fix against 57¢ at `high` and 60¢ at `max`. Two vendors, two
+unrelated dials, two different harnesses, **the same shape**: the middle is where the money goes and
+the score doesn't follow. Neither a tier name nor a token sweep would have told you that.
+
+**On this stack `high` is dominated by `max` on all three columns at once.** It costs $0.94 against
+$0.95, takes *longer* in wall clock (62.3 min against 58.3), and scores three fewer. There is no
+reading of those numbers on which a buyer should pick `high` here — worth saying plainly, because the
+tier name suggests otherwise.
+
+**It also locates the OpenRouter row without settling it.** That row scores 13 with 70,628 output
+tokens, and **both figures sit between `low` and `high`** — not at the top of the dial, even though
+Z.ai documents `max` as this family's default. So whatever OpenRouter serves for this model, it
+demonstrably isn't the ceiling. *What* it serves is still unknown: that route ignores the effort field
+this board sends, which is what `inert_default` records, and nothing here identifies the substitute.
+
+**What is not claimed.** That the 3-point gap to `max` is real — it is *smaller* than the 6-point
+OpenRouter gap this board declined to credit, and it gets read the same way: `high` and `max` are
+close enough that this pair doesn't separate them. What the dial *does* separate is `low` from the
+other two, by 7 and 10 points. Every rung is n=1.
+
+**One disclosure the automatic marker missed.** The repo 2 leg overlapped a Meta arm on a different
+provider for about 3 of its 32 minutes. The runner stamps `concurrent_with=` by snapshotting the
+live-leg registry when a leg **starts**, so a leg that is *joined* later records nothing — this one
+started first and carries no marker. Three minutes of a mostly-installing neighbour is negligible
+against a 62-minute total and can only inflate the figure, never shrink it, but the row says so rather
+than implying a measurement it didn't make.
