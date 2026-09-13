@@ -101,3 +101,46 @@ was ever run to test whether Alibaba's top rungs differ in score.
 Per-repo detail, because the aggregate hides a sign flip: repo 1 at xhigh spent 178,161 reasoning
 tokens against high's 115,670 (up 54%), while repo 2 at xhigh spent 47,605 against high's 62,630
 (down 24%). The combined +27% is one repo carrying it. xhigh is not separated from high by anything.
+
+
+================================================================================
+SECOND OUTCOME - APPENDED 2026-09-13, AFTER THE medium ARM
+
+THE BOTTOM-HALF CLAIM WAS TESTED AGAINST SCORE AND IT HELD. This receipt's surviving claim was that
+minimal, low and medium sit in reasoning-token bands that touch nothing, with medium's ceiling of 6,237
+tokens per call below high's floor of 7,824. That had never been tested against score. The arm was
+launched with BOTH outcomes written into its metrics note before it ran:
+
+    near 19       -> a cleanly disjoint token band predicts nothing at all about score,
+                     and max is the only rung on this dial that buys anything
+    well below 19 -> the dial does move score at the bottom, and high/xhigh is a dead
+                     zone in the middle
+
+    tier     bench score   reasoning tokens (bench)   list cost   wall       $/fix
+    medium      9/105             187,162              $10.02     61.7 min   $1.11
+    high       19/105             178,300              $10.81     64.5 min   $0.57
+    xhigh      20/105             225,766              $15.58     73.0 min   $0.78
+    max        33/105             286,242              $19.83    102.3 min   $0.60
+
+9 is well below 19. The second branch stands: this dial moves score at the bottom, and high-to-xhigh
+is the dead zone.
+
+BUT READ HOW IT HELD, BECAUSE THE MECHANISM WENT THE WRONG WAY. The prediction was derived from a
+token separation, and on the real workload that separation DID NOT REPRODUCE. Total reasoning tokens
+at medium are 187,162 against high's 178,300 - the LOWER tier emitted MORE. Per leg the direction is
+not even consistent: repo 1 down 5%, repo 2 up 24%, while score halves on both. So the receipt called
+the outcome and misread the reason. On the toy prompt medium thinks visibly less per call; across a
+real agentic run it does not think less in aggregate, and it still loses half the score.
+
+WHAT THAT DOES TO THE RULE ABOVE. It sharpens it rather than softening it. The rule said a magnitude
+probe shows whether a dial is CONNECTED, not what a rung is WORTH. This adds: a magnitude probe's
+per-call token bands do not survive aggregation over a real run either. Three tests today, three
+different ways the token column failed to stand in for the score column - it grouped high with max
+wrongly, it priced no rung correctly, and here it pointed the wrong direction entirely while the
+prediction built on it happened to come out right. Only a bench pair prices a rung.
+
+AND THE VALUE FINDING THE PROBE COULD NEVER HAVE REACHED. medium costs 93 cents on high's dollar and
+returns 9 points against 19 - $1.11 per strict fix against 57 cents, the worst value rung this board
+has measured on any dial. On repo 2 it costs MORE in absolute dollars than high, $5.22 against $3.98,
+for 5 of 60 against 11 of 60. No token probe of any design reports that, because cost per FIX is not a
+quantity a probe without a benchmark can form.

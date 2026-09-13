@@ -9,7 +9,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 <!-- leaderboard:start -->
 ![Bug Hunt Bench leaderboard, the featured runs, updated Sep 13, 2026](assets/leaderboard.png?v=2026-09-13)
 
-**Updated Sep 13, 2026 · 76 scored runs · 28 models · 38 of 105 bugs have never been fixed by any model.**
+**Updated Sep 13, 2026 · 77 scored runs · 28 models · 38 of 105 bugs have never been fixed by any model.**
 
 **Current leader:** GPT-6 Astra at `max` effort — **48 / 105** (24/45 on repo 1, 24/60 on repo 2).
 
@@ -75,12 +75,13 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 56 | DeepSeek V4-Pro | Claude Code / DeepSeek API | high | **13** | 4 | 9 | 1 | 27 min | $1.08 bill | 2026-09-10 |
 | 57 | GPT-5.6 Luna | Codex CLI | medium | **9** | 5 | 4 | 5 | 15 min | $0.33 | 2026-08-27 |
 | 58 | GLM-5.3 Flash | Claude Code / Z.ai API | low | **9** | 7 | 2 | 4 | 29 min | $0.42 | 2026-09-13 |
-| 59 | Sonnet 5 | Claude Code | high | **9** | 1 | 8 | 4 | 33 min | $15.12 | 2026-07-26 |
-| 60 | Opus 4.8 | Claude Code | high | **9** | 2 | 7 | 1 | 35 min | $19.35 | 2026-07-26 |
-| 61 | Sonnet 5 | Claude Code | max | **9** | 3 | 6 | 3 | 61 min | $24.04 | 2026-09-10 |
-| 62 | GPT-5.6 Luna | Codex CLI | low | **4** | 0 | 4 | 1 | 6 min | $0.10 | 2026-08-27 |
-| 63 | gpt-oss-20b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 0 | 4 min | $0.11 bill | 2026-09-12 |
-| 64 | gpt-oss-120b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 1 | 4 min | $0.13 bill | 2026-09-12 |
+| 59 | Muse Spark 1.3 | Muse Code / Meta API | medium | **9** | 4 | 5 | 8 | 62 min | $10.02 | 2026-09-13 |
+| 60 | Sonnet 5 | Claude Code | high | **9** | 1 | 8 | 4 | 33 min | $15.12 | 2026-07-26 |
+| 61 | Opus 4.8 | Claude Code | high | **9** | 2 | 7 | 1 | 35 min | $19.35 | 2026-07-26 |
+| 62 | Sonnet 5 | Claude Code | max | **9** | 3 | 6 | 3 | 61 min | $24.04 | 2026-09-10 |
+| 63 | GPT-5.6 Luna | Codex CLI | low | **4** | 0 | 4 | 1 | 6 min | $0.10 | 2026-08-27 |
+| 64 | gpt-oss-20b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 0 | 4 min | $0.11 bill | 2026-09-12 |
+| 65 | gpt-oss-120b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 1 | 4 min | $0.13 bill | 2026-09-12 |
 
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
 12 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.

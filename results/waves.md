@@ -2008,6 +2008,15 @@ on Meta's stack — `xhigh` at 78¢ per fix against 57¢ at `high` and 60¢ at `
 unrelated dials, two different harnesses, **the same shape**: the middle is where the money goes and
 the score doesn't follow. Neither a tier name nor a token sweep would have told you that.
 
+> **Correction, 2026-09-13 — the Muse half of this two-vendor pattern was a three-rung slice of a
+> four-rung dial, and the fourth rung breaks it.** `medium` on that same first-party path scores
+> **9/105 at $1.11 per fix** — nearly **twice** the 78¢ this paragraph calls the worst buy. On Muse the
+> money goes at the *bottom*, not the middle. **The GLM-5.3 Flash half is untouched and complete**:
+> `low`/`high`/`max` is that endpoint's entire accept-list, so its middle rung really is the worst of
+> everything it will serve. What was wrong was reading a shared shape off two dials when only one of
+> them had been measured all the way down. See the last section of this page.
+
+
 **On this stack `high` is dominated by `max` on all three columns at once.** It costs $0.94 against
 $0.95, takes *longer* in wall clock (62.3 min against 58.3), and scores three fewer. There is no
 reading of those numbers on which a buyer should pick `high` here — worth saying plainly, because the
@@ -2030,3 +2039,59 @@ live-leg registry when a leg **starts**, so a leg that is *joined* later records
 started first and carries no marker. Three minutes of a mostly-installing neighbour is negligible
 against a 62-minute total and can only inflate the figure, never shrink it, but the row says so rather
 than implying a measurement it didn't make.
+
+
+### Muse Spark 1.3 at `medium`: nearly the same money, less than half the score
+
+**9 of 105, $10.02, 61.7 minutes, 8 genuine extras.** The bottom measured rung of Meta's first-party
+dial — and it sits one notch **below** this endpoint's measured default, because omitting
+`reasoning.effort` echoes back `high`. `medium` is a tier you have to ask for in order to do worse.
+
+| tier | score | repo 1 | repo 2 | reasoning tokens | cost | wall | $/fix |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| **`medium`** | **9/105** | 4/45 | 5/60 | 187,162 | $10.02 | 61.7 min | **$1.11** |
+| `high` *(default)* | 19/105 | 8/45 | 11/60 | 178,300 | $10.81 | 64.5 min | **$0.57** |
+| `xhigh` | 20/105 | 8/45 | 12/60 | 225,766 | $15.58 | 73.0 min | **$0.78** |
+| `max` | 33/105 | 14/45 | 19/60 | 286,242 | $19.83 | 102.3 min | **$0.60** |
+
+**Four bench-measured tiers on one serving path — the most-measured dial on this board.** Model,
+prompt, harness, repos and route held fixed across all four. Nothing else here has more than three.
+
+**Monotonic on score: 9 → 19 → 20 → 33.** The dial works.
+
+**And the value curve is the worst this board has recorded.** $1.11 → $0.57 → $0.78 → $0.60. The
+bottom rung is the worst buy by a factor of two, and it is not the ordinary story of a cheap tier
+buying less: **`medium` costs 93 cents on `high`'s dollar and returns 9 points against 19.** Nearly
+the same money, less than half the result.
+
+**On repo 2 it is worse than nearly-the-same — it costs *more* in absolute dollars.** $5.22 against
+`high`'s $3.98, a 31% premium, for **5 of 60 against 11 of 60**. More money, less than half the score,
+one notch of one field between the two runs. If there is a single number on this page that argues
+against trusting a tier name, it is that one.
+
+**Reasoning volume does not explain any of it, and that is the finding for anyone probing a dial.**
+Total reasoning tokens are **187,162 at `medium` against 178,300 at `high`** — the *lower* tier emitted
+**more**. Per leg the direction isn't even consistent: repo 1 down 5%, repo 2 up 24%, while the score
+halves on both. **A token-volume probe pointed at this pair would have reported no degradation, or an
+improvement.** Whatever the tier changed, it is not how much the model thought.
+
+**It also resolves a prediction this board wrote down before the run.** The magnitude probe behind this
+dial was falsified twice yesterday and today. Its one surviving claim was that the bottom three tiers
+separate cleanly in *token* terms — `medium`'s ceiling of 6,237 reasoning tokens per call sitting below
+`high`'s floor of 7,824 — and that claim had never been tested against score. So the arm was launched
+with both outcomes recorded in its own metrics note: *near 19 would mean a cleanly disjoint token band
+predicts nothing at all about score; well below 19 would mean the dial does move score at the bottom
+and `high`/`xhigh` is a dead zone in the middle.* **9 is well below 19.** The second branch stands —
+and note it stands on the *score* prediction while the token mechanism it was built on went the wrong
+way. The probe called the outcome and misread the reason.
+
+**What is not claimed.** Every rung is n=1 against n=1, and the 1-point `high`→`xhigh` step is noise
+this board would not credit in either direction. The 10-point gap to `high` is the largest **relative**
+step on the dial (2.11× against 1.65× for `xhigh`→`max`) but **not** the largest absolute one — in raw
+points `xhigh`→`max` is bigger, 13 against 10. What makes this step worth trusting isn't its size, it's
+that it **reproduces on both repos independently**, 8→4 and 11→5, each roughly halving.
+
+**One disclosure on the wall column.** The shim absorbed **19 upstream 429s** across these two legs,
+against 4 apiece on the `high`, `xhigh` and `max` arms. Retries are transparent to the model and cost
+wall clock rather than correctness, so 61.7 minutes here is not cleanly comparable with 64.5 at `high`.
+The comparison this row rests on is cost and score, not wall.
