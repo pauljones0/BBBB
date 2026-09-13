@@ -73,6 +73,33 @@ figures come from the seven-arm pass, which is canonical because every arm was g
 one run. A one-bug wobble reorders nothing: every adjacent gap on the board is wider,
 except one genuine tie.
 
+## Judge *version* drift — the same diff, six weeks apart
+
+Every check above compares two judges at one moment. This board also grades across months,
+and judges get version bumps. The GPT-5.6 Sol arm routes to Grok so it never grades itself;
+its published numbers were graded by **Grok 4.5** in July. In September the same untouched
+submissions were re-graded, unchanged in every other respect, by **Grok 4.6**.
+
+| GPT-5.6 Sol (max), same diff | strict fixes | partial | claimed-only | genuine extras |
+|---|---:|---:|---:|---:|
+| repo 1 — Grok 4.5, July | 19 | 0 | 0 | 21 |
+| repo 1 — Grok 4.6, September | 18 | 1 | 0 | 25 |
+| repo 2 — Grok 4.5, July | 23 | 3 | 0 | 19 |
+| repo 2 — Grok 4.6, September | 22 | 2 | 0 | 21 |
+
+**The headline column moved by one bug per repo, in the same direction, and the bug that
+moved on repo 1 went to `fixed_partial` rather than to `missed`** — a stricter reading of
+the same hunk, not a different one. That is inside the ±1 same-judge precision already
+stated above, so a judge generation costs about what a re-run of the same judge costs.
+
+**Genuine extras drift more: +4 and +2.** That bucket is a judgement about code nobody
+planted a bug in, and it has been the softest column on this board from the start. Treat a
+2–4 extras difference between any two rows as nothing.
+
+Published figures are **not** restated from re-grades. Each row keeps the pass it was
+published from, and re-grades live here — otherwise the board would silently re-rank itself
+every time a judge shipped a new version, which is the drift this page exists to bound.
+
 ## What this does not establish
 
 Judge agreement on these arms is not agreement on all arms, and none of it makes the
