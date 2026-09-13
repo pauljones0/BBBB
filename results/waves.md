@@ -1722,22 +1722,26 @@ rather than by Claude Code, exactly two kinds have cleared 30: Codex CLI, and th
 | Gemini CLI | Gemini 3.7 Flash (high) | 22/105 |
 | Antigravity CLI | Gemini 3.7 Flash (high) | 18/105 |
 
-**And now the part the number invites and the evidence will not support.** The same model in the
-same harness scored **18/105 through OpenRouter** a day earlier. This row is 33. Nearly double —
-and **two things changed at once**:
+**And the obvious question — route or tier? — is now answered, one variable at a time.** Two
+things arrived on 2026-09-13: the OpenRouter sibling turned out to have run at `high` rather than at
+a dropped default, and a first-party leg at `high` finished. Three rows, one variable between each:
 
-| | route | effort |
-|---|---|---|
-| Muse Spark 1.3 — 18/105 | OpenRouter | `high` (corrected — see below) |
-| Muse Spark 1.3 — 33/105 | Meta first-party | `max`, validated and echoed back |
+| | route | tier | score | cost | wall |
+|---|---|---|---:|---:|---:|
+| Muse Spark 1.3 | OpenRouter | `high` | 18/105 | $9.53 | 53.3 min |
+| Muse Spark 1.3 | Meta first-party | `high` | 19/105 | $10.81 | 64.5 min |
+| **Muse Spark 1.3** | **Meta first-party** | **`max`** | **33/105** | **$19.83** | **102.3 min** |
 
-The pair brackets a whole stack change and isolates neither half. This board holds a control
-pointing each way. **GLM-5.3 made the same aggregator-to-first-party-at-max move and scored 19/105
-on both sides** — moved by zero. **Qwen3.8-Max gained nine points on the same kind of move**, and
-there the mechanism was visible in the token columns: uncached input fell from 12.94% of prompt
-tokens to 0.0019%, so the model stopped rebuilding its context. The run that would settle this one
-is a single leg on this endpoint at the measured default of `high`. It does not exist yet, and until
-it does, **read 33 as where this stack lands, not as what `max` bought.**
+**The route is worth about a point. The tier is worth fourteen.** That is the largest effect an
+effort setting has produced on this board — and it is the exact reverse of the GLM-5.3 result, where
+the same aggregator-to-first-party-at-max move scored 19/105 on *both* sides and moved by zero.
+
+**This section originally said the opposite, and that is worth leaving visible.** It read: *"The pair
+brackets a whole stack change and isolates neither half… read 33 as where this stack lands, not as
+what `max` bought."* That was the honest state of the evidence at the time — the single-variable leg
+did not exist — and it was wrong. Effort dials are not worth the same amount on every stack, which is
+exactly why this board measures them per path instead of assuming. The GLM control it cited is still
+true of GLM.
 
 **It killed a survivor.** One planted bug on repo 2 had gone unfixed by every one of the 84 distinct
 arms that came before it; this run fixed it, and the survivor count drops **39 → 38 of 105**. First
@@ -1836,10 +1840,20 @@ stands for the surface they measured.
 same harness, same tier, one hop apart — which is a cleaner experiment than the one originally
 planned.
 
-**And it makes a prediction, which is running now.** If `high` and `max` are indistinguishable in
-thinking volume, a bench leg at `high` should land near 33 — and the 18/105 this model scored through
-OpenRouter would then be the **route**, not the tier. The receipt was written before that leg
-reported, which is the only order in which a prediction counts.
+**It made a prediction, published before the test ran — and the prediction failed.** The receipt
+said that if `high` and `max` are indistinguishable in thinking volume, a bench leg at `high` should
+land near 33. **It landed at 19.**
+
+On the real workload the two tiers are not close at all: **178,300 reasoning tokens at `high` against
+286,242 at `max`** — a 61% gap the fixed-prompt sweep could not see at n=3. The probe was not
+measuring the thing it was being used to predict.
+
+> **A token-volume probe shows whether a dial is CONNECTED. It does not show what the dial is
+> WORTH.** Those are different questions, and this board had been letting one stand in for the other.
+
+That cuts backwards too. The Qwen3.8 rows report the same saturation shape at the top of their
+dials, and **no bench pair was ever run to test it there.** Read those as statements about token
+volume, not about score, until someone runs the legs.
 
 **One caveat that belongs next to the score rather than under it.** `max` is asserted, validated in
 two layers and echoed back applied — but it describes **the main loop**, not the run. Muse Code's
