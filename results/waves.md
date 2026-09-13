@@ -2034,9 +2034,16 @@ close enough that this pair doesn't separate them. What the dial *does* separate
 other two, by 7 and 10 points. Every rung is n=1.
 
 **One disclosure the automatic marker missed.** The repo 2 leg overlapped a Meta arm on a different
-provider for about 3 of its 32 minutes. The runner stamps `concurrent_with=` by snapshotting the
-live-leg registry when a leg **starts**, so a leg that is *joined* later records nothing — this one
-started first and carries no marker. Three minutes of a mostly-installing neighbour is negligible
+provider for about 3 of its 32 minutes. The runner stamps `concurrent_with=` by sampling the live-leg
+registry at leg **start** and again at leg **end**. What slipped through is narrower than that:
+the neighbour both *arrived and departed between the two samples* — it joined ~3 minutes in and
+was force-killed before this leg finished — so it existed at neither endpoint.
+
+> **Correction, 2026-09-13 (same day).** This paragraph first said the runner only sampled at leg
+> **start**, and that a leg joined later records nothing. That was wrong: the start-and-end union has
+> been in the runner since cross-provider parallelism was first allowed. The bug is that two point
+> samples cannot see an interval that fits strictly between them. **Now fixed** — the runner samples
+> on every tick of the 30-second keep-alive sweep and the row carries the union across all samples. Three minutes of a mostly-installing neighbour is negligible
 against a 62-minute total and can only inflate the figure, never shrink it, but the row says so rather
 than implying a measurement it didn't make.
 
