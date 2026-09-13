@@ -1674,6 +1674,15 @@ same change of route and tier moved it by zero. Each of these is a single run, n
 either Flash leg, and a six-point move at n=1 does not clear the run-to-run spread measured
 elsewhere on this board. Read 19 as where Flash lands first-party, not as what `max` bought.
 
+> **Correction, 2026-09-13 — this caution is now answered, and the dial gets the credit.** A leg at
+> `low` on this exact path scores **9/105** against this row's 19, with route, harness, model, prompt
+> and repos all held fixed. **The tier is worth ten points on this model**, so the OpenRouter row's 13
+> sits inside the range the dial alone covers. The control above is *not* retracted — the full-size
+> GLM-5.3 has no tier pair on this board, only a route pair, so the zero it moved is a statement about
+> its **route** and says nothing about its dial, which nobody has run. What was wrong was generalising
+> one model's route result onto another model's tier. See the last section of this page.
+
+
 **Why this row is two days late, and it was not an oversight.** The first-party pass on Sep 10 tried
 Flash *first* and got HTTP 429 on that key, so the receipt was written against the full-size model
 and Flash kept its aggregator row. The 429 is gone.
@@ -1921,3 +1930,55 @@ which is the leg that would settle it, and the row says so.
 **What is not claimed.** That `xhigh` is broken or ignored — it is accepted by the endpoint, echoed
 back applied, sits inside a dial measured real at the bottom, and on repo 1 it genuinely did think
 54% harder. It just did not convert. And 19 against 20 is not evidence that `xhigh` beats `high`.
+
+
+### GLM-5.3 Flash at `low`: one notch down costs it more than half its score
+
+**9 of 105, 42 cents, 29 minutes, 4 genuine extras.** The bottom of Z.ai's three-tier dial —
+`low`/`high`/`max` is the entire accept-list on this family, `medium` does not exist and cannot be
+run, and `max` is Z.ai's documented default, so `low` is a rung that has to be asked for and sits
+*below* the out-of-the-box run.
+
+| tier | score | repo 1 | repo 2 | output tokens | cost | wall |
+|---|---:|---:|---:|---:|---:|---:|
+| `low` | **9/105** | 7/45 | **2/60** | 36,777 | $0.42 | 29.0 min |
+| `max` | 19/105 | 10/45 | 9/60 | 115,653 | $0.94 | 58.4 min |
+
+**The tier is worth ten points on this model** — same endpoint, same harness, same model, same
+prompt, same repos, one notch of one field between them. This is the first single-variable tier pair
+this board has run on Z.ai.
+
+**Where it breaks is repo 2, almost entirely.** Repo 1 gives up 3 points. Repo 2 goes from 9 to
+**2** — it nearly collapses. The larger, more tangled codebase is where the missing thinking gets
+missed, which is where every cheap row on this board loses its points, and it says more than the
+combined number does.
+
+**The price, though, is honest — and that is the opposite of the other dial published today.**
+Cost per strict fix is **4.6 cents at `low` and 5.0 cents at `max`**. You pay 2.2× and you get 2.1×.
+The bottom rung is not a value play; it is proportionally less of everything.
+
+| dial | step | cost change | score change |
+|---|---|---:|---:|
+| **GLM-5.3 Flash** (Z.ai) | `low` → `max` | +124% | **+10** |
+| **Muse Spark 1.3** (Meta) | `high` → `xhigh` | +44% | **+1** |
+| **Muse Spark 1.3** (Meta) | `xhigh` → `max` | +27% | **+13** |
+
+Two dials, two entirely different shapes, measured the same way in the same week. Muse pays nothing
+for its middle rung and everything for its top one. Flash pays proportionally all the way down.
+**Neither was predictable from the vendor's tier names, and neither was predictable from a
+token-volume probe.**
+
+**The `max` row's label moves `first_party` → `verified_ceiling`.** It shipped as `first_party`
+because the accept-list proved only that the endpoint *reads* the field. The `low` leg separates the
+levels on this serving path — 10 points of score, 3.1× the output tokens — which is what `verified`
+requires, and the same accept-list (`none`, `minimal`, `medium`, `xhigh` and `bogus_zzz` all refused
+**400 code 1210**) makes `max` the top rung that exists.
+
+**Honesty profile, stated flat.** 7 of 45 on repo 1 with no partials and no claimed-only; 2 of 60 on
+repo 2 with no partials and **two claimed-only**. That is up from one on the `max` row and down from
+five on the OpenRouter Flash row, so it sits inside this model's own range and is *not* evidence that
+the bottom rung is less honest.
+
+**What is not claimed.** Anything about `high` — the rung between these two — which is running as
+this publishes. Nor that 9 is this model's floor: 2 of 60 is close to the bottom of this board, and a
+second run at `low` could land either side of it. Both tiers are n=1.
