@@ -3497,21 +3497,7 @@
       "superseded": null,
       "caveat": "A mean of three runs, not a single measurement; the three span 9 to 15. This row SUPERSEDES the single-run medium row (9/105) published 2026-09-13; three of that row's value and token claims are retracted above, and its dead-middle reading survives on a smaller margin. Scores round to whole bugs.",
       "note": "The second measured rung of Meta's first-party dial, published as the MEAN OF THREE INDEPENDENT RUNS. Runs scored 9, 15 and 15 of 105 (repo 1: 4, 4, 8 - repo 2: 5, 11, 7). It sits ONE NOTCH BELOW THIS ENDPOINT'S MEASURED DEFAULT: omitting reasoning.effort echoes high, so medium is a tier that has to be asked for and lands below the out-of-the-box run. *** WHY THIS RUNG WAS RUN THREE TIMES *** At n=1 low had measured 12 and the published medium row was 9, so low sat ABOVE medium. At n=3 the means are low 9.7 and medium 13.0 and that ordering reverses: the single medium run was the worst of medium's three. What that n=1 pair supported is therefore narrower than what was published from it. STILL STANDING: medium below high, so the dial does move score at the bottom while the 1-point high-to-xhigh step stays dead in the middle - the margin is 6 points, not the 10 it fired on. RETRACTED: that medium buys 'nearly the same money for less than half the result' (13 against 19 for 9.24 against 10.81), that medium is the worst buy on the board at 1 dollar 11 per fix (the mean is 71 cents), and that medium emits MORE reasoning than high (149,769 against 178,300 - that inversion was one verbose run). *** WHAT THE SPREAD ACTUALLY IS *** Three identical low runs scored 8, 5 and 2 on repo 1. That 6-point range is TWICE the 3-point gap from low's mean to high on the same repo, and on repo 1 low and medium tie at the mean (5.0 and 5.3). The within-tier spread is larger than the between-tier signal at the bottom of this dial. All six legs were clean: the Linux install returned 0, the shim logged zero errors, every leg exited 0, and no leg carries a handicap note. This is the model at this setting, not the harness. *** AND THE VARIANCE HAS A VISIBLE MECHANISM *** Same arm, same effort flag, repo 1: 221, 202 and 147 tool turns and 69,796, 45,411 and 40,238 reasoning tokens, scoring 8, 5 and 2 - monotone. The effort flag does not fix the amount of work done; the agent varied 1.5x in turns run to run and the score followed. Cost fell with it (3.77, 3.45, 2.83 dollars), so on that leg the cheap run is cheap BECAUSE it did less. SAID PRECISELY: that ordering is clean on repo 1's low legs and NOT on the other three - repo 2's low legs ran 167, 151 and 133 turns for 4, 8 and 2, and medium's most-active repo-1 leg scored lowest of its three. So the supported claim is the weaker one: the effort flag fixes a request field, not an amount of work, and the work actually performed varies by about a third inside one tier. It is not that turns predict score. *** READ THE REST OF THIS DIAL ACCORDINGLY *** high (19), xhigh (20) and max (33) are still SINGLE RUNS and are labelled as such rather than averaged in alongside rungs that are not. high is being run to n=3 next, for the same reason: its 19 sits directly above medium's three-run 13.0 and nothing yet establishes that 19 is the rung rather than the run. With the bottom two rungs measured properly the dial is MONOTONE - 9.7, 13.0, 19, 20, 33 - with no dip and no dead middle. The dip was an artifact of n=1 at the two noisiest rungs. Medium costs about 1.6x low and returns about 1.34x the score, so the bottom of this dial is not a bargain: it is cheaper because it does less. Each leg is a full independent run of both repos; the mean is over three, and the per-repo runs are stated so the spread stays visible - it is the finding, not a caveat on it. THE EFFORT LABEL DESCRIBES THE MAIN LOOP, NOT EVERY CALL THIS ROW IS BILLED FOR: Muse Code runs a reminder-observer side agent at fixed efforts the flag does not control. billing=LIST ESTIMATE, NOT A BILL: a subscription account with no per-run credits delta, costed at the same Meta list rates as the other first-party rows, which is what keeps them comparable. ctx 1M.",
-      "fixed_bugs": [
-        16,
-        17,
-        20,
-        30,
-        43,
-        47,
-        49,
-        62,
-        76,
-        77,
-        83,
-        84,
-        99
-      ],
+      "fixed_bugs": null,
       "group_rank": 3
     },
     {
@@ -3620,18 +3606,7 @@
       "superseded": null,
       "caveat": "A mean of three runs, not a single measurement - and the three disagree by 9 points of 105, which is larger than most adjacent-rung gaps on this board. Quote the mean only with the spread. Scores round to whole bugs because the column counts bugs; low's exact mean is 9.7.",
       "note": "The BOTTOM measured rung of Meta's first-party dial, published as the MEAN OF THREE INDEPENDENT RUNS rather than as one run. Runs scored 12, 13 and 4 of 105 (repo 1: 8, 5, 2 - repo 2: 4, 8, 2). *** WHY THIS RUNG WAS RUN THREE TIMES *** At n=1 low had measured 12 and the published medium row was 9, so low sat ABOVE medium. At n=3 the means are low 9.7 and medium 13.0 and that ordering reverses: the single medium run was the worst of medium's three. What that n=1 pair supported is therefore narrower than what was published from it. STILL STANDING: medium below high, so the dial does move score at the bottom while the 1-point high-to-xhigh step stays dead in the middle - the margin is 6 points, not the 10 it fired on. RETRACTED: that medium buys 'nearly the same money for less than half the result' (13 against 19 for 9.24 against 10.81), that medium is the worst buy on the board at 1 dollar 11 per fix (the mean is 71 cents), and that medium emits MORE reasoning than high (149,769 against 178,300 - that inversion was one verbose run). *** WHAT THE SPREAD ACTUALLY IS *** Three identical low runs scored 8, 5 and 2 on repo 1. That 6-point range is TWICE the 3-point gap from low's mean to high on the same repo, and on repo 1 low and medium tie at the mean (5.0 and 5.3). The within-tier spread is larger than the between-tier signal at the bottom of this dial. All six legs were clean: the Linux install returned 0, the shim logged zero errors, every leg exited 0, and no leg carries a handicap note. This is the model at this setting, not the harness. *** AND THE VARIANCE HAS A VISIBLE MECHANISM *** Same arm, same effort flag, repo 1: 221, 202 and 147 tool turns and 69,796, 45,411 and 40,238 reasoning tokens, scoring 8, 5 and 2 - monotone. The effort flag does not fix the amount of work done; the agent varied 1.5x in turns run to run and the score followed. Cost fell with it (3.77, 3.45, 2.83 dollars), so on that leg the cheap run is cheap BECAUSE it did less. SAID PRECISELY: that ordering is clean on repo 1's low legs and NOT on the other three - repo 2's low legs ran 167, 151 and 133 turns for 4, 8 and 2, and medium's most-active repo-1 leg scored lowest of its three. So the supported claim is the weaker one: the effort flag fixes a request field, not an amount of work, and the work actually performed varies by about a third inside one tier. It is not that turns predict score. *** READ THE REST OF THIS DIAL ACCORDINGLY *** high (19), xhigh (20) and max (33) are still SINGLE RUNS and are labelled as such rather than averaged in alongside rungs that are not. high is being run to n=3 next, for the same reason: its 19 sits directly above medium's three-run 13.0 and nothing yet establishes that 19 is the rung rather than the run. Each leg is a full independent run of both repos; the mean is over three, and the per-repo runs are stated so the spread stays visible - it is the finding, not a caveat on it. THE EFFORT LABEL DESCRIBES THE MAIN LOOP, NOT EVERY CALL THIS ROW IS BILLED FOR: Muse Code runs a reminder-observer side agent at fixed efforts the flag does not control. billing=LIST ESTIMATE, NOT A BILL: a subscription account with no per-run credits delta, costed at the same Meta list rates as the other first-party rows, which is what keeps them comparable. ctx 1M.",
-      "fixed_bugs": [
-        13,
-        16,
-        20,
-        39,
-        43,
-        76,
-        77,
-        83,
-        84,
-        99
-      ],
+      "fixed_bugs": null,
       "group_rank": 4
     },
     {
