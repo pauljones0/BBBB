@@ -34,9 +34,9 @@
    pivot's dividers land in the same place all the way down the card, on
    screen and in the PNG export alike. */
 
-import { el, TOTALS } from './format.js?v=472c8ebca7';
-import { effortBadge } from './table.js?v=472c8ebca7';
-import { runColor } from './theme.js?v=472c8ebca7';
+import { el, TOTALS } from './format.js?v=af6ae611f7';
+import { effortBadge } from './table.js?v=af6ae611f7';
+import { runColor } from './theme.js?v=af6ae611f7';
 
 /* Plain words, not a legend of single letters — a reader should not have to
    learn A/B/C/D to read the strip. Order here IS the left-to-right order of
@@ -300,7 +300,7 @@ export function renderCoverage(host, runs, meta, glossary, pivotSlug, onPivotTog
         class: 'coverage__rel',
         title: `${rel.ever} distinct bugs fixed in at least one of ${rel.runs} runs; `
           + `${rel.always} fixed in every run`,
-        text: `${rel.ever} ever · ${rel.always} always`,
+        text: `n=${rel.runs} · ${rel.ever} ever · ${rel.always} always`,
       }) : null,
       el('span', {
         class: 'coverage__count',

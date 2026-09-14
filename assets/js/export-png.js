@@ -12,10 +12,10 @@ import {
   COLUMNS, GROUPS, TOTALS, BAR_SCALE_NOTE, NOTE_MARK, fmtCost, fmtWall, fmtInt,
   fmtDate, barRatio, barScales, effortSuffix, compareRuns, firstSentence,
   costSentence, segmentsText,
-} from './format.js?v=472c8ebca7';
-import { scatterLayout, AXES } from './scatter.js?v=472c8ebca7';
-import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=472c8ebca7';
-import { runColor, activeTheme } from './theme.js?v=472c8ebca7';
+} from './format.js?v=af6ae611f7';
+import { scatterLayout, AXES } from './scatter.js?v=af6ae611f7';
+import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=af6ae611f7';
+import { runColor, activeTheme } from './theme.js?v=af6ae611f7';
 
 const SCALE = 2;
 const PAD = 32;
@@ -520,20 +520,33 @@ function drawCoverage(ctx, T, L, w) {
     const chipFont = `600 8px ${SANS}`;
     ctx.font = chipFont;
     const chipW = isPivot ? ctx.measureText('SORTED BY').width + 8 : 0;
-    const countStr = `${fmtInt(run.fixed)}/${L.bugCount}`;
+    // A mean row says so on the card, in the same one line the page uses: how many runs it is a
+    // mean OF, how many distinct bugs it ever fixed, and how many it fixed in EVERY run. The
+    // exported card used to show only the mean score, so it published a number with no hint that
+    // it was an average at all - and the gap between "ever" and "always" is the reason an n>1 row
+    // exists. n=1 rows get none of it and read exactly as before.
+    const rel = L.reliability.get(run.slug) || null;
+    const relStr = rel ? `n=${rel.runs} · ${rel.ever} ever · ${rel.always} always` : '';
+    const relFont = `11px ${SANS}`;
+    ctx.font = relFont;
+    const relW = relStr ? ctx.measureText(relStr).width + 10 : 0;
+    const countStr = `${fmtInt(run.fixed)}/${L.bugCount}${rel ? ' avg' : ''}`;
     ctx.font = `12px ${SANS}`;
     const countW = ctx.measureText(countStr).width;
-    const nameMaxW = Math.max(40, plotW - 26 - countW - chipW - 16);
+    const nameMaxW = Math.max(40, plotW - 26 - countW - relW - chipW - 16);
     ctx.font = `600 13px ${SANS}`;
     const name = truncate(ctx, run.model, `600 13px ${SANS}`, nameMaxW);
     text(ctx, name, left + 18, y + 10, `600 13px ${SANS}`, run.superseded ? T.muted : T.ink);
     const nameW = ctx.measureText(name).width;
     text(ctx, badge, left + 18 + nameW + 6, y + 9, `600 9px ${SANS}`, T.ink2);
+    // running x, so the badge, the SORTED BY chip and the reliability line cannot overlap
+    let metaX = left + 18 + nameW + 6 + ctx.measureText(badge).width + 8;
     if (isPivot) {
-      ctx.font = `600 9px ${SANS}`;
-      const badgeW = ctx.measureText(badge).width;
-      text(ctx, 'SORTED BY', left + 18 + nameW + 6 + badgeW + 8, y + 9, chipFont, T.accent);
+      text(ctx, 'SORTED BY', metaX, y + 9, chipFont, T.accent);
+      ctx.font = chipFont;
+      metaX += ctx.measureText('SORTED BY').width + 8;
     }
+    if (relStr) text(ctx, relStr, metaX, y + 9, relFont, T.muted);
     text(ctx, countStr, left + plotW, y + 10, `12px ${SANS}`, T.muted, 'right');
     y += COV_LABEL_H;
 
