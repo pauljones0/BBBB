@@ -12,10 +12,10 @@ import {
   COLUMNS, GROUPS, TOTALS, BAR_SCALE_NOTE, NOTE_MARK, fmtCost, fmtWall, fmtInt,
   fmtDate, barRatio, barScales, effortSuffix, compareRuns, firstSentence,
   costSentence, segmentsText,
-} from './format.js?v=af6ae611f7';
-import { scatterLayout, AXES } from './scatter.js?v=af6ae611f7';
-import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=af6ae611f7';
-import { runColor, activeTheme } from './theme.js?v=af6ae611f7';
+} from './format.js?v=d69cab3767';
+import { scatterLayout, AXES } from './scatter.js?v=d69cab3767';
+import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=d69cab3767';
+import { runColor, activeTheme } from './theme.js?v=d69cab3767';
 
 const SCALE = 2;
 const PAD = 32;
@@ -524,7 +524,8 @@ function drawCoverage(ctx, T, L, w) {
     // mean OF, how many distinct bugs it ever fixed, and how many it fixed in EVERY run. The
     // exported card used to show only the mean score, so it published a number with no hint that
     // it was an average at all - and the gap between "ever" and "always" is the reason an n>1 row
-    // exists. n=1 rows get none of it and read exactly as before.
+    // exists. It is drawn right-aligned against the count, where the page puts it.
+    // n=1 rows get none of it and read exactly as before.
     const rel = L.reliability.get(run.slug) || null;
     const relStr = rel ? `n=${rel.runs} · ${rel.ever} ever · ${rel.always} always` : '';
     const relFont = `11px ${SANS}`;
@@ -539,15 +540,16 @@ function drawCoverage(ctx, T, L, w) {
     text(ctx, name, left + 18, y + 10, `600 13px ${SANS}`, run.superseded ? T.muted : T.ink);
     const nameW = ctx.measureText(name).width;
     text(ctx, badge, left + 18 + nameW + 6, y + 9, `600 9px ${SANS}`, T.ink2);
-    // running x, so the badge, the SORTED BY chip and the reliability line cannot overlap
-    let metaX = left + 18 + nameW + 6 + ctx.measureText(badge).width + 8;
     if (isPivot) {
-      text(ctx, 'SORTED BY', metaX, y + 9, chipFont, T.accent);
-      ctx.font = chipFont;
-      metaX += ctx.measureText('SORTED BY').width + 8;
+      ctx.font = `600 9px ${SANS}`;
+      const badgeW = ctx.measureText(badge).width;
+      text(ctx, 'SORTED BY', left + 18 + nameW + 6 + badgeW + 8, y + 9, chipFont, T.accent);
     }
-    if (relStr) text(ctx, relStr, metaX, y + 9, relFont, T.muted);
+    // Right edge, reading inward: the count, then the reliability line. The page lays them out
+    // the same way (.coverage__count takes margin-left:auto and .coverage__rel is the element
+    // immediately before it), and the card is not allowed to put the same words somewhere else.
     text(ctx, countStr, left + plotW, y + 10, `12px ${SANS}`, T.muted, 'right');
+    if (relStr) text(ctx, relStr, left + plotW - countW - 10, y + 10, relFont, T.muted, 'right');
     y += COV_LABEL_H;
 
     // tick line: one tick per bug, in the shared column order, zoned the
