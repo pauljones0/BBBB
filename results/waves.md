@@ -2201,6 +2201,9 @@ Two specific consequences:
 against, and it is still a single run. Repeating it at n=3 is the next measurement owed, and until it
 lands, every comparison *to* `high` on this page carries the same n=1 caveat this wave just quantified.
 
+> **Update, later the same day:** it landed. See the next section — `high` was repeated, and unlike
+> `low` and `medium` it came back with the number it already had.
+
 ### One survivor fell
 
 **37 of the 105 planted bugs have now survived every model in every run on this board**, down from 38.
@@ -2218,3 +2221,103 @@ shim errors, and dependency installs green in all six. Claimed-but-not-fixed ent
 consistent with the rest of this model's rows — 5 across the three `low` legs and 3 across the three
 `medium` legs, against 105 planted bugs apiece. Genuine extras (real defects found outside the planted
 set) are the one place the tiers separate sharply: **6 at `low` against 18 at `medium`**, per the mean.
+
+
+## Sep 14 — the same experiment run on `high`, where it confirms the row instead of moving it
+
+The section above repeated Muse Spark 1.3's two bottom rungs three times each and both moved: `low`
+and `medium` swapped places, and a published caveat had to be partly retracted. That is the kind of
+result replication gets remembered for, and it is also the reason to be careful about what it proves.
+An experiment that only ever gets published when it embarrasses a row is not an experiment.
+
+So the same thing was done to `high` — the rung everything else on this dial is measured against.
+
+| rung | run 1 | run 2 | run 3 | **mean (published)** | range |
+|---|---:|---:|---:|---:|---:|
+| `low` | 12/105 | 13/105 | 4/105 | **10/105** | 9 points |
+| `medium` | 9/105 | 15/105 | 15/105 | **13/105** | 6 points |
+| **`high`** | **19/105** | **17/105** | **20/105** | **19/105** | **3 points** |
+
+**The mean is the number that was already there.** 19, 17 and 20 average 18.67, which rounds to the
+19 the single `high` run published the day before. Repeating it changed nothing except how much the
+19 is worth. It publishes as **Muse Spark 1.3 (high effort, Muse Code, Meta API) - mean of 3**, and
+the single-run row it replaces stays on the board with its numbers intact.
+
+### The finding is in the third column, not the fourth
+
+**The run-to-run range shrinks as the dial rises: 9 points at `low`, 6 at `medium`, 3 at `high`.**
+
+That matters well beyond this model. Almost every row on this board is one run at some model's top or
+top-but-one tier, and the previous section's headline — *a single run of a fixed configuration moved
+9 points* — was measured at the **bottom** of a dial. Applying that 9-point window to a `max`-effort
+row would be borrowing the worst case from the noisiest rung. On the evidence here, a single run is
+least trustworthy exactly where this dial was first read, and a good deal more trustworthy where most
+of this board actually sits.
+
+It is one model and three rungs, so treat the direction as the claim and not the numbers. What it
+does rule out is the convenient assumption that the spread is one constant you can quote everywhere.
+
+### What effort actually buys: the same bugs, more reliably
+
+The mean says `high` fixes about 19 of 105 and `low` about 10. It does not say whether that is *more*
+bugs or the *same* bugs *more often*. Three runs per rung answers that, by counting per **bug**:
+
+| rung | bugs fixed at least once | fixed in exactly 1 of 3 | in 2 of 3 | **in all 3** | share always |
+|---|---:|---:|---:|---:|---:|
+| `low` | 21 | 15 | 4 | **2** | 10% |
+| `medium` | 23 | 11 | 8 | **4** | 17% |
+| `high` | 30 | 12 | 10 | **8** | 27% |
+
+**The fixed-exactly-once column barely moves — 15, 11, 12 — while the all-three column quadruples.**
+Higher effort is not buying a longer tail of lucky one-offs. It is promoting bugs the model could
+already *sometimes* find into bugs it finds *reliably*, and adding a modest number of new ones on top
+(21 → 30 ever-fixed). That is a different product from "it finds more bugs", and it is the one that
+matters if you are deciding whether to pay for a tier on work you only get to run once.
+
+The Coverage view on the site now shades each tick by that hit rate, so on any `- mean of N` row a
+faint tick is a bug fixed in one run of three and a solid tick is one fixed every time.
+
+### What this retracts
+
+The single-run `high` row carried this, and it does not survive:
+
+> high and xhigh are indistinguishable by every measurement this board holds, which makes that pair
+> the closest thing to a run-to-run spread estimate this dial has.
+
+`high` (19) and `xhigh` (20) landing a point apart was read as weak evidence about run-to-run spread.
+With a real replicate, the spread at `high` is 3 points — so two single runs one point apart were
+always comfortably inside one tier's noise and never carried that evidence, in either direction.
+**The conclusion survives: `high` and `xhigh` remain indistinguishable.** What changes is that it now
+rests on a measured spread rather than on two single runs agreeing by luck. The difference matters,
+because the first version would have read the same if they had agreed by accident.
+
+### A fixed flag is still not a fixed bill
+
+| `high`, both repos | run 1 | run 2 | run 3 |
+|---|---:|---:|---:|
+| model calls (repo 1 / repo 2) | 373 / 226 | 439 / 261 | 293 / 418 |
+| cost | $10.81 | $12.70 | $15.29 |
+| wall | 64.5 min | 85.8 min | 76.7 min |
+| fixed | 19/105 | 17/105 | 20/105 |
+
+A **41% cost spread** with one flag value and one prompt, which is the same effect the `low` legs
+showed. What does *not* reproduce here is the tidy ordering: on `low`'s repo-1 legs, calls, reasoning,
+cost and score all fell together. At `high` they do not — repo 2's busiest leg scored **best** and
+repo 1's busiest scored two above its quietest. That supports the weaker statement the previous
+section settled on, and only that one: **a tier name fixes a request field, not an amount of work.**
+It is not that turns predict score.
+
+### Housekeeping
+
+All six legs clean: exit 0, zero shim errors, dependency installs green, no handicap disclosures.
+Claimed-but-not-fixed: 3 across six legs (0, 2 and 1 by run). Genuine extras: 10, 20 and 28.
+**No planted bug fell for the first time in either new leg — the survivor count stays at 37 of 105.**
+
+**Receipt correction, same day.** Three `low`/`medium` legs published in the previous section
+disclosed, correctly, that they shared the laptop with another run — and named that run in the
+`concurrent_with=` field of `results/repo1-metrics.csv` and `results/repo2-metrics.csv`. The peer was
+an arm with no public row here and none planned, so naming it published something this page does not
+stand behind. Those entries now read `an unpublished arm`, with the repo and the contention warning
+unchanged, and the publisher rejects a private arm's name in that field from here on. **The
+disclosure is the point of the field and it is intact**; only the name is gone. Nothing else in any
+row changed, and no score, token, cost or wall figure is affected.
