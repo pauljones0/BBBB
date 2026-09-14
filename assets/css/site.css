@@ -888,6 +888,15 @@ h1 em { font-style: normal; color: var(--accent); }
 .coverage__ticks { display: flex; align-items: stretch; height: 16px; width: 100%; }
 .coverage__ticks .tick { flex: 1 1 0; min-width: 0; border-radius: 1px; }
 .coverage__ticks .is-miss { background: transparent; box-shadow: inset 0 0 0 1px var(--rule); }
+/* a mean-of-N row's tick, fixed by some runs but not all: the fill carries the rate as alpha, the
+   ring stays the run's own colour at full strength. Hue, not just lightness, separates it from the
+   neutral miss ring above - a faint grey ring means nobody fixed it, a faint coloured one means
+   this model fixed it sometimes. */
+.coverage__ticks .is-partial { box-shadow: inset 0 0 0 1px var(--tickc); }
+.coverage__rel {
+  flex: none; font-size: 11px; color: var(--muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
 .coverage__ticks--nodata { height: auto; align-items: center; }
 .coverage__nodata { font-size: 12px; color: var(--muted); font-style: italic; }
 

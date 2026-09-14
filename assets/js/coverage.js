@@ -34,9 +34,9 @@
    pivot's dividers land in the same place all the way down the card, on
    screen and in the PNG export alike. */
 
-import { el, TOTALS } from './format.js?v=37126e2520';
-import { effortBadge } from './table.js?v=37126e2520';
-import { runColor } from './theme.js?v=37126e2520';
+import { el, TOTALS } from './format.js?v=b0b224721f';
+import { effortBadge } from './table.js?v=b0b224721f';
+import { runColor } from './theme.js?v=b0b224721f';
 
 /* Plain words, not a legend of single letters — a reader should not have to
    learn A/B/C/D to read the strip. Order here IS the left-to-right order of
@@ -60,9 +60,17 @@ export function coverageLayout(runs, meta, pivotSlug) {
   const withData = runs.filter((r) => Array.isArray(r.fixed_bugs));
   const counts = new Array(bugCount).fill(0);
   const fixedSets = new Map();
+  // A mean-of-N row carries `bug_hits` (bug -> how many of its N runs fixed it) alongside the union
+  // in `fixed_bugs`. A single run carries neither, and reads as 1-of-1 everywhere below, so nothing
+  // about an n=1 row changes. Column order and the pivot count a row once either way: they are about
+  // which ROWS cover a bug, and a mean row is one row.
+  const hitMaps = new Map();
   withData.forEach((r) => {
     const set = new Set(r.fixed_bugs.filter((i) => Number.isInteger(i) && i >= 1 && i <= bugCount));
     fixedSets.set(r.slug, set);
+    const n = Number.isFinite(r.coverage_runs) && r.coverage_runs > 0 ? r.coverage_runs : 1;
+    const raw = r.bug_hits && typeof r.bug_hits === 'object' ? r.bug_hits : null;
+    hitMaps.set(r.slug, { runs: n, at: (i) => (raw ? Number(raw[i]) || 0 : (set.has(i) ? n : 0)) });
     set.forEach((i) => { counts[i - 1] += 1; });
   });
 
@@ -108,16 +116,38 @@ export function coverageLayout(runs, meta, pivotSlug) {
       return {
         run: r,
         hasData,
-        ticks: hasData ? order.map((bugIdx) => ({
-          bugIdx,
-          repo: bugIdx <= repo1Count ? 1 : 2,
-          hit: fixedSets.get(r.slug).has(bugIdx),
-        })) : null,
+        ticks: hasData ? order.map((bugIdx) => {
+          const hm = hitMaps.get(r.slug);
+          const hits = hm.at(bugIdx);
+          return {
+            bugIdx,
+            repo: bugIdx <= repo1Count ? 1 : 2,
+            hit: fixedSets.get(r.slug).has(bugIdx),
+            hits,
+            runs: hm.runs,
+            // 1 for a single run and for a bug every run of a mean row fixed; below 1 the tick is
+            // drawn in the run's colour at this strength, so "fixed once in three" cannot read as
+            // "fixed" - the whole reason the rung was repeated.
+            strength: hm.runs > 1 ? Math.max(0.3, hits / hm.runs) : 1,
+          };
+        }) : null,
       };
     })
     // best-scoring run on top — the leaderboard's own default rhythm. The
     // pivot changes column order, never row order.
     .sort((a, b) => (b.run.fixed || 0) - (a.run.fixed || 0) || a.run.model.localeCompare(b.run.model));
+
+  // Per mean row: how many distinct bugs it ever fixed, and how many it fixed in EVERY run. The
+  // gap between the two is the point of an n=3 row, and the published score sits between them.
+  const reliability = new Map();
+  withData.forEach((r) => {
+    const hm = hitMaps.get(r.slug);
+    if (hm.runs <= 1) return;
+    const ever = fixedSets.get(r.slug);
+    let always = 0;
+    ever.forEach((i) => { if (hm.at(i) >= hm.runs) always += 1; });
+    reliability.set(r.slug, { run: r, runs: hm.runs, ever: ever.size, always });
+  });
 
   const n = withData.length;
   const fixedByAll = n > 0 ? counts.filter((c) => c === n).length : 0;
@@ -133,6 +163,7 @@ export function coverageLayout(runs, meta, pivotSlug) {
     rows,
     withDataCount: n,
     withoutDataCount: runs.length - n,
+    reliability,
     fixedByAll,
     uniqueWins,
     fixedByNone,
@@ -176,7 +207,16 @@ export function coverageSummaryNote(L) {
   const missing = L.withoutDataCount > 0
     ? ` ${plural(L.withoutDataCount, 'selected run')} ${L.withoutDataCount === 1 ? 'carries' : 'carry'} no per-bug data and ${L.withoutDataCount === 1 ? 'is' : 'are'} excluded from these counts.`
     : '';
-  return `Among the ${plural(L.withDataCount, 'run')} with per-bug data: ${plural(L.fixedByAll, 'bug')} fixed by all of them, ${plural(L.uniqueWins, 'bug')} fixed by exactly one, ${plural(L.fixedByNone, 'bug')} fixed by none.${missing}`;
+  const means = Array.from(L.reliability.values());
+  const shaded = means.length
+    ? ` ${means.length === 1 ? 'One row averages' : `${means.length} rows average`} several runs, and `
+      + `${means.length === 1 ? 'its' : 'their'} ticks are shaded by how many of those runs fixed that bug: `
+      + 'a solid tick means every run fixed it, a faint one means only some did. '
+      + means.map((m) => `${runLabel(m.run)} fixed ${m.ever} distinct bugs across ${m.runs} runs `
+        + `but only ${m.always} in all ${m.runs}`).join('; ')
+      + '.'
+    : '';
+  return `Among the ${plural(L.withDataCount, 'run')} with per-bug data: ${plural(L.fixedByAll, 'bug')} fixed by all of them, ${plural(L.uniqueWins, 'bug')} fixed by exactly one, ${plural(L.fixedByNone, 'bug')} fixed by none.${missing}${shaded}`;
 }
 
 /* ------------------------------------------------------------------ zones */
@@ -248,12 +288,22 @@ export function renderCoverage(host, runs, meta, glossary, pivotSlug, onPivotTog
   const rows = el('div', { class: 'coverage__rows' });
   L.rows.forEach(({ run, hasData, ticks }) => {
     const isPivot = Boolean(L.pivot && L.pivot.slug === run.slug);
+    const rel = L.reliability.get(run.slug) || null;
 
     const label = el('div', { class: 'coverage__label' }, [
       el('span', { class: 'swatch', style: { 'background-color': runColor(run.color) } }),
       el('span', { class: 'coverage__name' }, [run.model, ' ', effortBadge(run, glossary)]),
       isPivot ? el('span', { class: 'coverage__chip', text: 'Sorted by' }) : null,
-      el('span', { class: 'coverage__count', text: `${run.fixed}/${L.bugCount}` }),
+      rel ? el('span', {
+        class: 'coverage__rel',
+        title: `${rel.ever} distinct bugs fixed in at least one of ${rel.runs} runs; `
+          + `${rel.always} fixed in every run`,
+        text: `${rel.ever} ever · ${rel.always} always`,
+      }) : null,
+      el('span', {
+        class: 'coverage__count',
+        text: rel ? `${run.fixed}/${L.bugCount} avg` : `${run.fixed}/${L.bugCount}`,
+      }),
     ]);
 
     let bar;
@@ -261,8 +311,25 @@ export function renderCoverage(host, runs, meta, glossary, pivotSlug, onPivotTog
       const tickByIdx = new Map(ticks.map((t) => [t.bugIdx, t]));
       bar = zonedRow(L.zones, 'coverage__ticks', (bugIdx) => {
         const t = tickByIdx.get(bugIdx);
-        const tick = el('span', { class: `tick${t.hit ? ' is-hit' : ' is-miss'}` });
-        if (t.hit) tick.style.setProperty('background-color', runColor(run.color));
+        const partial = t.hit && t.strength < 1;
+        const tick = el('span', {
+          class: `tick${t.hit ? ' is-hit' : ' is-miss'}${partial ? ' is-partial' : ''}`,
+        });
+        if (t.hit) {
+          const c = runColor(run.color);
+          if (partial) {
+            // Strength is carried by the FILL's alpha, never by size - this view's rule is that a
+            // size difference must not stand in for a state difference. Element opacity is not used,
+            // because it would dim the ring too: the ring stays the run's colour at full strength so
+            // a 1-of-3 tick reads as THIS model partially, not as the neutral ring a miss uses.
+            tick.style.setProperty('--tickc', c);
+            tick.style.setProperty(
+              'background-color', `color-mix(in srgb, ${c} ${Math.round(t.strength * 100)}%, transparent)`);
+            tick.title = `fixed in ${t.hits} of ${t.runs} runs`;
+          } else {
+            tick.style.setProperty('background-color', c);
+          }
+        }
         return tick;
       });
       bar.setAttribute('aria-hidden', 'true');

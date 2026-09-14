@@ -13,8 +13,8 @@
 
 import {
   pointLabels, fmtCost, fmtWall, fmtDate, COST_KIND_LABEL, NOTE_MARK, svgEl, el, measureText, EFFORT_RANK,
-} from './format.js?v=37126e2520';
-import { runColor } from './theme.js?v=37126e2520';
+} from './format.js?v=b0b224721f';
+import { runColor } from './theme.js?v=b0b224721f';
 
 const LABEL_FONT = '10.5px Inter, system-ui, sans-serif';
 const LOG_TICKS = [0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500];

@@ -12,10 +12,10 @@ import {
   COLUMNS, GROUPS, TOTALS, BAR_SCALE_NOTE, NOTE_MARK, fmtCost, fmtWall, fmtInt,
   fmtDate, barRatio, barScales, effortSuffix, compareRuns, firstSentence,
   costSentence, segmentsText,
-} from './format.js?v=37126e2520';
-import { scatterLayout, AXES } from './scatter.js?v=37126e2520';
-import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=37126e2520';
-import { runColor, activeTheme } from './theme.js?v=37126e2520';
+} from './format.js?v=b0b224721f';
+import { scatterLayout, AXES } from './scatter.js?v=b0b224721f';
+import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=b0b224721f';
+import { runColor, activeTheme } from './theme.js?v=b0b224721f';
 
 const SCALE = 2;
 const PAD = 32;
@@ -559,8 +559,19 @@ function drawCoverage(ctx, T, L, w) {
         s.zone.bugs.forEach((bugIdx) => {
           const t = tickByIdx.get(bugIdx);
           if (t.hit) {
+            // A mean-of-N row shades its ticks by how many of its runs fixed that bug. Same rule as
+            // the on-screen view (coverage.js): opacity, never a size change, and the outline stays
+            // the run's own colour so a partial tick cannot be mistaken for the neutral miss ring.
+            ctx.save();
+            ctx.globalAlpha = t.strength < 1 ? t.strength : 1;
             ctx.fillStyle = runColor(run.color);
             ctx.fillRect(x, y, cellW, COV_TICK_H);
+            ctx.restore();
+            if (t.strength < 1) {
+              ctx.strokeStyle = runColor(run.color);
+              ctx.lineWidth = 1;
+              ctx.strokeRect(x + 0.5, y + 0.5, Math.max(0.5, cellW - 1), COV_TICK_H - 1);
+            }
           } else {
             ctx.strokeStyle = T.rule;
             ctx.lineWidth = 1;

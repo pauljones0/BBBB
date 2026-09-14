@@ -9,13 +9,13 @@
 import {
   COLUMNS, BAR_SCALE_NOTE, NOTE_MARK, costSentence, firstSentence,
   caveatHref, defHref, methodHref, slugify, fmtDate, el, EFFORT_RANK,
-} from './format.js?v=37126e2520';
-import { renderHead, renderBody, renderColgroup } from './table.js?v=37126e2520';
-import { renderScatter, AXES } from './scatter.js?v=37126e2520';
-import { renderPicker, refreshGroups } from './selector.js?v=37126e2520';
-import { exportView } from './export-png.js?v=37126e2520';
-import { initTheme, hasAdjustedColors } from './theme.js?v=37126e2520';
-import { renderCoverage, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=37126e2520';
+} from './format.js?v=b0b224721f';
+import { renderHead, renderBody, renderColgroup } from './table.js?v=b0b224721f';
+import { renderScatter, AXES } from './scatter.js?v=b0b224721f';
+import { renderPicker, refreshGroups } from './selector.js?v=b0b224721f';
+import { exportView } from './export-png.js?v=b0b224721f';
+import { initTheme, hasAdjustedColors } from './theme.js?v=b0b224721f';
+import { renderCoverage, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=b0b224721f';
 
 const PRESETS = {
   featured: { test: (r) => r.featured === true, name: 'Featured runs' },
