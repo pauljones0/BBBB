@@ -34,9 +34,9 @@
    pivot's dividers land in the same place all the way down the card, on
    screen and in the PNG export alike. */
 
-import { el, TOTALS } from './format.js?v=b0b224721f';
-import { effortBadge } from './table.js?v=b0b224721f';
-import { runColor } from './theme.js?v=b0b224721f';
+import { el, TOTALS } from './format.js?v=472c8ebca7';
+import { effortBadge } from './table.js?v=472c8ebca7';
+import { runColor } from './theme.js?v=472c8ebca7';
 
 /* Plain words, not a legend of single letters — a reader should not have to
    learn A/B/C/D to read the strip. Order here IS the left-to-right order of
@@ -125,10 +125,11 @@ export function coverageLayout(runs, meta, pivotSlug) {
             hit: fixedSets.get(r.slug).has(bugIdx),
             hits,
             runs: hm.runs,
-            // 1 for a single run and for a bug every run of a mean row fixed; below 1 the tick is
-            // drawn in the run's colour at this strength, so "fixed once in three" cannot read as
-            // "fixed" - the whole reason the rung was repeated.
-            strength: hm.runs > 1 ? Math.max(0.3, hits / hm.runs) : 1,
+            // The fill alpha IS the rate: 1/3 of the runs fixed it, the tick is 33% of the run's
+            // colour. No floor and no rescaling - a reader can measure the shade and get the
+            // fraction back, which is the whole point of showing it rather than a flat "fixed".
+            // A single run is 1/1 = fully solid, exactly as every n=1 row has always drawn.
+            strength: hits / hm.runs,
           };
         }) : null,
       };
@@ -325,7 +326,7 @@ export function renderCoverage(host, runs, meta, glossary, pivotSlug, onPivotTog
             tick.style.setProperty('--tickc', c);
             tick.style.setProperty(
               'background-color', `color-mix(in srgb, ${c} ${Math.round(t.strength * 100)}%, transparent)`);
-            tick.title = `fixed in ${t.hits} of ${t.runs} runs`;
+            tick.title = `fixed in ${t.hits} of ${t.runs} runs (${Math.round(t.strength * 100)}%)`;
           } else {
             tick.style.setProperty('background-color', c);
           }

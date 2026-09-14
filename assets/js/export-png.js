@@ -12,10 +12,10 @@ import {
   COLUMNS, GROUPS, TOTALS, BAR_SCALE_NOTE, NOTE_MARK, fmtCost, fmtWall, fmtInt,
   fmtDate, barRatio, barScales, effortSuffix, compareRuns, firstSentence,
   costSentence, segmentsText,
-} from './format.js?v=b0b224721f';
-import { scatterLayout, AXES } from './scatter.js?v=b0b224721f';
-import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=b0b224721f';
-import { runColor, activeTheme } from './theme.js?v=b0b224721f';
+} from './format.js?v=472c8ebca7';
+import { scatterLayout, AXES } from './scatter.js?v=472c8ebca7';
+import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=472c8ebca7';
+import { runColor, activeTheme } from './theme.js?v=472c8ebca7';
 
 const SCALE = 2;
 const PAD = 32;
@@ -559,9 +559,10 @@ function drawCoverage(ctx, T, L, w) {
         s.zone.bugs.forEach((bugIdx) => {
           const t = tickByIdx.get(bugIdx);
           if (t.hit) {
-            // A mean-of-N row shades its ticks by how many of its runs fixed that bug. Same rule as
-            // the on-screen view (coverage.js): opacity, never a size change, and the outline stays
-            // the run's own colour so a partial tick cannot be mistaken for the neutral miss ring.
+            // A mean-of-N row shades its ticks by the FRACTION of its runs that fixed that bug -
+            // 1 of 3 draws at 33% alpha. Same rule as the on-screen view (coverage.js): alpha is the
+            // rate with no floor, never a size change, and the outline stays the run's own colour so
+            // a partial tick cannot be mistaken for the neutral miss ring.
             ctx.save();
             ctx.globalAlpha = t.strength < 1 ? t.strength : 1;
             ctx.fillStyle = runColor(run.color);
