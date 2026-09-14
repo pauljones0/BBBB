@@ -82,3 +82,4 @@ gpt-oss-20b,Claude Code / OpenRouter,0,0,0,0,0,0.9,0.03
 "Muse Spark 1.3 (xhigh effort, Muse Code, Meta API) - mean of 3",Muse Code / Meta API,8,0,0,3,0,36.5,6.68
 Grok 4.6 (xhigh) seq - mean of 3,Grok Build CLI (ACP),11.7,1.7,0.7,7.3,0,20.6,9.93
 "Muse Spark 1.3 (max effort, Muse Code, Meta API) - mean of 3",Muse Code / Meta API,15.3,0.0,0.0,9.0,0,46.0,10.33
+GPT-6 Astra (max effort) - mean of 3,Codex CLI,22.0,0.3,0.0,22.3,0,41.5,15.0

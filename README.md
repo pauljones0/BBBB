@@ -9,15 +9,15 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 <!-- leaderboard:start -->
 ![Bug Hunt Bench leaderboard, the featured runs, updated Sep 14, 2026](assets/leaderboard.png?v=2026-09-14)
 
-**Updated Sep 14, 2026 · 83 rows from 95 scored runs · 28 models · 36 of 105 bugs have never been fixed by any model.**
+**Updated Sep 14, 2026 · 84 rows from 98 scored runs · 28 models · 36 of 105 bugs have never been fixed by any model.**
 
-**Current leader:** GPT-6 Astra at `max` effort — **48 / 105** (24/45 on repo 1, 24/60 on repo 2).
+**Current leader:** GPT-6 Astra at `max` effort — **45 / 105** (22/45 on repo 1, 23/60 on repo 2).
 
-**Best per lab:** OpenAI: GPT-6 Astra (`max`) 48 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 33.7 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Max (`max`) 28 · DeepSeek: DeepSeek V4.1 Flash (`max`) 24 · Google: Gemini 3.7 Flash (`high`) 22 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 Flash (`max`) 19 · Tencent: Hy4 Preview (`default`) 18 · OpenAI (open weights): gpt-oss-20b (`default`) 0
+**Best per lab:** OpenAI: GPT-6 Astra (`max`) 45 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 33.7 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Max (`max`) 28 · DeepSeek: DeepSeek V4.1 Flash (`max`) 24 · Google: Gemini 3.7 Flash (`high`) 22 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 Flash (`max`) 19 · Tencent: Hy4 Preview (`default`) 18 · OpenAI (open weights): gpt-oss-20b (`default`) 0
 
 | # | Model | Harness | Effort | Runs | Fixed /105 | Repo 1 /45 | Repo 2 /60 | Extras | Wall | Cost | Date |
 |--:|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| 1 | GPT-6 Astra | Codex CLI | max | 1 | **48** | 24 | 24 | 45 | 79 min | $31.21 | 2026-09-04 |
+| 1 | GPT-6 Astra | Codex CLI | max | 3 | **45** | 22 | 23 | 55 | 90 min | $33.03 | 2026-09-14 |
 | 2 | GPT-6 Astra | Codex CLI | xhigh | 1 | **43** | 23 | 20 | 53 | 59 min | $24.22 | 2026-09-04 |
 | 3 | Fable 5.1 | Claude Code | max | 1 | **43** | 19 | 24 | 11 | 73 min | $77.55 | 2026-09-01 |
 | 4 | GPT-5.6 Sol | Codex CLI | max | 1 | **42** | 19 | 23 | 40 | 164 min | $69.61 | 2026-08-01 |
@@ -89,7 +89,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
 Every row's full note, caveat and supersession history is in [results/run-notes.md](https://github.com/phuryn/bug-hunt-bench/blob/main/results/run-notes.md); the runs behind each one are in the metrics CSVs.
 
-17 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
+18 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
 <!-- leaderboard:end -->
 
 ## What Bug Hunt Bench is

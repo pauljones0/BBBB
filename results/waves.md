@@ -2495,3 +2495,66 @@ Three details worth knowing before quoting a row:
 
 A decimal in a column that counts bugs is not a rounding error. No run scored 9.7, and that is the
 point: **no single run is the rung.**
+
+---
+
+## Sep 14 (later still) — the leader is replicated, and it is eight points wide
+
+**GPT-6 Astra `max`, three runs: 48, 40 and 47. Mean 45.0 of 105, range 8.**
+
+This was the arm worth buying above all the others. Every row on this board is read against the
+best number on it, and the best number was a single run — the one whose spread mattered most and
+was known least.
+
+It is still the best number. What changed is what can be done with it.
+
+### The 48 was the top of its own range
+
+The row published on 2026-09-04 was the highest of the three runs, not the typical one. That is not
+a correction — 48 happened, the receipt stands, and the leg was clean. It is a correction to the
+*use*: every margin this board quoted against 48 was quoted against this configuration's best day.
+
+### Eight points is wider than the distance to second place
+
+The gap from the leader to the next row was 5 points and is now 2. Both of those are inside the
+leader's own measured spread, and the rows underneath it are single runs whose spreads nobody has
+measured at all. So the honest statement about the top of this board is narrower than it was
+yesterday: **Astra `max` has the highest mean, and the ordering at the top is not something this
+board can establish.** Two numbers of unknown width, two points apart, support no ranking.
+
+Nothing about the configuration varied across the three runs — same model, prompt, harness, route,
+effort flag and judge. All six legs exited 0, none carries a handicap note, and **zero claimed-only
+fixes** were recorded on any of the six: this arm never claimed a fix the judge did not confirm.
+
+### The unplanted column moved twice as much as the score
+
+Genuine extras came in at **45, 58 and 62** — a range of 17 on a count that is not scored, against
+a range of 8 on the count that is. Worth knowing before anyone reads one run's extras figure as a
+property of a model.
+
+Wall clock 78.8, 96.0 and 94.6 minutes; cost $31.21, $33.73 and $34.15. Run 3 ran 20% longer than
+run 1 and scored one point lower.
+
+### A judging note, because it nearly became a silent difference
+
+Run 3's repo-2 leg made itself a scratch directory holding **300 copies of the files it was about
+to edit** — every one verified byte-identical to the pristine repo, so containing no fix and no
+evidence. Left in the diff it would have added two megabytes to that leg's judge packet, a packet
+neither of the other two runs had, and it tripped the 2 MB guard that exists to stop evidence being
+truncated silently.
+
+The tempting repair was to raise the limit. That would have judged one replicate on a materially
+different packet from its own siblings — a comparability break dressed up as a size fix. The
+directory is excluded instead, so all three runs were judged on the same shape of evidence. The
+guard now reports which directory the bytes went to, so the next occurrence is a diagnosis rather
+than an integer.
+
+### Where the replication programme stands
+
+Seven configurations have now been run three times. Ranges, worst to best: **9, 9, 8, 6, 3, 3, 2**.
+Meta's dial is complete at every rung; Astra's top setting is done; Fable `max` is running.
+
+That is still not enough to say which settings are steady — a range from three draws is a noisy
+estimate of spread, and the ranges do not fall cleanly with effort. What it is enough for is the
+thing this programme was actually for: **no single run on this board should be quoted as a model's
+score**, including the one at the top.
