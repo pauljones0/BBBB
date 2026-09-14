@@ -2333,3 +2333,53 @@ stand behind. Those entries now read `an unpublished arm`, with the repo and the
 unchanged, and the publisher rejects a private arm's name in that field from here on. **The
 disclosure is the point of the field and it is intact**; only the name is gone. Nothing else in any
 row changed, and no score, token, cost or wall figure is affected.
+
+## Sep 14 — a fourth rung, and the number that would have retracted the claim if the argument hadn't
+
+`xhigh` was the fourth Muse Spark 1.3 rung run three times. It publishes as
+**Muse Spark 1.3 (xhigh effort, Muse Code, Meta API) - mean of 3**.
+
+| rung | run 1 | run 2 | run 3 | **mean** | range |
+|---|---:|---:|---:|---:|---:|
+| `low` | 12/105 | 13/105 | 4/105 | **10/105** | 9 |
+| `medium` | 9/105 | 15/105 | 15/105 | **13/105** | 6 |
+| `high` | 19/105 | 17/105 | 20/105 | **19/105** | 3 |
+| **`xhigh`** | **20/105** | **25/105** | **16/105** | **20/105** | **9** |
+| `max` | 33/105 | — | — | *n=1* | — |
+
+### The withdrawal came first, and that is the point
+
+The section above this one used to say the run-to-run range narrows as the dial rises — 9, 6, 3 —
+and generalised it to every row on this board. It was **withdrawn earlier the same day**, before
+`xhigh` was scored, on the grounds that a range from three draws is a very noisy estimate of spread
+and three of them cannot establish a trend in variance.
+
+`xhigh` then came back with a range of **9**, which breaks the sequence outright.
+
+That is a satisfying coincidence and it is **not** why the claim is gone. Had `xhigh` landed at
+range 2 the claim would still have been unsupported, because the problem was never which way the
+fourth number fell — it was that four numbers cannot answer the question. Establishing how variance
+moves across a dial needs n in the tens per rung. At roughly $13 a run, this board is not going to
+buy that, and it should stop implying otherwise.
+
+**The general rule, applied here from now on: a shape across a handful of summary statistics is an
+observation. An observation is not a finding, and it does not get generalised to other rows.**
+
+### What the four replicated rungs do support
+
+Two things, both counts rather than inferences:
+
+- **The dial is monotone across them: 9.7 → 13.0 → 18.7 → 20.3.** `max` is still a single run at 33.
+- **A fixed configuration produces double-digit spread.** Same model, prompt, harness, route, effort
+  flag and judge; `xhigh` totals of 16, 20 and 25. Three of the four replicated rungs have a range
+  of 6 or more on a 105-bug benchmark.
+
+And one thing it settles that a single run could not: **`high` and `xhigh` are not separated by
+anything measurable here.** Their means are 18.7 and 20.3 — 1.7 points apart, against ranges of 3 and
+9. The single-run pair (19 and 20) hinted at that; it now rests on six runs instead of two.
+
+### Housekeeping
+
+All six `xhigh` legs clean: exit 0, zero shim errors, installs green, no handicap notes. **Zero
+claimed-only across all six.** Genuine extras 7, 24 and 9. Per-leg wall 73.0, 61.7 and 56.5 minutes
+at $15.58, $13.17 and $12.38 — a 26% cost spread on one flag value. Survivor count unchanged at 37.

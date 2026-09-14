@@ -9,7 +9,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 <!-- leaderboard:start -->
 ![Bug Hunt Bench leaderboard, the featured runs, updated Sep 14, 2026](assets/leaderboard.png?v=2026-09-14)
 
-**Updated Sep 14, 2026 · 80 scored runs · 28 models · 37 of 105 bugs have never been fixed by any model.**
+**Updated Sep 14, 2026 · 81 scored runs · 28 models · 37 of 105 bugs have never been fixed by any model.**
 
 **Current leader:** GPT-6 Astra at `max` effort — **48 / 105** (24/45 on repo 1, 24/60 on repo 2).
 
@@ -52,7 +52,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 33 | Opus 5 | Claude Code | high | **21** | 11 | 10 | 6 | 37 min | $38.77 | 2026-07-26 |
 | 34 | GPT-5.6 Terra | Codex CLI | xhigh | **20** | 9 | 11 | 29 | 57 min | $8.98 | 2026-08-28 |
 | 35 | Gemini 3.8 Flash | Antigravity CLI | high | **20** | 7 | 13 | 6 | 30 min | $9.78 | 2026-09-02 |
-| 36 | Muse Spark 1.3 | Muse Code / Meta API | xhigh | **20** | 8 | 12 | 7 | 73 min | $15.58 | 2026-09-13 |
+| 36 | Muse Spark 1.3 | Muse Code / Meta API | xhigh | **20** | 8 | 12 | 13 | 64 min | $13.71 | 2026-09-14 |
 | 37 | DeepSeek V4.1 Flash | Claude Code / DeepSeek API | high | **19** | 9 | 10 | 4 | 26 min | $0.31 bill | 2026-09-10 |
 | 38 | GLM-5.3 Flash | Claude Code / Z.ai API | max | **19** | 10 | 9 | 4 | 58 min | $0.94 | 2026-09-12 |
 | 39 | Muse Spark 1.3 | Muse Code / Meta API | high | **19** | 9 | 10 | 19 | 76 min | $12.94 | 2026-09-14 |
@@ -85,7 +85,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 66 | gpt-oss-120b | Claude Code / OpenRouter | default | **0** | 0 | 0 | 1 | 4 min | $0.13 bill | 2026-09-12 |
 
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
-14 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
+15 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
 <!-- leaderboard:end -->
 
 ## What Bug Hunt Bench is
