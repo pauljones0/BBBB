@@ -2243,19 +2243,27 @@ So the same thing was done to `high` — the rung everything else on this dial i
 19 is worth. It publishes as **Muse Spark 1.3 (high effort, Muse Code, Meta API) - mean of 3**, and
 the single-run row it replaces stays on the board with its numbers intact.
 
-### The finding is in the third column, not the fourth
+### A pattern in the ranges, which is not evidence of anything
 
-**The run-to-run range shrinks as the dial rises: 9 points at `low`, 6 at `medium`, 3 at `high`.**
+The three-run ranges came out at **9 points at `low`, 6 at `medium`, 3 at `high`**. It is tempting to
+read that as spread narrowing up the dial, and an earlier version of this section did exactly that —
+it called the shrinking range "the finding" and told you a single run near a model's ceiling is safer
+than one at the bottom of its dial. **That was over-claimed and it is withdrawn.**
 
-That matters well beyond this model. Almost every row on this board is one run at some model's top or
-top-but-one tier, and the previous section's headline — *a single run of a fixed configuration moved
-9 points* — was measured at the **bottom** of a dial. Applying that 9-point window to a `max`-effort
-row would be borrowing the worst case from the noisiest rung. On the evidence here, a single run is
-least trustworthy exactly where this dial was first read, and a good deal more trustworthy where most
-of this board actually sits.
+The arithmetic does not support it. A range taken from **three** draws is a very noisy estimate of
+spread: three runs from one unchanging distribution can easily land 9, 6, 3 in that order by chance.
+Three such estimates, one per rung, cannot establish a trend in variance. Doing that properly needs
+n in the tens per rung — not something this board is going to buy at roughly $13 a run.
 
-It is one model and three rungs, so treat the direction as the claim and not the numbers. What it
-does rule out is the convenient assumption that the spread is one constant you can quote everywhere.
+So: there is a pattern in these numbers, and it is not hard evidence of anything. It is recorded as
+an **observation to watch**, and no row on this board should be trusted or discounted on the strength
+of it. In particular, do **not** conclude that single runs are safer at higher effort — that is the
+same n=1 reasoning this whole exercise exists to reject, moved up one level.
+
+What survives from the previous section is narrower and still worth having: **at these two bottom
+rungs, of this one model, a fixed configuration produced a 9-point and a 6-point range.** That rules
+out the convenient assumption that run-to-run spread is a small constant you can ignore. It does not
+tell you what the spread is anywhere else.
 
 ### What effort actually buys: the same bugs, more reliably
 
@@ -2268,11 +2276,15 @@ bugs or the *same* bugs *more often*. Three runs per rung answers that, by count
 | `medium` | 23 | 11 | 8 | **4** | 17% |
 | `high` | 30 | 12 | 10 | **8** | 27% |
 
-**The fixed-exactly-once column barely moves — 15, 11, 12 — while the all-three column quadruples.**
-Higher effort is not buying a longer tail of lucky one-offs. It is promoting bugs the model could
-already *sometimes* find into bugs it finds *reliably*, and adding a modest number of new ones on top
-(21 → 30 ever-fixed). That is a different product from "it finds more bugs", and it is the one that
-matters if you are deciding whether to pay for a tier on work you only get to run once.
+The fixed-exactly-once column barely moves — 15, 11, 12 — while the all-three column goes 2, 4, 8.
+The direction that suggests is that higher effort promotes bugs the model could already *sometimes*
+find into bugs it finds *more often*, rather than buying a longer tail of lucky one-offs.
+
+**Read the size of those numbers before the shape of them.** The all-three column is 2, 4 and 8 bugs,
+each counted over three runs. "Fixed in all 3 of 3" is a coin that came up heads three times, not a
+measured reliability, and small counts move a lot on very little. The direction is suggestive and the
+percentages are illustrative; neither is established here. What is solid is the plainer fact
+underneath: the rungs differ in how many distinct bugs they ever fix (21, 23, 30).
 
 The Coverage view on the site now shades each tick by that hit rate, so on any `- mean of N` row a
 faint tick is a bug fixed in one run of three and a solid tick is one fixed every time.
