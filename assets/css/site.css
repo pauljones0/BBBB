@@ -610,6 +610,10 @@ h1 em { font-style: normal; color: var(--accent); }
   border: 1px dotted var(--neutral); border-radius: 2px; padding: 1px 4px;
 }
 .tag--superseded { border-style: solid; border-color: var(--hairline); background: var(--panel); }
+/* A mean row is a stronger row than a single run, not a weaker one - it is the only
+   kind of row on this board that has been measured more than once. So it reads as a
+   solid label rather than the dotted aside a caveat gets. */
+.tag--mean { border-style: solid; border-color: var(--ink-2); color: var(--ink-2); }
 
 /* ---------------------------------------------------------- the bar system
 

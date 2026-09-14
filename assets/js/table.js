@@ -148,6 +148,10 @@ export function effortBadge(run, glossary) {
   ]);
 }
 
+/** How many independent runs a row is built from. Older data files have no `n_runs`,
+    and a missing field must read as "one run", never as "not a run". */
+export const nRuns = (run) => (Number.isFinite(run.n_runs) && run.n_runs > 0 ? run.n_runs : 1);
+
 function modelCell(run, glossary) {
   const meta = [run.vendor, run.harness].filter(Boolean).join(' · ');
   const badge = effortBadge(run, glossary);
@@ -156,6 +160,16 @@ function modelCell(run, glossary) {
     el('span', { class: 'model__name' }, [run.model, ' ', badge]),
     el('span', { class: 'model__meta' }, [
       document.createTextNode(meta),
+      /* A MEAN ROW MUST SAY IT IS ONE. Every figure on a row built from N runs is an
+         average, which is why those rows are the only ones carrying a decimal - and a
+         decimal on its own is a puzzle, not an explanation. Without this tag the row
+         renders identically to a single run: same model name, same badge, same columns.
+         The board led with `Muse Spark 1.3 max = 33`, one run, while four three-run rows
+         sat unfeatured and unlabelled. */
+      nRuns(run) > 1 ? document.createTextNode(' ') : null,
+      nRuns(run) > 1
+        ? el('span', { class: 'tag tag--mean', text: `mean of ${nRuns(run)} runs` })
+        : null,
       run.superseded ? document.createTextNode(' ') : null,
       run.superseded ? el('span', { class: 'tag tag--superseded', text: 'superseded' }) : null,
     ]),

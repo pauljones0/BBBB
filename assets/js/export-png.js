@@ -272,7 +272,9 @@ function drawTable(ctx, T, runs, state, w) {
         text(ctx, name, c.x + 26, baseline, `600 14px ${SANS}`, run.superseded ? T.muted : T.ink);
         ctx.font = `600 14px ${SANS}`;
         text(ctx, badge, c.x + 32 + ctx.measureText(name).width, baseline - 1, `600 9px ${SANS}`, T.ink2);
-        const metaStr = `${[run.vendor, run.harness].filter(Boolean).join(' · ')}${run.superseded ? ' · superseded' : ''}`;
+        const n = Number.isFinite(run.n_runs) && run.n_runs > 0 ? run.n_runs : 1;
+        const metaStr = `${[run.vendor, run.harness].filter(Boolean).join(' · ')}`
+          + (n > 1 ? ` · mean of ${n} runs` : '') + (run.superseded ? ' · superseded' : '');
         const metaFont = fitMono(ctx, metaStr, c.width - 32, 9.5, 7.5);
         text(ctx, truncate(ctx, metaStr, metaFont, c.width - 32), c.x + 26, baseline + 14, metaFont, T.muted);
       } else if (c.key === 'fixed') {

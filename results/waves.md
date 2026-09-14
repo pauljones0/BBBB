@@ -2440,3 +2440,58 @@ all on repo 1. Across the three runs this configuration fixed **40 distinct bugs
 The `high` row's note has been corrected where it placed itself "between medium 23 and xhigh 27" —
 the upper endpoint is now a three-run mean of 29, and that row is still a single run. Board now 82
 runs, 28 models; survivor count unchanged at 37.
+
+---
+
+## Sep 14 (later) — the top of Meta's dial, and the board starts publishing means as means
+
+Two changes, one of them to a number and one of them to how every aggregate on this board is
+presented.
+
+### Muse Spark 1.3 `max`, three times: 33, 33, 35
+
+**Mean 33.7 of 105, range 2** — the tightest spread of any rung on this dial, against 9 at the
+bottom. With it, **Meta's effort dial is the first on this board measured at n=3 on every rung**:
+low 9.7, medium 13.0, high 18.7, xhigh 20.3, max 33.7. Monotone, no dip, no dead middle.
+
+What that licenses is narrower than the list looks. A step between two rungs means something only
+where it clears the run-to-run range at both ends, and on this dial exactly one does: **max over
+xhigh, 13.4 points against ranges of 9 and 2**. `high` over `medium` (5.7 against 6 and 3) and
+`xhigh` over `high` (under two points against 3 and 9) are not separated by anything this board can
+measure. The order of the endpoints is established. That every rung is a rung is not.
+
+**One asterisk, stated because it is real:** the three `max` runs are not harness-identical. The
+first ran Muse Code 1.1.1, the replicates 1.2.1 — the tool self-updates and did so between waves.
+Every other replicated rung here held the version fixed. 1.1.1 scored 33 and the 1.2.1 pair scored
+33 and 35, so nothing in this sample suggests the update moved the number; but a mean is a claim
+that its members differ only by chance, and these also differ by a version string.
+
+Across the three runs this configuration fixed **45 distinct bugs** at least once — 25 in all three,
+6 in two, 14 in exactly one. The gap between *ever* and *reliably* is the thing a single run cannot
+show, and it is 11 points wide here.
+
+### Every aggregate column now carries the mean, not a rounding of it
+
+Until today a mean row rounded to whole bugs, because the column counts bugs. So a rung whose three
+runs scored 33, 33 and 35 published as **33** — the score of its worst run — and the 33.7 lived in
+the prose underneath. Same for cost, wall clock and the unplanted column.
+
+That is fixed, everywhere an aggregate appears: the scoreboard CSVs, the site, this README's table
+and the PNG card. Six live mean rows were re-derived from their member runs rather than hand-edited,
+and the re-derivation is now a tool (`bench_refresh_means.py`) that can be re-run at any time to
+prove no published mean has drifted from the runs behind it.
+
+Three details worth knowing before quoting a row:
+
+- **A row that says `3` under *Runs* is a mean of three independent runs.** The table could not say
+  this before — a three-run row and a single run rendered identically — so the column is new and the
+  site tags those rows `mean of 3 runs`.
+- **The combined figure is the mean of the three totals**, not the sum of the two rounded repo
+  halves. Those can disagree by a tenth: `max` publishes 15.3 + 18.3 beside a combined 33.7. The
+  combined number is the one that reconciles with the runs.
+- **The headline count changed shape.** The board is now **83 rows from 95 scored runs** — six of
+  those rows are three runs each. It previously said "82 scored runs", which undercounted the runs
+  and overcounted the independent measurements.
+
+A decimal in a column that counts bugs is not a rounding error. No run scored 9.7, and that is the
+point: **no single run is the rung.**
