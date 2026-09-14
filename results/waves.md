@@ -2383,3 +2383,60 @@ anything measurable here.** Their means are 18.7 and 20.3 — 1.7 points apart, 
 All six `xhigh` legs clean: exit 0, zero shim errors, installs green, no handicap notes. **Zero
 claimed-only across all six.** Genuine extras 7, 24 and 9. Per-leg wall 73.0, 61.7 and 56.5 minutes
 at $15.58, $13.17 and $12.38 — a 26% cost spread on one flag value. Survivor count unchanged at 37.
+
+## Sep 14 — the replication program leaves Meta's dial, and a "confirmed" number turns out to be the floor of its own range
+
+Every n=3 run so far has been one rung of one vendor's effort dial. **Grok 4.6 at `xhigh`,
+sequential legs, is the first replicated configuration outside it** — and it lands on the one kind of
+row this board has the most of: a number that looked settled.
+
+| | run 1 (Aug 28) | run 2 | run 3 | **mean** | range |
+|---|---:|---:|---:|---:|---:|
+| repo 1 | 8/45 | 14/45 | 13/45 | 12/45 | 6 |
+| repo 2 | 19/60 | 16/60 | 16/60 | 17/60 | 3 |
+| **total** | **27/105** | **30/105** | **29/105** | **29/105** | **3** |
+
+Published as **Grok 4.6 (xhigh) seq — mean of 3**, at a mean floor of **$18.60** and **43.1 min**.
+It supersedes the single run of 27.
+
+### What gets retracted is an inference, not a number
+
+The Aug 28 row's note said its 27 was solid because the Aug 12 concurrent-legs run had *also* scored
+27 — "n=2 agreement". Two more sequential runs came back **30** and **29**.
+
+The 27 was correct for the run that produced it. What does not survive is reading a pair of agreeing
+draws as a measurement of the configuration: **both 27s sit at the bottom of the range this setup
+actually spans.** Two runs landing on the same number is roughly what you would expect from a spread
+of a few points — it is not corroboration, and this board treated it as corroboration in print.
+
+This is the same correction as the one two sections up, arriving from the other direction. There, a
+shape across four summary statistics was mistaken for a trend. Here, two equal numbers were mistaken
+for a confirmation. **Small n does not become evidence by agreeing with itself.**
+
+### The legs move more than the total does
+
+The three totals span 3 points. The repo-1 legs span **6** — on a repo less than half the size — while
+repo 2 spans 3, and the two moved in opposite directions on every pairing.
+
+That is worth writing down and worth nothing more than that. It is three runs. It is **not** evidence
+that totals are steadier than legs, and a 105-bug total built from two legs that partly cancel is
+exactly the kind of pattern chance produces often. Recorded as an observation to watch, in the same
+register as the range sequence that was withdrawn earlier today.
+
+### Cost moved more than score did
+
+The reconstructed floors were **$16.96, $17.96 and $20.88** — a 23% spread against a 3-point score
+spread. That is not pricing noise: the reconstruction scales with how many inference requests a run
+makes, and the three made 106, 118 and 128. The agent did measurably different amounts of work for
+nearly the same result. Grok costs on this board remain a **floor, not a bill** — the CLI reports
+context occupancy rather than cumulative usage, so every grok row is rebuilt from its own session
+logs at list rates.
+
+### Housekeeping
+
+All six legs exited 0, sequential throughout, effort verified by a zero-token readback before each
+launch, judged by the same model on all six. Genuine extras 16, 16 and 22; claimed-only 1, 0 and 1,
+all on repo 1. Across the three runs this configuration fixed **40 distinct bugs** at least once.
+The `high` row's note has been corrected where it placed itself "between medium 23 and xhigh 27" —
+the upper endpoint is now a three-run mean of 29, and that row is still a single run. Board now 82
+runs, 28 models; survivor count unchanged at 37.
