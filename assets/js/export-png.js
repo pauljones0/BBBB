@@ -273,8 +273,8 @@ function drawTable(ctx, T, runs, state, w) {
         ctx.font = `600 14px ${SANS}`;
         text(ctx, badge, c.x + 32 + ctx.measureText(name).width, baseline - 1, `600 9px ${SANS}`, T.ink2);
         const n = Number.isFinite(run.n_runs) && run.n_runs > 0 ? run.n_runs : 1;
-        const metaStr = `${[run.vendor, run.harness].filter(Boolean).join(' · ')}`
-          + (n > 1 ? ` · mean of ${n} runs` : '') + (run.superseded ? ' · superseded' : '');
+        const metaStr = [run.vendor, run.harness, n > 1 ? `n=${n}` : null]
+          .filter(Boolean).join(' · ') + (run.superseded ? ' · superseded' : '');
         const metaFont = fitMono(ctx, metaStr, c.width - 32, 9.5, 7.5);
         text(ctx, truncate(ctx, metaStr, metaFont, c.width - 32), c.x + 26, baseline + 14, metaFont, T.muted);
       } else if (c.key === 'fixed') {
@@ -501,24 +501,9 @@ function drawCoverage(ctx, T, L, w) {
     y += COV_ZONELABEL_H + COV_ZONELABEL_GAP;
   }
 
-  // the repo strip: which repo each column belongs to, in the shared order —
-  // solid for repo 1, a faint tint for repo 2, echoing the hatch elsewhere
-  // without needing a pattern at sub-pixel tick width
-  spans.forEach((s) => {
-    let x = left + s.x0;
-    s.zone.bugs.forEach((bugIdx) => {
-      if (bugIdx <= L.repo1Count) {
-        ctx.fillStyle = T.rule;
-        ctx.fillRect(x, y, cellW, COV_COLKEY_H);
-      } else {
-        ctx.fillStyle = T.muted;
-        ctx.globalAlpha = 0.45;
-        ctx.fillRect(x, y, cellW, COV_COLKEY_H);
-        ctx.globalAlpha = 1;
-      }
-      x += cellW + COV_GAP;
-    });
-  });
+  // NO REPO STRIP — the card draws what the page draws, and the page dropped it: which
+  // repo a column belongs to is not a question this view answers. The zone dividers below
+  // still separate the pivot's zones; only the repo marking is gone.
   for (let i = 1; i < spans.length; i += 1) {
     const dx = left + (spans[i - 1].x1 + spans[i].x0) / 2;
     line(ctx, dx, y, dx, y + COV_COLKEY_H, T.ink2, 2);

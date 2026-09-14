@@ -5,7 +5,7 @@
     "planted_total": 105,
     "repo1_total": 45,
     "repo2_total": 60,
-    "survivors": 37,
+    "survivors": 36,
     "models": 28,
     "bug_count": 105,
     "repo1_bug_count": 45,
@@ -40,10 +40,10 @@
     "effort_inert_default": "This route ignores the effort setting entirely, so the model ran at its own default. There was no working dial to turn."
   },
   "caveats": [
-    "One round per model per repo. Same-setting variance is real and measured: three Grok 4.5 runs on identical settings scored 16, 13 and 17.",
+    "MOST ROWS ARE ONE RUN. 6 configurations have now been run three times at identical settings - same model, prompt, harness, route, effort flag and judge - and their three-run ranges are 2, 3, 3, 6, 9, 9 points of 105. The widest spread was 16, 20 and 25; the tightest was 33, 33 and 35. Rows on this board routinely sit within a point or two of each other, so a small gap between two single runs may be nothing at all. WHAT THIS DOES NOT SAY: which settings are steady. The ranges do not fall cleanly as effort rises - the replicated rungs of one dial came out 9, 6, 3, 9 and 2 going up - and a range drawn from three runs is a very noisy estimate of spread. Only one model has been measured three times at its top setting so far. Treat every one of these as a spread that has been SEEN, not a spread that has been bounded.",
     "Wall clock is the same measure on every row: repo 1 plus repo 2 agent time, with dependency install and health checks excluded. Two things bend it, and both are marked on the score-and-time map. Three runs took their two repo legs concurrently - the sum is still like-for-like, but two agents sharing one machine and one API key contend, so those figures can run high rather than low. And one figure is adjusted: the retired-Gemini-CLI run excludes a 35-minute harness stall, the only number here that is not what the harness measured.",
     "Cost is not one kind of number: some figures are an actual bill, some are a token-count estimate at published list rates, one CLI only allows a reconstructed lower bound, and one run was free. The key under the board names which is which - they are not interchangeable, and none of them is a quote for what you would pay.",
-    "37 of the 105 bugs have survived every model in every run to date. The count moves as new runs land: it fell from 49 to 44 during the 27-28 August waves."
+    "36 of the 105 bugs have survived every model in every run to date. The count moves as new runs land: it fell from 49 to 44 during the 27-28 August waves."
   ],
   "runs": [
     {

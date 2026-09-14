@@ -193,7 +193,7 @@ export function coverageOrderNote(L) {
       + `${plural(nobody, 'bug')} fixed by nobody shown. These are single runs — a subset relationship `
       + 'describes these runs, not the models in general; same-setting variance is real on this board.';
   }
-  return `Columns are ordered by how many of the runs shown (with per-bug data) fixed that bug, most commonly fixed first, ties by bug index. This mixes both repos — bugs 1–${L.repo1Count} are repo 1, ${L.repo1Count + 1}–${L.bugCount} are repo 2 — marked by the strip above the rows.`;
+  return `Columns are ordered by how many of the runs shown (with per-bug data) fixed that bug, most commonly fixed first, ties by bug index. All ${L.bugCount} bugs are shown together, both repos mixed.`;
 }
 
 /** The generated summary: how many bugs every run with data shares, how many
@@ -281,10 +281,11 @@ export function renderCoverage(host, runs, meta, glossary, pivotSlug, onPivotTog
     if (zoneLabels) host.appendChild(zoneLabels);
   }
 
-  const colkey = zonedRow(L.zones, 'coverage__colkey', (bugIdx) =>
-    el('span', { class: `tick ${bugIdx <= L.repo1Count ? 'is-repo1' : 'is-repo2'}` }));
-  colkey.setAttribute('aria-hidden', 'true');
-  host.appendChild(colkey);
+  /* NO REPO STRIP (Pawel, 2026-09-14: "on Coverage I would stop presenting repo 1 / repo 2.
+     This bar at the top doesn't matter"). It marked which repo each column belonged to, and
+     that is not a question this view answers: the columns are ordered by how many runs fixed
+     the bug, so the repo split lands as noise scattered across the order. Which repo a bug
+     lives in is on the leaderboard, in the CSVs and on the method page. */
 
   const rows = el('div', { class: 'coverage__rows' });
   L.rows.forEach(({ run, hasData, ticks }) => {

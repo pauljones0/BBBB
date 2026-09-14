@@ -109,17 +109,18 @@ export function renderHead(headEl, state, onSort) {
   headEl.appendChild(colRow);
 }
 
-/* The sentences a row carries. They used to open in a disclosure row under the
-   grid; they now ride on the model cell as a plain title - still there for
-   anyone who wants them, invisible to everyone who does not, and costing the
-   table no height at all. */
-function rowTitle(run) {
-  return [
-    run.superseded ? `Superseded: ${run.superseded}` : null,
-    run.caveat ? `Caveat: ${run.caveat}` : null,
-    run.note ? `Note: ${run.note}` : null,
-  ].filter(Boolean).join('\n') || null;
-}
+/* THE SENTENCES A ROW CARRIES ARE NOT ON THIS PAGE ANY MORE (Pawel, 2026-09-14:
+   "all the details on GitHub, not in the leaderboard on hover").
+
+   They lived in a disclosure row once, then as a `title` on the model cell - and a
+   tooltip was the wrong home for them all along. Some of these notes run past four
+   thousand characters: a browser truncates them without saying so, touch devices never
+   see them, they cannot be searched, and they cannot be linked to. They are the audit
+   trail for a published number.
+
+   They are generated into results/run-notes.md on GitHub instead, one section per row,
+   next to the metrics CSVs that hold the runs behind each one. The caption under the
+   board links there. Nothing is hidden; it is filed where it can be read. */
 
 /* Two lines at most: the name with its effort badge, then vendor - harness.
    The badge is the tier the run was asked for - MAX / XHIGH / HIGH / DEFAULT -
@@ -153,28 +154,25 @@ export function effortBadge(run, glossary) {
 export const nRuns = (run) => (Number.isFinite(run.n_runs) && run.n_runs > 0 ? run.n_runs : 1);
 
 function modelCell(run, glossary) {
-  const meta = [run.vendor, run.harness].filter(Boolean).join(' · ');
+  /* A MEAN ROW MUST SAY IT IS ONE - and it says it the same way the row says everything
+     else about its provenance: as one more term on the meta line, "Meta · Muse Code /
+     Meta API · n=3". It is not a status, so it takes no border and no badge; a bordered
+     "mean of 3 runs" tag drew more eye than the score it qualifies. Without the term the
+     row renders identically to a single run - same name, same badge, same columns - and
+     the decimal on the score has nothing to explain it. */
+  const meta = [run.vendor, run.harness, nRuns(run) > 1 ? `n=${nRuns(run)}` : null]
+    .filter(Boolean).join(' · ');
   const badge = effortBadge(run, glossary);
 
   const body = el('span', { class: 'model__body' }, [
     el('span', { class: 'model__name' }, [run.model, ' ', badge]),
     el('span', { class: 'model__meta' }, [
       document.createTextNode(meta),
-      /* A MEAN ROW MUST SAY IT IS ONE. Every figure on a row built from N runs is an
-         average, which is why those rows are the only ones carrying a decimal - and a
-         decimal on its own is a puzzle, not an explanation. Without this tag the row
-         renders identically to a single run: same model name, same badge, same columns.
-         The board led with `Muse Spark 1.3 max = 33`, one run, while four three-run rows
-         sat unfeatured and unlabelled. */
-      nRuns(run) > 1 ? document.createTextNode(' ') : null,
-      nRuns(run) > 1
-        ? el('span', { class: 'tag tag--mean', text: `mean of ${nRuns(run)} runs` })
-        : null,
       run.superseded ? document.createTextNode(' ') : null,
       run.superseded ? el('span', { class: 'tag tag--superseded', text: 'superseded' }) : null,
     ]),
   ]);
-  return el('td', { class: 'model-cell', role: 'cell', title: rowTitle(run) }, [
+  return el('td', { class: 'model-cell', role: 'cell' }, [
     el('span', { class: 'model' }, [
       el('span', { class: 'swatch', style: { 'background-color': runColor(run.color) } }),
       body,
