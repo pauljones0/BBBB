@@ -2558,3 +2558,88 @@ That is still not enough to say which settings are steady — a range from three
 estimate of spread, and the ranges do not fall cleanly with effort. What it is enough for is the
 thing this programme was actually for: **no single run on this board should be quoted as a model's
 score**, including the one at the top.
+
+## Sep 15 — three Flash arms at n=3, and the first wave where the *regime* was checked before publishing
+
+Three Flash configurations were each run three times: DeepSeek V4.1 Flash `max` on DeepSeek's own
+API, GLM-5.3 Flash `max` on Z.ai's own API, and Gemini 3.8 Flash `high` on the Antigravity CLI. Two
+new runs apiece, twelve legs, all clean. [combined-scoreboard.csv](combined-scoreboard.csv)
+
+| Model | Runs /105 | **Mean** | Range | Old single run | Ever fixed | Fixed in all 3 |
+|---|---|--:|--:|--:|--:|--:|
+| **DeepSeek V4.1 Flash (max)** | 24, 19, 22 | **21.7** | 5 | 24 | 33 | 11 |
+| **Gemini 3.8 Flash (high)** | 20, 19, 15 | **18.0** | 5 | 20 | 24 | 14 |
+| **GLM-5.3 Flash (max, Z.ai)** | 19, 18, 16 | **17.7** | 3 | 19 | 23 | 12 |
+
+### The highest scorer of the three is the least repeatable
+
+DeepSeek Flash leads this group at the mean and is the only one of the three whose *replication was
+verified* — and it repeats the smallest share of its own work. It ever fixed 33 distinct bugs but
+fixed only **11** of them in all three runs, with 12 falling in exactly one run. Gemini fixed the
+fewest distinct bugs (24) and repeated the most of them (14).
+
+Reading those two columns together is the whole point of running anything three times. A single run
+of DeepSeek Flash reports something between 19 and 24; what it can be *relied on* for is 11.
+
+### The regime gate ran for the first time, and two of three arms could not be checked at all
+
+A mean is a claim that its members differ only by chance. Since the Fable `max` case — three arms
+that were byte-identical on paper and nonetheless differed in whether the harness threw their
+context away mid-run — this board checks that claim mechanically before publishing a mean, rather
+than trusting that identical config files imply identical runs.
+
+- **DeepSeek Flash: SAME REGIME, both repos.** All six legs resolved the same model at the 1M
+  window and **none compacted** — peak live context 471,821–558,074 across the six, against a
+  harness that discards context at about 30% when triggered. One thing was not held fixed and is on
+  the row: CLI 2.1.267 for the first run, 2.1.270 for the other two.
+- **GLM-5.3 Flash: CANNOT TELL.** Z.ai's endpoint reports `input_tokens: 0` on every turn and emits
+  no compaction records. Peak context and compaction count are *blank, not zero*.
+- **Gemini 3.8 Flash: CANNOT TELL.** The Antigravity CLI writes no session init record at all, so
+  neither the context regime nor even its own version is recoverable — for the replicates or for the
+  2026-09-02 control they are compared against.
+
+"Cannot tell" does not block a publish, and it should not: most harnesses on this board are
+unreadable this way, and a gate that blocked them would become something to route around. It goes
+**on the row** instead. Two rows in this wave say the replication is believed rather than confirmed,
+and one says it was confirmed — and the difference between those two sentences is now visible on the
+board rather than living in someone's memory.
+
+### Gemini's wall column is 17–32% slower than its control and nobody knows why
+
+All four Gemini replicate legs ran at **68, 71, 74 and 83 per cent** of the 2026-09-02 control's
+tokens per minute. Every leg, one direction. Two explanations were tested and both failed:
+
+- **Box contention.** Three arms ran concurrently on these nights, which no control had. But GLM ran
+  under the identical load at **100, 143, 87 and 106 per cent** of its own control. Concurrency is
+  not a uniform tax, so it cannot be written on Gemini's row as though it explained anything.
+- **Provider throttling.** One Gemini leg did die on a hard Google quota wall, and that story made a
+  prediction: re-run it alone on an idle box after the quota resets and it should come back near the
+  control's rate. It came back **the slowest of the four**, under the cleanest conditions any leg in
+  this wave got. A hypothesis that predicts fast and gets the slowest run of the set is refuted, not
+  refined.
+
+So the row states the per-leg figures and **attributes no cause**. What this does not touch is the
+score: every score on this board is judged from the diff against a withheld answer key, so wall and
+cost are the only columns a slow leg can move.
+
+DeepSeek's wall swung in *both* directions on the same night and the same binary — 47, 131, 118 and
+104 per cent of its control. Quote its per-leg figures, not a ratio.
+
+### A tempting pattern, and the number that kills it
+
+All three single runs this wave supersedes were the **highest** of their own three. It is very easy
+to turn that into "the board's single-run rows are optimistic".
+
+Across the **nine** configurations where a three-run mean has replaced a previously published single
+run, that original sits at the **top** of its range 4 times, in the **middle** 2, and at the
+**bottom** 3 — about what chance gives. Grok 4.6 `xhigh` published 27 against runs of 27/30/29; Muse
+`medium` published 9 against 9/15/15; Muse `max` published 33 against 33/33/35. Three arms landing
+the same way in one wave is a coincidence of three draws, not a property of the board, and it is
+recorded here so it does not get quoted as one later.
+
+### Where the replication programme stands
+
+Ten configurations run three times. Ranges, worst to best: **9, 9, 8, 6, 5, 5, 3, 3, 3, 2**.
+
+Still not enough to say which settings are steady. Still more than enough for the thing the
+programme was for: **no single run on this board should be quoted as a model's score.**

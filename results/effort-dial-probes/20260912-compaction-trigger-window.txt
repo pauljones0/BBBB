@@ -1,5 +1,64 @@
 Is the compaction trigger a fixed size, or a fraction of the window? - 2026-09-12
 
+CORRECTION, 2026-09-14 - THE 30% IS OURS, NOT THE HARNESS'S. READ THIS FIRST.
+------------------------------------------------------------------------------------------------
+Both settings files on this machine set it:
+
+    ~/.claude/settings.json          "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "30"
+    <repo>/.claude/settings.json     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "30"   (since 2026-04-14)
+
+So "compacts at about 30% of the window" is not a discovered property of Claude Code. It is a number
+we set, months before this probe was written, and then measured our way back to. 30% of 200,000 is
+60,000 and 30% of 1,000,000 is 300,000, which is the whole of the verdict below to within the
+scatter of the triggers.
+
+WHAT THIS DOES NOT CHANGE. The finding stands and is if anything cleaner: the trigger is a FRACTION
+of the window rather than a fixed number of tokens, which is exactly what a percentage override
+produces, and the 200K/1M pair still demonstrates it on one fixture on one machine.
+
+WHAT IT DOES CHANGE. Three things, and the third is the one that cost real money.
+
+ 1. The figure is NOT portable. Anyone reproducing this elsewhere, or reasoning about what a model
+    gets on someone else's box, must read that setting first. Without the override the harness's own
+    default applies and none of these numbers predict it.
+ 2. clean_env() in the runner CANNOT neutralise it. That function deletes every
+    CLAUDE*/ANTHROPIC* PROCESS environment variable, which is what it was written for - but this
+    value lives in a settings FILE, which no amount of environment scrubbing reaches. Every bench arm
+    ever run on this machine ran with a 30% autocompact trigger, and the arms are not isolated from
+    it.
+ 3. The Sep 12 breaker write-up below says the harness "compacted them at roughly a fifth of the
+    context the 1M arms get". The ratio was right and the cause was misattributed: a 200K arm and a
+    1M arm both compacting at 30% of their own window differ five-fold because the windows do, not
+    because anything treated them differently. The remedy that follows is different too - it is a
+    settings change we control, not a harness limitation to route around.
+
+STILL OPEN. Fable 5.1's three max runs do not fit this cleanly. The two legs on CLI 2.1.251 peaked at
+586K and 727K live context with ZERO compactions - 59% and 73% of a 1M window, far past a 30%
+trigger. The four legs on 2.1.270 compacted TWICE each, triggering at 278K, 296K, 302K, 306K, 316K,
+331K and 359K: 28-36% of 1M, which is this override to within the scatter. Same machine, same
+settings file, same model string passed.
+
+Two things follow. First, both regimes were on a 1M window - a 200K model cannot hold the 358,674
+tokens one of those legs was holding when it was cut - so the missing `[1m]` in the newer CLI's init
+echo is cosmetic, and "the window changed" is ruled out rather than merely unproven. Second, what
+differs is whether the 30% trigger was ENFORCED. Either 2.1.251 did not honour the override on
+1M-context models (2.1.260's notes mention changing exactly this), or the key was not in
+~/.claude/settings.json on 2026-09-01. That file is not version-controlled and its mtime (2026-09-14
+14:11) is consistent with both, so the archive cannot separate them. A ten-minute controlled probe -
+one fixture, current CLI, override present then absent, 1M model - would, and is worth running before
+anyone re-runs Fable at ~$77 a leg.
+
+(The counts above are corrected. An earlier version of this paragraph said "4-10 times each at
+270-292K". `status: "compacting"` is a progress heartbeat emitted several times per compaction; the
+event is `compact_boundary`. the regime checker counts the right one. The five triggers in
+the 1M condition at the top of this file were always read off compact_metadata pairs and are
+unaffected.)
+
+Do not use this file to argue that every run on this machine compacted at 30% - it establishes that
+the ones measured here did.
+------------------------------------------------------------------------------------------------
+
+
 VERDICT (written by hand; the script's automatic one said NO VERDICT and was too strict - see the
 note at the bottom): A FRACTION OF THE WINDOW, and close to 30% of it in both conditions.
 
