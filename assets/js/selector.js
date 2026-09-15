@@ -45,6 +45,7 @@ import { runColor } from './theme.js?v=d69cab3767';
 
 const OTHER_MAX_RUNS = 3;
 const OTHER_LABEL = 'Other';
+const LOCAL_LABEL = 'Local AI';
 
 /* Open/closed state for the collapsible groups, kept here rather than in the
    board's state because it is a property of this widget and outlives nothing else.
@@ -178,11 +179,38 @@ function byKey(runs, key) {
 
 const rank = (a, b) => (a.group_rank ?? 1e9) - (b.group_rank ?? 1e9);
 
+/* A fieldset that wraps MULTIPLE vendors, each as its own sub-group - the shape OTHER always
+   used, now shared with LOCAL AI (2026-09-15) so the two don't carry two copies of the same
+   flatten/subgroup logic. `runsForGroup` is the flat run list the wrapping checkbox counts and
+   toggles; vendors inside it are re-derived from that list, not passed in separately, so the two
+   always agree. `sortBySize` puts the biggest vendor first (OTHER's many one-off vendors read
+   better that way); LOCAL AI keeps natural order - it is a short, curated list, not a pile of
+   leftovers, and size-sorting it would just reshuffle three groups for no reason. */
+function multiVendorFieldset(label, id, runsForGroup, selected, onToggle, onGroupToggle, sortBySize) {
+  const { order: vendors, map: byVendor } = byKey(runsForGroup, 'vendor');
+  const ordered = sortBySize
+    ? vendors.slice().sort((a, b) => byVendor.get(b).length - byVendor.get(a).length)
+    : vendors;
+  const children = ordered.map((v) => subGroup(
+    `${id}/${v}`, v, byVendor.get(v).slice().sort(rank), selected, onToggle, onGroupToggle, true,
+  ));
+  return vendorFieldset(label, runsForGroup, selected, onGroupToggle, children);
+}
+
 export function renderPicker(gridEl, runs, selected, onToggle, onGroupToggle) {
   gridEl.textContent = '';
   groupBoxes.length = 0;
-  const { order: vendors, map: byVendor } = byKey(runs, 'vendor');
 
+  /* LOCAL AI pulls specific MODELS out of their normal vendor group, regardless of how big that
+     vendor's own group is - `r.local` is a data-level claim (build_bench_site_data.py's
+     LOCAL_MODELS set: "can a reader run this on their own 64GB machine"), not a run-count
+     threshold, so it is resolved before the big/small vendor split below ever sees these runs.
+     A vendor that is ENTIRELY local (every run of its own local-capable) simply has nothing left
+     for its own fieldset or for OTHER - no special-casing needed, `rest` just won't contain it. */
+  const localRuns = runs.filter((r) => r.local);
+  const rest = runs.filter((r) => !r.local);
+
+  const { order: vendors, map: byVendor } = byKey(rest, 'vendor');
   const big = vendors.filter((v) => byVendor.get(v).length > OTHER_MAX_RUNS);
   const small = vendors.filter((v) => byVendor.get(v).length <= OTHER_MAX_RUNS);
 
@@ -196,14 +224,19 @@ export function renderPicker(gridEl, runs, selected, onToggle, onGroupToggle) {
     gridEl.appendChild(vendorFieldset(vendor, group, selected, onGroupToggle, children));
   });
 
+  /* Sits after the ordinary per-vendor groups and before OTHER (Pawel, 2026-09-15: "move all
+     models I can run on 64GB local ram to 'Local AI' before the 'Other' group... group them by
+     provider like Alibaba or OpenAI" - so it still sub-groups by real vendor, only the top-level
+     bucket is new). Each run keeps its own vendor's colour and MODEL_ORDER rank; only its picker
+     location moves. */
+  if (localRuns.length) {
+    gridEl.appendChild(multiVendorFieldset(LOCAL_LABEL, 'local', localRuns, selected, onToggle, onGroupToggle, false));
+  }
+
   if (!small.length) return;
   /* OTHER gets a select-all over everything inside it, and each vendor under it
      keeps its own. Ordered by size, so the single-row vendors sit together at the
      bottom instead of being scattered through the group. */
   const all = small.flatMap((v) => byVendor.get(v));
-  const ordered = small.slice().sort((a, b) => byVendor.get(b).length - byVendor.get(a).length);
-  const children = ordered.map((v) => subGroup(
-    `other/${v}`, v, byVendor.get(v).slice().sort(rank), selected, onToggle, onGroupToggle, true,
-  ));
-  gridEl.appendChild(vendorFieldset(OTHER_LABEL, all, selected, onGroupToggle, children));
+  gridEl.appendChild(multiVendorFieldset(OTHER_LABEL, 'other', all, selected, onToggle, onGroupToggle, true));
 }
