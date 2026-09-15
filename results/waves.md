@@ -2674,3 +2674,61 @@ asserted here.
 Eleven configurations have now been run three times. Ranges, worst to best: **9, 9, 8, 6, 5, 5, 4,
 3, 3, 3, 2**. Qwen3.8-27B sits in the middle of that list — tighter than most of the board, not the
 tightest on it.
+## Sep 15 (later still) — the same weights at 8-bit, through an aggregator: 8 of 105
+
+**Qwen3.8-27B 8-bit — the same weights served at fp8 by a third-party host — scores 8 of 105. On the vendor's own
+endpoint those weights average 15.0 across three runs. The gap is real and it is not clean — do not read it
+as the price of quantization.**
+
+Two things changed together, and this pair isolates neither. The **precision** went from native to
+fp8. The **route** went from the vendor's own API to an aggregator plus a third-party host. A run
+that would separate them — this host at native precision, or the vendor's endpoint at fp8 — does
+not exist, because neither party serves the other half. This is the same trap the earlier
+OpenRouter-vs-first-party pair on this board hit, and it is named here for the same reason: a
+two-variable comparison is worth publishing and is not worth over-reading.
+
+The host was **pinned, with fallbacks off**. The aggregator lists sixteen providers for this slug —
+ten at fp8, one at bf16, one at fp4 — and an unpinned run blends across them per request, which
+measures nothing at all.
+
+### The two rows did not run in the same context regime
+
+This is the more specific reason the gap is not clean. Through a shim the harness cannot learn the
+upstream context window, so this arm **compacted 3 times on repo 1 and 2 times on repo 2**. The
+first-party control **compacted zero times on either repo**. Compaction throws context away
+mid-run, so some unknown part of this gap is a harness difference rather than a model difference.
+It is stated rather than corrected because nothing available here can separate the two.
+
+One measurement that looks comparable is not: the **peak live context** figures. On the first-party
+route that number comes from the harness's own live-context accounting; on a shim route, which
+reports none, it is reconstructed from the compaction triggers instead. Two different
+instruments — the peaks are not comparable across route types. The compaction *counts* are.
+
+### What it is good at
+
+It is **cheaper and no slower**: 2.11 dollars against 5.55, and 59.0 minutes against 56.8. Those
+two cost figures are also not the same kind of number — 2.11 is a real invoice read as a credits
+delta before and after each leg, while 5.55 is a token-count estimate at list rates, because the
+first-party endpoint publishes no usage API.
+
+And it did not over-claim. **Zero claimed-only fixes on either repo** — every fix it reported, the
+blind judge confirmed. It also surfaced two defects nobody had planted, one per repo.
+
+### The first attempt at this row is void, and the reason is worth publishing
+
+The first configuration let the harness fall back to its default context assumption. The harness
+then compacted at roughly a quarter of the host's real ceiling: **repo 1 finished after 43
+autocompactions**, taking 163 minutes to score 3 of 45, and **repo 2 was killed outright** by the
+harness's own rapid-refill breaker after 31. The control on the same model and repos compacts zero
+times and peaks near 27K.
+
+Those two legs measured the harness, not the model, and they are not this row. Corrected, the same
+arm ran in 59.0 minutes total. **A context declaration is not paperwork** — misdeclare it and the
+run measures your own plumbing, convincingly enough to be mistaken for a finding.
+
+### One run, not three
+
+The first-party row is a mean of 15, 13 and 17. This is a single 8 with no measured spread of its
+own. Eleven configurations on this board have been run three times and their ranges run from 2 to
+9 points, so a lone number here carries an error bar this run cannot show. It is published as n=1
+on purpose, and it is not in the default view: rows below 19 of 105 stay off the front page.
