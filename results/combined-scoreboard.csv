@@ -88,3 +88,4 @@ DeepSeek V4.1 Flash (max effort) - mean of 3,Claude Code / DeepSeek API,21.7,11.
 Gemini 3.8 Flash - mean of 3,Antigravity CLI,18.0,6.7,11.3,4.0,38.7,11.03
 "Qwen3.8-27B (xhigh effort, Alibaba API) - mean of 3",Claude Code / Alibaba API,15.0,5.7,9.3,2.3,56.8,5.55
 Qwen3.8-27B 8-bit (OpenRouter/Parasail),Claude Code / OpenRouter,8,2,6,2,59.0,2.11
+"Qwen3.8-Max (max effort, Alibaba API) - mean of 3",Claude Code / Alibaba API,25.7,12.3,13.3,7.0,117.1,26.76

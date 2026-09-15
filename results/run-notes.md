@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 15, 2026 · 89 rows from 111 scored runs. Superseded rows are listed last.
+Updated Sep 15, 2026 · 90 rows from 114 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -96,14 +96,6 @@ The row that completes Fable 5.1's dial, and the one that shows the dial does no
 
 The FIRST configuration outside Meta's effort dial to be run three times, published as the MEAN OF THREE INDEPENDENT RUNS. Runs scored 27, 30 and 29 of 105 (repo 1: 8, 14, 13 - repo 2: 19, 16, 16). Mean 28.7, range 3. *** WHAT THIS CORRECTS IS AN INFERENCE, NOT A NUMBER *** The single run this replaces scored 27, and its note read that as settled because the 2026-08-12 concurrent-legs run had also scored 27 - 'n=2 agreement'. Two further sequential runs came in at 30 and 29. The 27 was correct for the run that produced it; what does not survive is treating a pair of agreeing draws as a measurement of the rung. Both 27s sit at the bottom of the range this configuration actually spans. *** WHERE THE MOVEMENT IS, AND WHAT THAT IS WORTH *** The three totals span 3 points, but the per-repo legs span more: repo 1 scored 8, 14 and 13 of 45, repo 2 scored 19, 16 and 16 of 60. The repo-1 range alone is 6 points on a 45-bug repo, wider than the range of the totals it feeds. The legs moved in opposite directions and the totals landed close together. That is an OBSERVATION about three runs and nothing more - it is not a mechanism, and it is not a claim that totals are steadier than legs. Three draws cannot establish that, and this pattern arises from chance often enough to be unremarkable. *** RECEIPTS *** All six legs exited 0. Per-leg (repo 1 / repo 2): wall 19.1/22.0, 18.8/23.5 and 23.9/21.9 minutes; floor 6.84/10.12, 9.38/8.59 and 13.57/7.30 dollars. Genuine extras 16, 16 and 22. Claimed-only 1, 0 and 1, all on repo 1. COST IS A FLOOR, NOT A BILL: the grok CLI reports context occupancy rather than cumulative usage, so every grok row on this board is reconstructed from the CLI's own session logs at xAI list rates. The three floors are 16.96, 17.96 and 20.88 dollars and this row shows their mean. That spread is not pricing noise - the reconstruction scales with how many inference requests a run made (106, 118 and 128 across the three), so it tracks real differences in how much work the agent did. SEQUENTIAL legs throughout - one repo at a time, one machine, one key - which is what 'seq' means in the name and why this wall is comparable to the rest of the board. Effort verified active by a fresh zero-token ACP readback before each launch. Judge: Codex gpt-5.5 on all six legs.
 
-## Qwen3.8-Max (max effort, Alibaba API)
-
-**28 / 105** · repo 1 13/45 · repo 2 15/60 · 6 unplanted · 103.4 min · $26.29 · `max` · Claude Code / Alibaba API · single run · 2026-09-11
-
-**Caveat.** One run at this tier. The effort ceiling is real but flat: the same probe shows high (9946-14061), xhigh (8266-19309) and max (6542-14902) are mutually indistinguishable with means that fall as the nominal tier rises, so max is the top of the dial and buys nothing measurable over high - the same two-rung shape the Qwen3.8-Flash probe found, which suggests it is a property of Alibaba's serving rather than of either model. Note also that this endpoint's accept-list CONTRADICTS the QwenCloud doc the superseded row relied on (low|medium|xhigh with high->xhigh), which is one more reason that row's tier claim was never safe. Cost is a list-price ESTIMATE and not a bill - DashScope exposes no credits API on this path - computed from the run's own token counts at 2.00 in / 2.50 cache-write / 0.25 cache-read / 6.00 out per MTok, from OpenRouter's Alibaba-endpoint listing. Finally, do NOT read the 9-point gain as caused by the path. It is n=1 against n=1 and almost all of it is one repo - repo 1 went 5/45 to 13/45 while repo 2 moved by one - and this board has seen the same model at the same setting swing 6 points on repo 1 (Opus 5 at medium: 11/8/14). A systematic path effect should have moved both repos and did not, so the score difference is unexplained and may simply be variance. What the pair DOES establish beyond variance is the cost and token behaviour, where the gap is ~5,000x and not a coin flip.
-
-The Aug 3 Qwen3.8-Max row re-run on Alibaba's OWN Anthropic-compatible endpoint - no local proxy, no aggregator - and it is the clearest demonstration on this board that a row records a SERVING PATH and not just a model. Same model, same harness, same two repos, same laptop, one hop removed: 28/105 against 19/105, 103.4 min against 148.1, $26.29 against $33.30. Nine points more for a fifth less money and a third less time, and the gain is concentrated in repo 1, which went 5/45 to 13/45. The mechanism is visible in the token columns. The OpenRouter run billed 12.94% of its prompt tokens as UNCACHED INPUT - 8,282,777 of them, $16.57, half that row's cost - while this one billed 0.0019%, or 1,716 tokens across both legs. Caching that keeps working means the model keeps its context instead of rebuilding it, which is why output ROSE 23% (168,395 tokens against 136,426) while wall time FELL: it did more thinking and less re-reading. Effort here is measured, not requested - the endpoint 400-rejects an invented tier and names its accept-list (low, medium, high, xhigh, max), and an n=3-per-tier probe on this exact path separates the bottom of the dial cleanly (mean output tokens low=4495 against high=12422, low's range overlapping none of the top three, 3.09x between-tier ratio against a 2.34x worst within-tier spread). 28 strict matches, 2 partials, 3 claimed-only, 6 genuine unplanted extras.
-
 ## GPT-6 Astra (low effort)
 
 **27 / 105** · repo 1 18/45 · repo 2 9/60 · 25 unplanted · 32.1 min · $11.69 · `low` · Codex CLI · single run · 2026-09-05
@@ -125,6 +117,14 @@ The top of Alibaba's own accept-list on Alibaba's own Anthropic-compatible endpo
 **26 / 105** · repo 1 14/45 · repo 2 12/60 · 3 unplanted · 49.9 min · $59.59 · `xhigh` · Claude Code · single run · 2026-08-28
 
 The Opus dial is nearly flat at the top: high 21, medium 24, xhigh 26, max 27.
+
+## Qwen3.8-Max (max effort, Alibaba API) - mean of 3
+
+**25.7 / 105** · repo 1 12.3/45 · repo 2 13.3/60 · 7 unplanted · 117.1 min · $26.76 · `max` · Claude Code / Alibaba API · mean of 3 runs · 2026-09-15
+
+**Caveat.** Superseded row: the single 28/105 run published 2026-09-11 stays on the board, marked superseded, not deleted - it is the best of the three, and the mean is the number the board leads with per the standing rule that a rung measured three times publishes at n=3.
+
+Runs scored 28, 24 and 25 of 105 (repo 1: 13, 11, 13 - repo 2: 15, 13, 12). Mean 25.7, range 4. This replication moves the row DOWN, not up: the single run published 2026-09-11 was the best of the three (28), and the mean sits 2.3 points below it - the opposite of the Qwen3.8-27B replication, which held steady on its mean. Regime check: SAME REGIME (gbvb); SAME REGIME (abhb). First-party max effort, Alibaba's own DashScope endpoint, native precision, 1,000,000 declared context - same endpoint and declaration as the superseded single run. Cost quoted here is the MEAN per-run cost across the three legs (26.29, 29.85, 24.15), not their sum; the three runs together cost 80.29 dollars, all list-rate estimates - this endpoint publishes no usage API, so none of these figures are a real bill.
 
 ## Opus 5 (medium effort)
 
@@ -425,6 +425,16 @@ Meta's OWN agent driving Meta's OWN model on Meta's OWN endpoint, at the top of 
 **31 / 105** · repo 1 13/45 · repo 2 18/60 · 38 unplanted · 70.2 min · $29.16 · `high` · Codex CLI · single run · 2026-07-26
 
 **Superseded.** Superseded by the Jul 31 re-run on the same setting (serving-side change, not a new model).
+
+## Qwen3.8-Max (max effort, Alibaba API)
+
+**28 / 105** · repo 1 13/45 · repo 2 15/60 · 6 unplanted · 103.4 min · $26.29 · `max` · Claude Code / Alibaba API · single run · 2026-09-11
+
+**Superseded.** Qwen3.8-Max (max effort, Alibaba API) - mean of 3
+
+**Caveat.** One run at this tier. The effort ceiling is real but flat: the same probe shows high (9946-14061), xhigh (8266-19309) and max (6542-14902) are mutually indistinguishable with means that fall as the nominal tier rises, so max is the top of the dial and buys nothing measurable over high - the same two-rung shape the Qwen3.8-Flash probe found, which suggests it is a property of Alibaba's serving rather than of either model. Note also that this endpoint's accept-list CONTRADICTS the QwenCloud doc the superseded row relied on (low|medium|xhigh with high->xhigh), which is one more reason that row's tier claim was never safe. Cost is a list-price ESTIMATE and not a bill - DashScope exposes no credits API on this path - computed from the run's own token counts at 2.00 in / 2.50 cache-write / 0.25 cache-read / 6.00 out per MTok, from OpenRouter's Alibaba-endpoint listing. Finally, do NOT read the 9-point gain as caused by the path. It is n=1 against n=1 and almost all of it is one repo - repo 1 went 5/45 to 13/45 while repo 2 moved by one - and this board has seen the same model at the same setting swing 6 points on repo 1 (Opus 5 at medium: 11/8/14). A systematic path effect should have moved both repos and did not, so the score difference is unexplained and may simply be variance. What the pair DOES establish beyond variance is the cost and token behaviour, where the gap is ~5,000x and not a coin flip.
+
+The Aug 3 Qwen3.8-Max row re-run on Alibaba's OWN Anthropic-compatible endpoint - no local proxy, no aggregator - and it is the clearest demonstration on this board that a row records a SERVING PATH and not just a model. Same model, same harness, same two repos, same laptop, one hop removed: 28/105 against 19/105, 103.4 min against 148.1, $26.29 against $33.30. Nine points more for a fifth less money and a third less time, and the gain is concentrated in repo 1, which went 5/45 to 13/45. The mechanism is visible in the token columns. The OpenRouter run billed 12.94% of its prompt tokens as UNCACHED INPUT - 8,282,777 of them, $16.57, half that row's cost - while this one billed 0.0019%, or 1,716 tokens across both legs. Caching that keeps working means the model keeps its context instead of rebuilding it, which is why output ROSE 23% (168,395 tokens against 136,426) while wall time FELL: it did more thinking and less re-reading. Effort here is measured, not requested - the endpoint 400-rejects an invented tier and names its accept-list (low, medium, high, xhigh, max), and an n=3-per-tier probe on this exact path separates the bottom of the dial cleanly (mean output tokens low=4495 against high=12422, low's range overlapping none of the top three, 3.09x between-tier ratio against a 2.34x worst within-tier spread). 28 strict matches, 2 partials, 3 claimed-only, 6 genuine unplanted extras.
 
 ## Grok 4.6 (xhigh) seq
 

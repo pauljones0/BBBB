@@ -2732,3 +2732,29 @@ The first-party row is a mean of 15, 13 and 17. This is a single 8 with no measu
 own. Eleven configurations on this board have been run three times and their ranges run from 2 to
 9 points, so a lone number here carries an error bar this run cannot show. It is published as n=1
 on purpose, and it is not in the default view: rows below 19 of 105 stay off the front page.
+## Sep 15 (later still, cont.) — Qwen3.8-Max joins the replication program, and moves DOWN
+
+**Qwen3.8-Max `max effort`, Alibaba's own endpoint, three runs: 28, 24 and 25 of 105. Mean 25.7,
+range 4.**
+
+This is the first replication on this board where the mean moved the row **down** rather than
+confirming it. The single run published Sep 11 was the best of the three (28); the other two came
+back at 24 and 25. Nothing about the setup changed between legs — same endpoint, same declared
+context, same effort tier — so the direction is simply what n=1 risks: a single run can land on
+either side of a model's true rate, and this one landed on the favorable side.
+
+### Regime check: SAME REGIME on both repos
+
+All three runs resolved the same model at the declared 1,000,000-token window, first-party,
+max effort. Cost quoted on the mean row is the **average of the three per-run costs** (26.29,
+29.85, 24.15), not their sum — the three runs together cost $80.29, all list-rate estimates,
+since this endpoint publishes no usage API.
+
+### Where the replication programme stands
+
+Twelve configurations have now been run three times. Qwen3.8-Max joins the middle of the range —
+tighter than most of the board's replications, in line with its Qwen3.8-27B sibling published
+earlier today.
+
+The superseded single run stays on the board, not deleted — it is the strongest of the three, and
+the mean is what leads per the standing rule that any rung run three times publishes at n=3.
