@@ -2758,3 +2758,37 @@ earlier today.
 
 The superseded single run stays on the board, not deleted — it is the strongest of the three, and
 the mean is what leads per the standing rule that any rung run three times publishes at n=3.
+## Sep 15 (later still) — gpt-oss-120b and gpt-oss-20b replicate to n=3, and the zero holds
+
+**gpt-oss-120b: three runs, 0, 0 and 0 of 105. gpt-oss-20b: three runs, 0, 0 and 0 of 105.** Both
+single runs published Sep 12 scored zero; both replications confirm it exactly. Twelve legs
+across the two models, and every one matches zero of the 105 planted bugs.
+
+### The zero is not a scoring artefact
+
+Five of gpt-oss-120b's six legs, and one of gpt-oss-20b's six, never wrote `BUGS_FOUND.md` to
+disk — the model made real code changes (one to three Edit calls, every leg cleanly
+`terminal_reason=completed`) and then printed the report into the chat transcript instead of
+creating the file. That is not treated as a missing measurement: each report-less leg was judged
+on its diff directly, the same override the Sep 12 n=1 abhb leg for gpt-oss-120b already used.
+Graded the hard way, on code rather than on the model's own description of its code, every one of
+those diffs still matches zero planted bugs. One (the original gpt-oss-120b abhb run) contains a
+genuine unplanted fix and a cosmetic change; nothing else does.
+
+gpt-oss-20b's own outlier leg is the opposite failure: no diff, no report, a runner-confirmed
+healthy environment — the model decided there was nothing to fix and stopped. An empty leg rather
+than an incomplete one, scored zero without a judge call at all.
+
+### Regime check: cannot tell
+
+Both replications route through OpenRouter to Groq via a local shim, which carries no Claude
+Code-native context accounting. The usual same-model/same-compaction check this board runs before
+publishing a mean cannot read this route — unverified rather than verified, the caveat every
+OpenRouter-routed replicate on this board carries.
+
+### Cost
+
+Both means cost 11 cents total across all six legs — real OpenRouter credits-delta bills, not
+estimates, same as the superseded single runs. At this price and this score, the finding from
+Sep 12 stands: scale between the two sizes buys nothing measurable here, and now it is measured
+twice.

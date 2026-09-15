@@ -89,3 +89,5 @@ Gemini 3.8 Flash - mean of 3,Antigravity CLI,6.7,0.0,0.0,0.0,0,17.5,5.82
 "Qwen3.8-27B (xhigh effort, Alibaba API) - mean of 3",Claude Code / Alibaba API,5.7,0.0,2.0,0.7,0,25.4,2.07
 Qwen3.8-27B 8-bit (OpenRouter/Parasail),Claude Code / OpenRouter,2,0,0,1,0,37.4,1.05
 "Qwen3.8-Max (max effort, Alibaba API) - mean of 3",Claude Code / Alibaba API,12.3,0.7,0.0,2.7,0,57.5,9.56
+gpt-oss-120b - mean of 3,Claude Code / OpenRouter,0.0,0.0,0.0,0.0,0,1.2,0.03
+gpt-oss-20b - mean of 3,Claude Code / OpenRouter,0.0,0.0,0.0,0.0,0,1.2,0.04
