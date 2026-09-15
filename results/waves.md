@@ -2643,3 +2643,34 @@ Ten configurations run three times. Ranges, worst to best: **9, 9, 8, 6, 5, 5, 3
 
 Still not enough to say which settings are steady. Still more than enough for the thing the
 programme was for: **no single run on this board should be quoted as a model's score.**
+
+## Sep 15 (later) — Qwen3.8-27B joins the replication program, unchanged
+
+**Qwen3.8-27B `xhigh`, Alibaba's own endpoint, three runs: 15, 13 and 17. Mean 15.0 of 105, range 4.**
+
+The single run published 2026-09-12 was the most interesting Qwen row on the board for what it
+lost: to both other Qwen3.8 sizes, at a higher cost than one of them. That finding survives
+replication unchanged — the mean sits eleven points below Qwen3.8-Flash and behind Qwen3.8-Max,
+on the same endpoint, harness and repos.
+
+### Regime check: SAME REGIME on both repos
+
+All six legs resolved the same model id at the declared 1,000,000-token window and **none
+compacted** — peak live context 26,047–27,567 across the six, nowhere near either the window or
+this harness's compaction trigger. One thing was not held fixed and is on the record: CLI 2.1.268
+for the first run, 2.1.272 for the other two.
+
+### One wall-clock leg is flagged, and the flag does not explain its own size
+
+Two of the three repo-2 legs shared the machine with another running leg. One of those two came
+back close to the unshared control (28.8 min vs 22.0); the other came back at 43.4 — nearly double.
+Contention can only add time, never remove it, and it touches wall clock alone: score, tokens and
+cost are unaffected on all three legs. The direction is consistent with contention costing time;
+the *size* of the effect on one leg and not the other is not, so nothing beyond "shared the box" is
+asserted here.
+
+### Where the replication programme stands
+
+Eleven configurations have now been run three times. Ranges, worst to best: **9, 9, 8, 6, 5, 5, 4,
+3, 3, 3, 2**. Qwen3.8-27B sits in the middle of that list — tighter than most of the board, not the
+tightest on it.
