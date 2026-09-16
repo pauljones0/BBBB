@@ -2792,3 +2792,33 @@ Both means cost 11 cents total across all six legs — real OpenRouter credits-d
 estimates, same as the superseded single runs. At this price and this score, the finding from
 Sep 12 stands: scale between the two sizes buys nothing measurable here, and now it is measured
 twice.
+
+## Sep 16 — Qwen3.8-27B 8-bit replicates to n=3, and moves up rather than holding
+
+**Qwen3.8-27B 8-bit (OpenRouter, pinned to Parasail): three runs, 8, 12 and 12 of 105.** Mean
+10.7, range 4. The single run published Sep 15 (8) turns out to have been the low end of the
+spread, not a typical draw — the mean sits 2.7 points above it, the opposite direction from the
+gpt-oss pair two sections up.
+
+- **Zero over-claims on all six legs.** Every run reported `claimed_only = 0` on both repos —
+  nothing this model said it fixed went unconfirmed by the blind judge, holding across three
+  independent runs. Exactly one partial credit exists anywhere in the six legs, on the original
+  n=1 repo-2 run; every other hit is a full match.
+- **It keeps finding things nobody planted.** Genuine unplanted extras: 1/1 on the n=1 run, 0/2 on
+  r2, 0/1 on r3 (repo 1 / repo 2 each) — mean 1.7 across six legs, never zero on both repos of the
+  same run.
+- **Regime check: SAME on both repos, and verified rather than assumed.** This route (OpenRouter →
+  Parasail, through the same kind of local shim as the gpt-oss rows) reports real context and
+  compaction accounting, unlike the gpt-oss OpenRouter arms above — the harness-parity check this
+  board runs before publishing a mean actually ran here, instead of coming back unreadable.
+- **Cost:** $2.97 combined mean across the six legs, all real OpenRouter credits-delta bills.
+
+The superseded single run stays on the board, not deleted — the 8 happened and this is its
+receipt; the mean is what leads per the standing rule that any rung run three times publishes at
+n=3.
+
+**Presentation note.** This row, and the gpt-oss-120b/20b means above, are not featured on the
+default view. A mean row is no longer featured automatically on publication — that rule (Sep 14)
+is reversed as of today: featuring is an opt-in again, decided per row, the same as any single-run
+row always required. Nothing about the underlying numbers changed; every row stays published,
+in the CSVs, and one filter click away.
