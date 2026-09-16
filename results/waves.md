@@ -2822,3 +2822,37 @@ default view. A mean row is no longer featured automatically on publication — 
 is reversed as of today: featuring is an opt-in again, decided per row, the same as any single-run
 row always required. Nothing about the underlying numbers changed; every row stays published,
 in the CSVs, and one filter click away.
+
+## Sep 16 — Gemma 4 31B joins the board, native and 4-bit, and one leg shows exactly why it's slow
+
+**First appearance of Gemma 4 31B here.** Antigravity does not serve it at all — checked live
+against 15 models on offer, none of them Gemma — so both variants run through OpenRouter instead:
+native bf16 pinned to Crusoe, 4-bit fp4 pinned to CoreWeave (the cheapest tools-capable fp4 host
+for this slug; DeepInfra fp4 is cheaper still but reports no tool support, disqualified the same
+way DeepInfra was on the Qwen3.8-27B 8-bit row). One run per repo each, not a replicated mean.
+
+- **Native: 4/105** (repo 1: 1, repo 2: 3). **4-bit: 3/105** (repo 1: 1, repo 2: 2). Zero
+  claimed-only fixes on any of the four legs — nothing either variant reported went unconfirmed by
+  the blind judge. Two genuine unplanted extras on each variant.
+- **The two native legs did not run in the same regime, and this time the cause is verified, not
+  just flagged.** The repo-1 leg compacted three times, peaking at 198,297 tokens; the repo-2 leg
+  shows zero compactions. That difference alone accounts for the gap between them: 205.2 minutes
+  and $8.61 on repo 1 against 16.6 minutes and $0.53 on repo 2 — roughly 12x the wall clock and 15x
+  the cost for one more repo's worth of the same model on the same day. Repeated auto-compaction
+  means most of that run was spent re-reading context it had already seen once; that's the
+  mechanical explanation, not model instability or provider throttling. (The repo-1 leg's clean
+  attempt also shared the machine with five other queued legs, which can inflate wall further, but
+  — per this board's standing note — doesn't touch scores, tokens, or cost; the compaction count is
+  what's doing the work here. An earlier attempt at the same repo-1 leg hit a similar contention
+  window and exited non-zero; it isn't this row.)
+- **4-bit hit neither leg's compaction at all** — zero compactions on both — and came in at
+  essentially the same score as native for a fraction of the cost: $0.56 combined against native's
+  $8.61, about 1/15th, for one point less. That's read from one run each side, not a controlled
+  quantization sweep — fp4 happened not to compact here while bf16 did on repo 1, which doesn't
+  establish that fp4 never compacts or bf16 always does.
+- **Billing:** real OpenRouter credits-delta bills on all four legs, not list-rate estimates.
+  Effort is not asserted for either variant — OpenRouter doesn't implement a tier field this route
+  honors, so none was requested.
+
+Neither row is featured on the default view, per the same opt-in-only rule as the two sections
+above.

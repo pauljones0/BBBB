@@ -92,3 +92,5 @@ Qwen3.8-27B 8-bit (OpenRouter/Parasail),Claude Code / OpenRouter,2,0,0,1,0,37.4,
 gpt-oss-120b - mean of 3,Claude Code / OpenRouter,0.0,0.0,0.0,0.0,0,1.2,0.03
 gpt-oss-20b - mean of 3,Claude Code / OpenRouter,0.0,0.0,0.0,0.0,0,1.2,0.04
 Qwen3.8-27B 8-bit (OpenRouter/Parasail) - mean of 3,Claude Code / OpenRouter,3.7,0.0,0.0,0.3,0,30.8,1.46
+Gemma 4 31B (OpenRouter/Crusoe),Claude Code / OpenRouter,1,0,0,1,0,205.2,8.08
+Gemma 4 31B 4-bit (OpenRouter/CoreWeave),Claude Code / OpenRouter,1,0,0,0,0,12.8,0.26

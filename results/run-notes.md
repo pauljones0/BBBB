@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 16, 2026 · 93 rows from 123 scored runs. Superseded rows are listed last.
+Updated Sep 16, 2026 · 95 rows from 125 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -391,6 +391,22 @@ The clearest null on the board's Anthropic dial: Sonnet 5 at max scores 9/105, e
 ## GPT-5.6 Luna (low effort)
 
 **4 / 105** · repo 1 0/45 · repo 2 4/60 · 1 unplanted · 5.8 min · $0.10 · `low` · Codex CLI · single run · 2026-08-27
+
+## Gemma 4 31B (OpenRouter/Crusoe)
+
+**4 / 105** · repo 1 1/45 · repo 2 3/60 · 2 unplanted · 221.8 min · $8.61 bill · `default` · Claude Code / OpenRouter · single run · 2026-09-16
+
+**Caveat.** ONE RUN PER REPO, not a replicated mean - read the 4/105 as a single data point for this model, not a settled estimate. The repo 1 and repo 2 legs ran under DIFFERENT CONTEXT REGIMES (repo 1 compacted three times, repo 2 zero), so the combined total mixes two conditions rather than two comparable draws of the same one; the per-repo split is the more honest read. NOT FEATURED: mean rows and n=1 rows are not featured by default on this board unless opted in, and this one was not.
+
+First appearance of Gemma 4 31B on this board - native bf16, reached through OpenRouter pinned to one host, Crusoe, fallbacks off (Antigravity does not serve Gemma at all - checked live against 15 models offered, none of them Gemma). 4 of 105 (repo 1: 1, repo 2: 3), 2 genuine unplanted extras (one per repo), and ZERO claimed-only fixes on either repo - nothing it reported went unconfirmed by the blind judge. *** THE TWO LEGS DID NOT RUN IN THE SAME REGIME, AND THIS TIME THE CAUSE IS VERIFIED, NOT JUST FLAGGED *** the repo 1 leg compacted three times, peaking at 198,297 tokens (triggers at 198297, 196796 and 183827) - the repo 2 leg shows zero compactions. That fully accounts for the wall and cost gap between them: repo 1 ran 205.2 minutes for 8.0811 dollars against repo 2's 16.6 minutes for 0.5261 - roughly 12x the wall and 15x the cost for one more repo's worth of the same model on the same day. Repeated auto-compaction means the model spent much of that run re-reading context it had already seen, which is the direct mechanical explanation for the token and cost gap, not model instability or provider throttling. *** MACHINE CONTENTION ALSO TOUCHED THE REPO 1 WALL FIGURE, SEPARATELY *** that leg's clean attempt ran while five other legs shared the box (queued replication work for other arms); contention can inflate wall further but, per this board's standing note, does not touch scores, tokens or cost - the compaction count is the load-bearing explanation for those. A first, EARLIER attempt at this same repo 1 leg ran into the same Luna-adjacent contention window and exited non-zero; it is not this row and cost 0.1943 dollars of its own, separately absorbed, not counted here. BILLING: real OpenRouter bill (credits-delta) via meter=openrouter on both legs, not a list-rate estimate. EFFORT NOT ASSERTED: OpenRouter does not implement a tier field this route honors, so none was requested and none is claimed.
+
+## Gemma 4 31B 4-bit (OpenRouter/CoreWeave)
+
+**3 / 105** · repo 1 1/45 · repo 2 2/60 · 2 unplanted · 24.9 min · $0.56 bill · `default` · Claude Code / OpenRouter · single run · 2026-09-16
+
+**Caveat.** ONE RUN PER REPO, not a replicated mean - read the 3/105 as a single data point, not a settled estimate. The dramatic cost gap against the native sibling is READ FROM ONE RUN EACH, not a controlled quantization sweep - fp4 happened not to compact here while bf16 did on repo 1, but nothing here proves fp4 never compacts or bf16 always does. NOT FEATURED: mean rows and n=1 rows are not featured by default on this board unless opted in, and this one was not.
+
+The 4-bit fp4 sibling of the native row above, reached through OpenRouter pinned to CoreWeave (the cheapest tools-capable fp4 host for this slug - DeepInfra fp4 is cheaper still but reports tools=False, disqualified, same shape as the Parasail-vs-DeepInfra choice on the Qwen3.8-27B 8-bit row). 3 of 105 (repo 1: 1, repo 2: 2), 2 genuine unplanted extras (both on repo 2), ZERO claimed-only fixes on either repo. *** ESSENTIALLY THE SAME SCORE AS NATIVE, AT A FRACTION OF THE COST *** 3/105 here against native's 4/105, but 0.56 dollars combined against native's 8.61 - roughly 1/15th the cost for one point less, because NEITHER leg here hit the compaction native hit on repo 1 (zero compactions on both this arm's legs). Both legs ran clean and quick: 12.8 and 12.1 minutes, 0.2581 and 0.3034 dollars. BILLING: real OpenRouter bill (credits-delta) via meter=openrouter on both legs, not a list-rate estimate. EFFORT NOT ASSERTED, same reason as the native row: OpenRouter does not implement a tier field this route honors.
 
 ## gpt-oss-120b - mean of 3
 
