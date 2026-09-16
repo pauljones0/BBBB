@@ -2856,3 +2856,44 @@ way DeepInfra was on the Qwen3.8-27B 8-bit row). One run per repo each, not a re
 
 Neither row is featured on the default view, per the same opt-in-only rule as the two sections
 above.
+
+## Sep 16 — GPT-5.6 Sol (max) becomes a two-run mean, and a re-judge shows what grading noise costs
+
+**43.5/105** (repo 1: 19.0, repo 2: 24.5), the mean of two runs that scored **40 and 47** — repo 1:
+18, 20; repo 2: 22, 27. Range 7. The single-run row that stood here is superseded but kept as a
+receipt, and the replacement is what the default view now shows.
+
+- **Two runs is two points, and the spread is the finding.** A range of 7 of 105 on a fixed
+  configuration is wider than the gap between several adjacent rows on this board. Read 43.5 as an
+  estimate with a known spread, not a settled number.
+- **The superseded row says 42 and this mean uses 40 for the same run. Both are real, and the
+  reason is worth publishing.** That transcript has been judged twice. The Jul 31 pass scored
+  19 + 23 = 42 and recorded its judge as grok-4.5 — with no served-model field at all, because that
+  column did not exist yet. The Sep 13 re-judge scored 18 + 22 = 40 and recorded what the server
+  actually served: grok-4.6. The judge bridge's model flag is inert (measured Sep 4: grok-4.5,
+  grok-4.6 and a deliberately nonexistent string all came back grok-4.6), so the July pass recorded
+  a *request* as though it were a fact and was in all likelihood served the same judge. The mean
+  uses 40 because that is the pass whose judge identity was measured, and the pass the second run
+  was scored under — **comparable and documented, not more accurate.** The older number stays
+  visible rather than being quietly rewritten.
+- **What the second grading buys is an error bar, not sample size.** The two passes disagree on
+  **3 bugs of 105**: on repo 1 one bug moved from a full fix to a partial; on repo 2 two credited
+  bugs became misses. So judge variance on a fixed transcript is **2 points**, against **7 points**
+  of model variance between the runs — run-to-run spread is roughly three and a half times the
+  grading noise. Two gradings of one transcript are not two runs, and were not counted as such.
+- **The second run cost 74% more for 7 more points.** 100.9M tokens against 176.0M; $69.61 against
+  $121.09 at list. The runs are six weeks apart on a CLI that records no version in its
+  transcripts, so whether that is the same model working harder or a changed serving path is not
+  established here.
+- **A third run was attempted and is not on this board.** It ran 156 minutes and 563 tool calls,
+  then the harness account's usage quota was exhausted mid-turn. No report, no token accounting,
+  nothing to score — a leg that never finished is not a result and is not counted as a low run.
+- **The replication is unverified rather than verified.** The automated regime check reads context
+  accounting out of transcripts; this harness reports none, so it returns *cannot tell* for both
+  repos. Nothing beyond identical arm definitions confirms the two runs shared a configuration.
+- **Wall time is not comparable across the two runs.** The first run's legs ran alone; both of the
+  second's shared the machine and say so in their own rows. Contention inflates a wall figure and
+  cannot shrink it, so the wall mean is an upper bound. Scores, tokens and cost are untouched by it.
+- **The failure rate is part of the picture.** The second run needed five attempts to produce two
+  clean legs; the earlier ones died on wall budgets or non-zero exits. Those attempts are visible
+  in the metrics receipts.
