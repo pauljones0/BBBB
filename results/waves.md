@@ -3013,3 +3013,34 @@ Terra at max effort was neither a fluke nor a floor, and the mean no longer reac
   the **same 32 bugs** — identical sets on both repos, not merely equal counts.
 
 Three runs, 105 minutes of agent time, and **$0.00**.
+
+## Sep 17 — a correction to the Union Alpha rows: the wire evidence never pointed anywhere
+
+Both `Union Alpha (stealth; free)` and `Union Alpha (stealth; free) - mean of 3` carried a sentence
+saying the residual wire evidence "points at OpenAI and at nothing else," with the special-token
+profile matching GPT-5.6 Sol offered as support. That overstated the fingerprinting work it was
+summarising, and it has been corrected in place on both rows.
+
+The underlying writeup had already withdrawn that reading. The special-token profile says only that
+this vocabulary holds none of those strings as special tokens — true of most vocabularies, and it
+matches the Qwen3-Max line exactly as well as it matches Sol. Re-measuring the categorical channels
+across all ten reference fingerprints makes the problem concrete: Union Alpha returns `stop` /
+`tool_calls` where OpenAI, Meta and xAI all return `completed`; it carries no reasoning format where
+OpenAI carries `openai-responses-v1`; its window is 262K against OpenAI's 1.05M; and its tool-call
+ids are bare UUIDv4s, a shape no reference model on the board produces. On tokenizer L1 distance Sol
+ranks third of nine inside a flat 64–79 band — no separation at all. Every one of those is a channel
+used to exclude some *other* lab, and read the same way they count against OpenAI too.
+
+**The exclusions stand.** Anthropic, xAI, Google, Meta, the Chinese-lab family and Mistral are out on
+evidence this correction does not touch. What is withdrawn is the positive lean. The lab behind this
+slug is unidentified, the rows stay uncarded, and the notes now say so.
+
+The judge routing does not change and was never wrong: a model may not judge itself or a sibling, and
+with the lab unknown the board's default judge could not be excluded — which is reason enough to
+route around it. Only the stated justification was too strong, and it has been weakened to match.
+
+Found while testing whether the benchmark's own data could identify the model statistically. It
+cannot — the fix-set channel scores AUC 0.60 at recognising *known* siblings (GPT-6 Astra and
+GPT-5.6 Sol rank 350th of 351 pairs), and a transcript-behaviour channel loses its own positive
+control once run length is regressed out. A board that measures capability measures one dimension,
+and lab identity is not on it.
