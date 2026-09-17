@@ -5,7 +5,7 @@ WHY THIS EXISTS. The board is about to publish a wave described as "default effo
 premise is that a requested tier is not an applied tier - which cuts both ways: an UNrequested tier is
 not an absent tier either. So the flag was measured instead of assumed.
 
-METHOD. A logging pass-through on 127.0.0.1:8805 forwards verbatim to Alibaba's Anthropic-compatible
+METHOD. A local logging pass-through forwards verbatim to Alibaba's Anthropic-compatible
 endpoint and writes down every top-level request field except the conversation. Claude Code was then
 run twice against it on the same trivial prompt and the same model: once with no --effort flag at all,
 once with --effort max. Same CLI, same endpoint, same call shape a bench arm uses.

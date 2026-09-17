@@ -2897,3 +2897,39 @@ receipt, and the replacement is what the default view now shows.
 - **The failure rate is part of the picture.** The second run needed five attempts to produce two
   clean legs; the earlier ones died on wall budgets or non-zero exits. Those attempts are visible
   in the metrics receipts.
+
+## Sep 17 — Muse Spark 1.3 (max) goes to five runs, and the error bar triples
+
+**32.2/105** (repo 1: 14.2, repo 2: 18.0), the mean of five runs of one fixed configuration — the
+deepest replication on this board. The runs scored **33, 33, 35, 29 and 31**. The three-run row that
+stood here (33.7) is superseded and kept as a receipt.
+
+- **The mean barely moved. The spread is the finding.** Three runs gave 33, 33, 35 — a range of 2,
+  which reads as a tight, well-behaved arm. Five give 29 to 35: **range 6**, wider than the gap
+  between several adjacent rows here. The n=3 did not merely estimate the mean imprecisely; it
+  understated how much this configuration varies, in the direction that made it look steadier than
+  it is. Two extra runs bought a corrected error bar, not a corrected score.
+- **The harness updated itself mid-experiment, and two runs are split-version.** Muse Code polls a
+  release channel and replaces its own binary. Run 1 ran 1.1.1, runs 2–5 ran 1.2.1, and the repo-2
+  legs of runs 4 and 5 came up on **1.3.0**. There is no version pin, the channel serves only the
+  current release, and the previous binary is deleted on upgrade — so 1.2.1 cannot be restored and
+  this is not repairable by re-running. It is disclosed on the row rather than smoothed over.
+- **The drift is not what lowered the score, and the split is what shows it.** The obvious worry is
+  that runs 4 and 5 are low because the newer build is worse. Two facts say otherwise. The drop
+  lives on **repo 1, where the harness never changed**: all four of runs 2–5 ran 1.2.1 there and
+  scored 17, 15, 12, 13 — a spread of 5 on a single repo with the version held constant. And repo 2
+  shows **no version effect at all**: the 1.2.1 runs scored 16 and 20, the two 1.3.0 runs scored 17
+  and 18, sitting inside that range rather than below it. The low runs are run-to-run variance.
+  That the drift landed on the half where it cannot be doing the damage is luck, not design.
+- **The failure rate is part of the picture.** Runs 4 and 5 needed several attempts on repo 2. Three
+  attempts died without producing a report because the account's subscription quota was exhausted
+  mid-leg — and the retry layer absorbed the rate-limit responses, so the harness reported three
+  different and all misleading causes, including two stream-idle timeouts and a suspected local
+  network fault. Those attempts produced no report and no score, are **not** counted as low runs,
+  and cost $8.35 between them. A leg that never finished is not a result.
+- **Regime: unverified, not verified.** The automated check reads context accounting out of
+  transcripts and this harness reports none, so nothing confirms the five runs shared a regime
+  beyond their identical arm definitions. Wall time is an upper bound — runs 4 and 5 shared the
+  machine, and every affected row says so itself.
+
+The five runs that finished cost **$90.55**.

@@ -7,13 +7,13 @@
 If the numbers save you a benchmark run of your own, **star this repo** — that is what keeps the bench findable, and new models are added as they ship.
 
 <!-- leaderboard:start -->
-![Bug Hunt Bench leaderboard, the featured runs, updated Sep 16, 2026](assets/leaderboard.png?v=2026-09-16)
+![Bug Hunt Bench leaderboard, the featured runs, updated Sep 17, 2026](assets/leaderboard.png?v=2026-09-17)
 
-**Updated Sep 16, 2026 · 96 rows from 127 scored runs · 31 models · 33 of 105 bugs have never been fixed by any model.**
+**Updated Sep 17, 2026 · 97 rows from 132 scored runs · 31 models · 33 of 105 bugs have never been fixed by any model.**
 
 **Current leader:** GPT-6 Astra at `max` effort — **45 / 105** (22/45 on repo 1, 23/60 on repo 2).
 
-**Best per lab:** OpenAI: GPT-6 Astra (`max`) 45 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 33.7 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Flash (`max`) 26 · Google: Gemini 3.7 Flash (`high`) 22 · DeepSeek: DeepSeek V4.1 Flash (`max`) 21.7 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 (`max`) 19 · Tencent: Hy4 Preview (`default`) 18
+**Best per lab:** OpenAI: GPT-6 Astra (`max`) 45 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 32.2 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Flash (`max`) 26 · Google: Gemini 3.7 Flash (`high`) 22 · DeepSeek: DeepSeek V4.1 Flash (`max`) 21.7 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 (`max`) 19 · Tencent: Hy4 Preview (`default`) 18
 
 | # | Model | Harness | Effort | Runs | Fixed /105 | Repo 1 /45 | Repo 2 /60 | Extras | Wall | Cost | Date |
 |--:|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
@@ -25,9 +25,9 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 6 | GPT-6 Astra | Codex CLI | high | 1 | **35** | 19 | 16 | 40 | 40 min | $20.60 | 2026-09-04 |
 | 7 | GPT-6 Astra | Codex CLI | medium | 1 | **34** | 19 | 15 | 33 | 28 min | $15.78 | 2026-09-05 |
 | 8 | GPT-5.6 Sol | Codex CLI | high | 1 | **34** | 13 | 21 | 28 | 67 min | $33.92 | 2026-07-31 |
-| 9 | Muse Spark 1.3 | Muse Code / Meta API | max | 3 | **33.7** | 15.3 | 18.3 | 26.3 | 90 min | $19.16 | 2026-09-14 |
-| 10 | GPT-5.6 Luna | Codex CLI | max | 1 | **33** | 17 | 16 | 31 | 86 min | $1.80 | 2026-07-31 |
-| 11 | Fable 5.1 | Claude Code | high | 1 | **33** | 15 | 18 | 7 | 36 min | $41.52 | 2026-09-01 |
+| 9 | GPT-5.6 Luna | Codex CLI | max | 1 | **33** | 17 | 16 | 31 | 86 min | $1.80 | 2026-07-31 |
+| 10 | Fable 5.1 | Claude Code | high | 1 | **33** | 15 | 18 | 7 | 36 min | $41.52 | 2026-09-01 |
+| 11 | Muse Spark 1.3 | Muse Code / Meta API | max | 5 | **32.2** | 14.2 | 18 | 24 | 86 min | $18.11 | 2026-09-17 |
 | 12 | GPT-5.6 Terra | Codex CLI | max | 1 | **32** | 16 | 16 | 45 | 160 min | $27.98 | 2026-08-27 |
 | 13 | GPT-5.6 Sol | Codex CLI | medium | 1 | **29** | 13 | 16 | 24 | 48 min | $15.77 | 2026-09-06 |
 | 14 | Fable 5.1 | Claude Code | low | 1 | **29** | 13 | 16 | 6 | 33 min | $27.27 | 2026-09-02 |
@@ -92,7 +92,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
 Every row's full note, caveat and supersession history is in [results/run-notes.md](https://github.com/phuryn/bug-hunt-bench/blob/main/results/run-notes.md); the runs behind each one are in the metrics CSVs.
 
-27 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
+28 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
 <!-- leaderboard:end -->
 
 ## What Bug Hunt Bench is
