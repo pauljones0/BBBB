@@ -2979,3 +2979,37 @@ under a codename.
   already running. When they land, their mean supersedes this row.
 
 The run cost nothing. The grading did not: this row carries two complete judge passes instead of one.
+
+## Sep 17 — Union Alpha (stealth; free) goes to three runs, and the free tie turns into a range
+
+**30.7/105** (repo 1: 16.0, repo 2: 14.7), the mean of three runs of one fixed configuration, in 38.2
+minutes for **$0.00**. The runs scored **32, 34 and 26** — range 8. The single run published earlier
+today (32) is superseded and kept as a receipt; it sat mid-range, so the tie it drew with GPT-5.6
+Terra at max effort was neither a fluke nor a floor, and the mean no longer reaches it.
+
+- **The replication is unverified rather than verified.** The automated regime check reads context
+  accounting out of transcripts, and this route reports almost none — it returns *cannot tell* on
+  both repos. Beyond identical arm definitions and the gateway log, nothing confirms the three runs
+  shared a configuration. Said on the row rather than implied by a check that did not run.
+- **One member ran itself into the context ceiling and the other two did not.** r3's repo-1 leg
+  peaked at **197,452** tokens against this endpoint's 262,144 ceiling and was compacted once by the
+  harness; r1 peaked at 23,028, and neither r1 nor r2 compacted at all. Every configuration
+  parameter was held fixed — same slug, same single endpoint, same harness build, same prompt, same
+  repos, same judge — so what differed is what the *model* did: r3 made about 2.3× the tokens and
+  1.9× the wall of r1. It is averaged in rather than dropped, because dropping a member for behaving
+  differently selects runs on their behaviour. It is also the lowest of the three, at 26.
+- **The cost column is exact, and one figure behind it was repaired.** The slug is priced at $0/$0
+  and bills nothing — a live call through the same pinned path returned `usage.cost` 0,
+  `upstream_inference_cost` 0, and a credits delta of exactly **$0.000000**. r3's two legs
+  nonetheless recorded $0.0787 and $0.0662, because for aggregator arms the runner measures a
+  **credits delta** across the leg, so any other consumer on the same account lands inside it — and
+  another session was fingerprinting this model against paid reference models through r3's window.
+  Both cells were repaired to 0 and both originals are preserved in the metrics receipts. r1 and r2
+  measured 0 unaided.
+- **The judge is not this board's default, and the cost of that was measured.** A model may not
+  judge itself or a sibling; the lab is unidentified, so routing cannot be read off a vendor, and
+  the residual evidence points at the default judge's own family. All three runs were scored by
+  grok-4.6. r1 was *also* judged by codex into a separate scratch pass, and the two judges selected
+  the **same 32 bugs** — identical sets on both repos, not merely equal counts.
+
+Three runs, 105 minutes of agent time, and **$0.00**.
