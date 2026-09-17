@@ -3044,3 +3044,34 @@ cannot — the fix-set channel scores AUC 0.60 at recognising *known* siblings (
 GPT-5.6 Sol rank 350th of 351 pairs), and a transcript-behaviour channel loses its own positive
 control once run length is regressed out. A board that measures capability measures one dimension,
 and lab identity is not on it.
+
+## Sep 18 — Union Alpha was not one model, and the slug is gone
+
+The endpoint was withdrawn within a day of its rows going up: every call now returns 404, and
+OpenRouter lists zero stealth slugs. Whatever was not measured while it was live cannot be measured
+now. What was already on record still can be, because token counts taken on a fixed passage stay
+comparable to the same passage measured today.
+
+Re-running that passage across the live reference panel puts Union Alpha's two recorded prefix-free
+readings — 160 and 200 — next to Kimi K3 at exactly 160 and Qwen3.8-Max at exactly 200. Two states,
+two different labs, which is the tell: a model has one vocabulary, so at most one of those can mean
+anything. Measuring how much a single-passage match is worth settles it — across nine passages the
+mean one-passage AUC is 0.892, and on the plainest passage six labs (OpenAI, Alibaba, DeepSeek, xAI,
+Z.ai) all return the identical count. A lone integer match is a coincidence generator.
+
+The stronger reading of the same numbers is not about any lab. Those two readings are **40 tokens
+apart on one 437-character passage with the hidden prefix cancelled and no special-token markers to
+explain it** — about half the entire spread measured across ten labs on that passage. One model has
+one vocabulary. **At least two backends answered to this slug.**
+
+The benchmark runs themselves do not look mixed: the three replicates agree at mean Jaccard 0.628 on
+their fixed-bug sets, against a board median of 0.632 across 24 replicate families — ordinary, right
+alongside Opus 5 at 0.639. The probe work suggests the router was length-sensitive, so 400-token
+probes and 20k–200k-token agentic runs need not have landed in the same place. Both rows now carry
+this: the score is what was measured, and that it describes a single model is not something this
+board can claim.
+
+Method receipts for the identification work — including why benchmark-result similarity and agentic
+style both failed their power checks while a nine-passage vocabulary probe scores AUC 1.000 — are in
+the private writeup; the probe itself is `tools/model_family_probe.py`, and on the next stealth slug
+it runs on day one.
