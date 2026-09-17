@@ -2933,3 +2933,49 @@ stood here (33.7) is superseded and kept as a receipt.
   machine, and every affected row says so itself.
 
 The five runs that finished cost **$90.55**.
+
+## Sep 17 — Union Alpha (stealth; free) ties a $28 row for nothing, and the default judge steps aside
+
+**32/105** (repo 1: 16, repo 2: 16), one run, 32.7 minutes, **$0.00**. That is an exact tie with
+GPT-5.6 Terra at max effort — the same 16 and 16, not merely the same total — which took 159.7
+minutes and $27.98. Seventeen of the 98 rows here sit at 32 or better; this is the only free one,
+and the next cheapest is $1.80. The tie is on the number and not on the work: the two runs share
+**23** of their 32 bugs, so nine on each side are bugs the other one missed.
+
+It goes on the board as **Union Alpha (stealth)**. A stealth slug is never carded as a named
+release here: the name it will eventually ship under is the one thing nobody outside the lab
+has, and the last one to pass through — Ox Alpha — turned out to be an already-published model
+under a codename.
+
+- **The lab is not disclosed, and the row is not carded with one.** Wire fingerprinting excludes
+  Anthropic, xAI, Google, Meta and the whole Chinese-lab family on categorical channels — native
+  finish reason, tool-call id shape, whether `reasoning_details` carries a named format, context
+  length. What is left over points at OpenAI and at nothing else: the special-token profile matches
+  GPT-5.6 Sol, and the political-probe answers are structurally near-identical to Sol's. Pointing is
+  not knowing. The row ships with no vendor and no house colour until a lab says otherwise.
+- **The channel that settled the last stealth slug does not settle this one.** Ox Alpha was
+  identified inside a day off its tokenizer. Here the endpoint's own token counter is
+  non-deterministic: the same fixed string, cache-busted so no single prompt's cache can explain it,
+  comes back at about 200 prompt tokens with `cached_tokens=0` or at 169–172 with
+  `cached_tokens=12`. Two serving states that disagree by 17 tokens on a one-token prompt are two
+  tokenizers, not one backend with an optional prefix. Read this row's token columns as the
+  endpoint's self-report. The cost column is the one number the wobble cannot touch.
+- **The board's default judge had to step aside, and what that cost was measured, not asserted.** A
+  model may not judge itself or a sibling. With the lab unidentified the routing cannot be read off
+  a vendor, and the residual evidence points at the default judge's own family — so the scoring pass
+  ran on grok-4.6 instead of codex. Every other row here was judged by codex, and the measured
+  judge-to-judge spread on a single transcript is about 2 points of 105, which is not nothing. So
+  this run was judged **twice**: grok as the scoring pass, codex into a separate scratch pass that
+  could not redefine it. The two judges selected the **same 32 bugs** — identical sets on both
+  repos, not merely equal counts. Nothing about this number depends on who read it.
+- **There is no effort dial on this route at all.** `supported_parameters` carries no reasoning
+  field of any kind, the model returns `reasoning_tokens=0` with empty `reasoning_details` on a
+  prompt that makes every reasoning model think, and an invented tier is refused by the gateway in
+  0.2s without ever reaching the provider. The row is `default`, deliberately not `inert default`:
+  nothing was asserted, and there was no dial to probe.
+- **One run, on a route that is visibly noisy.** Six byte-identical temperature-0 calls came back
+  bimodal — about 8s and about 32s, 20 to 218 completion tokens, a 10.9× spread inside a single
+  condition. An n=1 here is weaker evidence than an n=1 elsewhere, which is why two replicates are
+  already running. When they land, their mean supersedes this row.
+
+The run cost nothing. The grading did not: this row carries two complete judge passes instead of one.

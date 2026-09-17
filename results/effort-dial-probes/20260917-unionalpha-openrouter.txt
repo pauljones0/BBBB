@@ -1,0 +1,125 @@
+stealth/union-alpha — effort dial through OpenRouter
+2026-09-17, for the `unionalpha` Bug Hunt Bench arm (the arm definition)
+Verdict: NO TIER MAY BE CLAIMED — and on this route no sweep can establish one.
+================================================================================
+
+WHY THIS PROBE EXISTS
+
+The arm is labelled effort="default". docs/bench-pipeline.md §9 is strict that
+"default" and "inert_default" are different claims: inert_default asserts a
+NEGATIVE FACT ABOUT THE ROUTE and needs a probe showing the levels collapse.
+This probe was run to find out which of the two the evidence supports. The
+answer is neither-and-that-is-the-point: the route's own noise floor is wide
+enough that "the levels collapse" is not measurable here at any sane n.
+
+
+1. THE CARD SAYS THERE IS NO DIAL
+
+/api/v1/models/stealth/union-alpha/endpoints, one endpoint (provider "Stealth"):
+
+  supported_parameters = ['max_tokens','response_format','temperature',
+                          'tool_choice','tools','top_p']
+
+No `reasoning`, no `reasoning_effort`, no `include_reasoning`. Card also:
+ctx 262,144 / max_completion_tokens 131,072, tokenizer "Other", quantization
+"unknown", pricing 0/0, implicit_caching false, p50 latency 14,039 ms,
+p50 throughput 16 tok/s.
+
+
+2. THE WIRE AGREES — BUT SAYS SO IN THE ONE WAY THAT PROVES NOTHING
+
+Asked for reasoning explicitly (reasoning={effort:medium} + include_reasoning:
+true), the endpoint returns HTTP 200, the correct answer, and:
+
+  reasoning_len 0 · reasoning_tokens 0 · details_types [] · details_n 0
+  has_signature false
+
+That is the Moonshot shape from bench-pipeline.md §9 — "returns HTTP 200 and
+says nothing at all" — the one refusal mode that is NOT evidence, as opposed to
+DeepSeek/Z.ai (HTTP 400 + accept-list) or Claude Code (exit 0 + a printed
+warning), which are announced rejections and are good evidence.
+(Receipt: the p3_reasoning probe of the 2026-09-17 fingerprint run.)
+
+
+3. AN INVENTED TIER *IS* REJECTED — AND IT STILL PROVES NOTHING
+
+  no effort field (baseline)            HTTP 200  out=26   reasoning_tok=0   7.1s
+  reasoning={effort:high}               HTTP 200  out=195  reasoning_tok=0  30.8s
+  reasoning={effort:bogus_zzz}          HTTP 400  "reasoning.effort: Invalid
+        option: expected one of max|xhigh|high|medium|low|minimal|none"        0.2s
+  reasoning_effort=high (flat)          HTTP 200  out=195  reasoning_tok=0   8.1s
+  reasoning_effort=bogus_zzz            HTTP 400  same accept-list           0.0s
+  bad MODEL id (control)                HTTP 400  "not a valid model ID"     0.1s
+
+READ THE LATENCIES, NOT JUST THE STATUS CODES. The rejections come back in
+0.2s and 0.0s; every accepted call takes 7-31s. The 400 never reached the
+upstream — it is OpenRouter's own gateway validating its enum, exactly what
+bench-pipeline.md §8 step 2 warns about ("since 2026-09 OpenRouter
+400-validates the effort enum at its own gateway, so a 400 there proves
+nothing about the provider; only a measured sweep counts"). An exit-code or
+status-code gate would score this route as a working dial. It is not one.
+
+
+4. THE MEASURED SWEEP CANNOT SETTLE IT EITHER — THE NOISE FLOOR IS 10.9x
+
+Six BYTE-IDENTICAL requests. Same model, temperature 0, max_tokens 4000, no
+effort field, same prompt ("Sum every prime below 100. Answer with the number
+only."):
+
+  run 1: completion_tokens=195  reasoning_tokens=0  content='1060'   33s
+  run 2: completion_tokens= 26  reasoning_tokens=0  content='1060'    8s
+  run 3: completion_tokens= 20  reasoning_tokens=0  content='1060'    7s
+  run 4: completion_tokens= 26  reasoning_tokens=0  content='1060'    8s
+  run 5: completion_tokens= 25  reasoning_tokens=0  content='1060'   12s
+  run 6: completion_tokens=218  reasoning_tokens=0  content='1060'   32s
+
+  spread 20 -> 218 = 10.90x WITHIN ONE CONDITION, at temperature 0.
+
+Two consequences, and the second is the one that matters for the board:
+
+(a) The apparent "effect" in §3 was noise. no-field read 26 there and 195 in
+    run 1 here; effort=high read 195 there and 89 on a repeat. The no-field
+    condition ALONE spans the entire range attributed to the tier. This is
+    precisely the trap bench-pipeline.md §9 names — "the between-level ratio
+    means nothing until it clears the worst within-level spread" — caught here
+    only because the baseline was repeated. Had this probe stopped at §3 it
+    would have published a dial that does not exist.
+
+(b) A between-level ratio on this route must clear 10.9x before it means
+    anything. Nothing short of a very large n could do that, for a label that
+    would not change the row. So the honest state is INCONCLUSIVE, which
+    bench-pipeline.md §9 says is a publishable state: say it rather than
+    upgrading the label on a hunch.
+
+  => effort = "default", effort_status = "default".
+  => NOT "inert_default": that asserts the levels collapse, and the levels are
+     not resolvable here at all.
+  => NOT any named tier, in either direction.
+
+
+5. TWO SIDE FINDINGS WORTH CARRYING
+
+HIDDEN COMPLETION TOKENS. The visible answer is 4 characters ('1060', which is
+correct) in all six runs, `reasoning` is empty and reasoning_tokens is 0 — yet
+16 to 214 tokens per call are counted as completion and appear in NEITHER
+field. This route bills and reports thinking it does not expose, and does not
+label it as reasoning. Anything reading the bench row's token columns for this
+arm is reading invisible work, not answer length.
+
+BIMODALITY, WHICH IS AN n=1 RISK FOR THE ROW ITSELF. The six runs are not
+noisy-around-a-mean, they are two modes: {20, 25, 26, 26} at ~8s and
+{195, 218} at ~32s. An identical request sometimes takes a slow path and
+sometimes does not. A single run of this arm is therefore a sample from a
+visibly bimodal process — the same lesson the Muse Spark 1.3 max arm taught
+when n=3 (range 2) went to n=5 (range 6). If this row ever matters, it wants
+replicates before it is read as a model's score.
+
+  Run the tiered sweep for completeness if you like; note that
+  the effort probe measures reasoning_tokens, which are structurally
+  zero on this endpoint, so its table is an all-zero null by construction:
+
+  level=  (none)  reasoning_tok=[0,0,0,0,0]  mean=0  within-level=0.00x
+                  wall_s=[151.6, 140.7, 107.8, 165.2, 130.1]
+
+  Those wall times (108-165s per single short call while the sweep ran) are the
+  other reason this arm carries a 6h per-leg timeout.

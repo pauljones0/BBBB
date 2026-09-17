@@ -50,6 +50,7 @@ export const EFFORT_SUFFIX = {
   first_party: null,
   clamped: 'ran lower',
   inert_default: null,
+  default: null,
 };
 
 /** The words to print after the effort badge, or null when the badge says it
