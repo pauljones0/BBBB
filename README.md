@@ -13,7 +13,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 
 **Current leader:** GPT-6 Astra at `max` effort — **45 / 105** (22/45 on repo 1, 23/60 on repo 2).
 
-**Best per lab:** OpenAI: GPT-6 Astra (`max`) 45 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 32.2 · Undisclosed: Union Alpha (stealth) (`default`) 30.7 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Flash (`max`) 26 · Google: Gemini 3.7 Flash (`high`) 22 · DeepSeek: DeepSeek V4.1 Flash (`max`) 21.7 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 (`max`) 19 · Tencent: Hy4 Preview (`default`) 18
+**Best per lab:** OpenAI: GPT-6 Astra (`max`) 45 · Anthropic: Fable 5.1 (`max`) 43 · Meta: Muse Spark 1.3 (`max`) 32.2 · Unbiased: Union Alpha (stealth) (`default`) 30.7 · xAI: Grok 4.6 (`xhigh`) 28.7 · Alibaba: Qwen3.8-Flash (`max`) 26 · Google: Gemini 3.7 Flash (`high`) 22 · DeepSeek: DeepSeek V4.1 Flash (`max`) 21.7 · Moonshot AI: Kimi K3 (`default`) 21 · Z.ai: GLM-5.3 (`max`) 19 · Tencent: Hy4 Preview (`default`) 18
 
 | # | Model | Harness | Effort | Runs | Fixed /105 | Repo 1 /45 | Repo 2 /60 | Extras | Wall | Cost | Date |
 |--:|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|

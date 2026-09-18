@@ -3075,3 +3075,40 @@ Method receipts for the identification work — including why benchmark-result s
 style both failed their power checks while a nine-passage vocabulary probe scores AUC 1.000 — are in
 the private writeup; the probe itself is `tools/model_family_probe.py`, and on the next stealth slug
 it runs on day one.
+
+## Sep 18 — Union Alpha is Unbiased's Pareto, and it was never one model
+
+OpenRouter announced it the same evening these rows went up: *"Union Alpha is revealed on OpenRouter
+as @TheUnbiasedCo Pareto! Impressive detective work and demand from the community cut this stealth
+period short."* Both rows are now carded to **Unbiased**, keeping the stealth name — the stealth
+endpoint is what was measured — exactly as Ox Alpha kept its name when it resolved to Z.ai.
+
+**Pareto is a composite, not a model.** Unbiased describes it as running several frontier and
+open-source models in parallel on every request and selecting or synthesising the output. That is
+the answer to a question this board had already answered from the wire, a day before the reveal and
+without knowing it: two prefix-free token counts 160 and 200 for one fixed 437-character passage,
+a 40-token gap where the entire spread across ten labs is 82. One model has one vocabulary, so it
+had to be more than one backend. Re-probing the live `unbiased/pareto` endpoint confirms it — the
+same passage now returns **138, 160 and 200**, and 8 of 10 corpus passages come back with two or
+three different counts.
+
+**What that costs the score.** A blend's number is not a model's number, and both rows now say so.
+30.7/105 is what this configuration produced; it is not a capability claim about any weight set.
+
+**Priced in retrospect.** The preview was free and the cost cells stay $0.00 — the board's glossary
+defines `free` as *served free at the time of the run*, and that is what happened. But the preview
+has ended, so the notes now carry what these runs would cost at the revealed list ($2.50 prompt /
+$7.50 completion / $0.25 cached read per million): **$3.30 for the published single run, $4.81 per
+run across the three, $14.43 for all of them.** The headline stands either way — the single run tied
+GPT-5.6 Terra (max effort) bug-for-bug on the split, and Terra billed $27.98. Free became 8.5×
+cheaper rather than infinitely cheaper.
+
+**The earlier correction holds up.** On Sep 17 the note's claim that the wire evidence "points at
+OpenAI and at nothing else" was withdrawn as an overstatement. A widely-read outside analysis
+reached the opposite conclusion and titled it *Union Alpha appears to be from OpenAI*. The reveal
+says both were chasing a malformed question — the developer is an aggregator, and the weights belong
+to whichever panel member answered that call — but the row was right not to card it.
+
+The arm definitions were carrying a price table of all zeros, true in preview and false now; a
+re-run would have recorded $0.00 silently and tripped the meter-contamination guard on every leg.
+Repriced.
