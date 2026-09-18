@@ -3095,11 +3095,17 @@ three different counts.
 **What that costs the score.** A blend's number is not a model's number, and both rows now say so.
 30.7/105 is what this configuration produced; it is not a capability claim about any weight set.
 
-**Priced in retrospect.** The preview was free and the cost cells stay $0.00 — the board's glossary
-defines `free` as *served free at the time of the run*, and that is what happened. But the preview
-has ended, so the notes now carry what these runs would cost at the revealed list ($2.50 prompt /
-$7.50 completion / $0.25 cached read per million): **$3.30 for the published single run, $4.81 per
-run across the three, $14.43 for all of them.** The headline stands either way — the single run tied
+**Priced in retrospect, and the figure went into the column (revised Sep 18).** The first pass put
+the retrospective price in the prose and left the cells at $0.00, on the glossary's `free` — *served
+free at the time of the run* — which is exactly what happened. That was the wrong call, and Pawel
+caught it looking at the live board: a cost column exists so rows can be compared, and once the
+preview ended an honest zero stopped doing that job. The cells now read **$3.30** (published single
+run) and **$4.81** (per run across the three, $14.43 for all of them) at the revealed list — $2.50
+prompt / $7.50 completion / $0.25 cached read per million — marked `cost_list`, which the glossary
+already defines as *a token-count estimate at published list rates, not a bill*. Nothing was
+actually spent, and the published receipts in `results/` still say $0.00, because a receipt records
+what a leg cost; the correction lives generator-side in a `LIST_USD` table, and a `LIST_USD` entry
+on a row marked `bill` is a build failure. The headline stands either way — the single run tied
 GPT-5.6 Terra (max effort) bug-for-bug on the split, and Terra billed $27.98. Free became 8.5×
 cheaper rather than infinitely cheaper.
 
