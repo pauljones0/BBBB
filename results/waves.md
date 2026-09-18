@@ -3112,3 +3112,15 @@ to whichever panel member answered that call — but the row was right not to ca
 The arm definitions were carrying a price table of all zeros, true in preview and false now; a
 re-run would have recorded $0.00 silently and tripped the meter-contamination guard on every leg.
 Repriced.
+
+**Renamed on the board (Sep 18).** The rows first kept the codename after the reveal, on the Ox
+Alpha precedent that a row records the endpoint it was run against. That reads wrong once the
+identity is public — a visitor sees a stealth name for a model that has one — so the displayed model
+is now **Pareto (ex-Union Alpha)**. The row ids are untouched, because they are the join keys the
+scoreboards and the mean-membership table resolve against, and the runs really were made against
+`stealth/union-alpha`.
+
+Also fixed in the same pass: the README leaderboard image carried a cache-bust token keyed to the
+newest *run* date, so any change that re-rendered the PNG without adding a run produced a
+byte-identical URL and GitHub's image proxy kept serving the stale picture. It now hashes the PNG's
+bytes, the way the og-image already did.

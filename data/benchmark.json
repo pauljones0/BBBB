@@ -1346,7 +1346,7 @@
     {
       "id": "Union Alpha (stealth; free)",
       "n_runs": 1,
-      "model": "Union Alpha (stealth)",
+      "model": "Pareto (ex-Union Alpha)",
       "vendor": "Unbiased",
       "local": false,
       "harness": "Claude Code / OpenRouter",
@@ -1534,7 +1534,7 @@
     {
       "id": "Union Alpha (stealth; free) - mean of 3",
       "n_runs": 3,
-      "model": "Union Alpha (stealth)",
+      "model": "Pareto (ex-Union Alpha)",
       "vendor": "Unbiased",
       "local": false,
       "harness": "Claude Code / OpenRouter",
