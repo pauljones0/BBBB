@@ -3119,6 +3119,12 @@ The arm definitions were carrying a price table of all zeros, true in preview an
 re-run would have recorded $0.00 silently and tripped the meter-contamination guard on every leg.
 Repriced.
 
+**Featured (Sep 18).** Pawel put the row in the default view once it had a real vendor and a real
+price. The mean-of-3 row only — the single run is superseded, and `main.js` drops superseded rows
+before it applies the featured preset, so featuring that one would have been a silent no-op rather
+than a second Pareto row. Default view: 20 → 21 rows. This board features by decision, not by score
+(Sep 16), and the decision is the whole record of why it is there.
+
 **Renamed on the board (Sep 18).** The rows first kept the codename after the reveal, on the Ox
 Alpha precedent that a row records the endpoint it was run against. That reads wrong once the
 identity is public — a visitor sees a stealth name for a model that has one — so the displayed model
