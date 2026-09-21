@@ -3136,3 +3136,58 @@ Also fixed in the same pass: the README leaderboard image carried a cache-bust t
 newest *run* date, so any change that re-rendered the PNG without adding a run produced a
 byte-identical URL and GitHub's image proxy kept serving the stale picture. It now hashes the PNG's
 bytes, the way the og-image already did.
+
+
+## Wave: Grok 4.7 at xhigh — a dead tie, at a third more money (Sep 21)
+
+| | repo 1 /45 | repo 2 /60 | total /105 | wall (min) | floor |
+|---|---|---|---|---|---|
+| Grok 4.7 run 1 | 12 | 13 | 25 | 39.6 | $16.54 |
+| Grok 4.7 run 2 | 12 | 18 | 30 | 47.3 | $23.04 |
+| Grok 4.7 run 3 | 16 | 15 | 31 | 51.8 | $29.94 |
+| **Grok 4.7 mean of 3** | **13.3** | **15.3** | **28.7** | **46.2** | **$23.17** |
+| **Grok 4.6 mean of 3** | **11.7** | **17.0** | **28.7** | **43.1** | **$16.89** |
+
+Three runs a side at a verified ceiling, and the totals are identical to the decimal. This is the
+cleanest null result the board has produced for a generation step, and it is published as one. The
+temptation with a tie is to leave it in a drawer until a number moves; a benchmark that only
+publishes improvements is a scoreboard for vendors.
+
+**The identical total hides a swap.** Repo 1 went up about a point and a half, repo 2 down about
+the same. Both movements sit inside the spread of the runs that produced them — 25 to
+31 here against 27 to 30 for 4.6 — so that is a direction worth testing,
+not a finding. Note which distribution is wider: the tie rests on 4.7's.
+
+**Per bug, these are nearly the same model.** On repo 1 each touched 18 distinct planted bugs with
+15 shared; on repo 2, 21 against 22 with 18 shared. There is not one bug on either repo that 4.6
+found on all three runs and 4.7 never found. There is exactly one the other way. Every other bug
+unique to one model was a single-run hit — noise, not capability.
+
+**What actually moves is cost, and it moves the wrong way.** $23.17 against $16.89 on the
+same arithmetic, about 37% more for the same score. That comparison needed
+a correction first: the grok cost reconstruction used to take the largest context in a run and
+charge every request against it, which overstates any run that fans out into subagents by up to
+25%. It now measures each session separately. The 4.7 row carries the corrected figure and the
+other grok rows do not yet, so the row states both — the gap is about a third either way. Restating
+the older rows is a separate pass.
+
+**And what moves in 4.7's favour is off-target.** Genuine extras — real defects in the repo that
+are not part of the planted set — ran 26, 35 and 34 against 16, 16 and
+22: a mean of 31.7 against 18.0, roughly 76% more. The
+most defensible reading of this wave is that 4.7 finds materially more real bugs than 4.6 and no
+more of the ones being counted. Whether that reads as a better bug-hunter or a worse
+instruction-follower is a judgment the number does not settle, and the row says so rather than
+picking.
+
+**The behavioural difference is fan-out, and it is per leg rather than per run.** 4.6 never once
+ran a leg as a single session across its six; 4.7 did it four times out of six, and when it does
+fan out it commits far harder — 184 and 206 inference requests against 4.6's 88 to 128. Across
+these three runs fan-out tracks cost almost perfectly and score not at all. This is the class of
+hidden difference the regime check exists to refuse a mean over, and that check parses Claude Code
+transcripts, so it returns NOT CHECKED for every grok row here. The counts come from the CLI's own
+session dirs instead, and they are on the row.
+
+**Wall is not decidable from this wave.** Only run 1 had the machine to itself; runs 2 and 3
+overlapped each other. Contention biases a wall upward, so it cannot manufacture a speed win — only
+hide one. On the one uncontended run this was the fastest run at this tier the board has recorded.
+Legs stayed sequential within every run throughout.

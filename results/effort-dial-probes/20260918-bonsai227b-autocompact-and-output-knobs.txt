@@ -1,0 +1,60 @@
+2026-09-18  bonsai227b (Ternary Bonsai 2 27B, local llama-server on the Mac mini)
+Two harness knobs, measured on the exact pinned path rather than inferred from docs.
+
+WHY
+  The third repo 1 leg died at 90 minutes, 16 turns, three compactions:
+      terminal_reason = "rapid_refill_breaker"
+      result = "Autocompact is thrashing: the context refilled to the limit within 3 turns of
+                the previous compact, 3 times in a row."
+      receipt: the run's raw transcript (compact_boundary pre_tokens 30,516 / 45,363
+               / 42,700; the three compactions cost 1029 s, 518 s and 587 s of the 5,398 s leg)
+  CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=30 sits in the user settings file (since 2026-04-14) and is
+  live from CLI 2.1.270; this host is 2.1.276. 30% of the declared 90,112 = 27,034, and the fixed
+  prefix (system + 26 tool definitions) is 18,943 of it. ~8K of working conversation left, which
+  one Read of a 700-line test file exhausts - hence compact, refill, compact, breaker.
+
+PROBE (server idle, no leg running - -np 1 means any probe during a leg corrupts its wall clock)
+  cwd: scratch dir, not a staged repo
+  env: ANTHROPIC_BASE_URL=http://100.83.243.124:8080  ANTHROPIC_AUTH_TOKEN=dummy
+       CLAUDE_CODE_MAX_CONTEXT_TOKENS=90112  CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192
+  claude -p "Use the Bash tool to run exactly this command, then paste its output verbatim:
+             env | grep -E 'CLAUDE_|ANTHROPIC_' | sort"
+         --model bonsai2 --output-format json --dangerously-skip-permissions
+         --disallowedTools "Agent,Task,WebFetch,WebSearch"
+         --settings '{"env":{"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE":"60"}}'
+  exit 0, num_turns 2, is_error false
+
+RESULT 1 - the child environment the leg actually runs under
+  ANTHROPIC_AUTH_TOKEN=dummy
+  ANTHROPIC_BASE_URL=http://100.83.243.124:8080
+  CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=60        <- --settings wins over the user settings file
+  CLAUDE_CODE_DISABLE_1M_CONTEXT=0          <- ...and the rest of that file SURVIVES (merge, not replace)
+  CLAUDE_CODE_MAX_CONTEXT_TOKENS=90112
+  CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192
+  CLAUDE_EFFORT=xhigh                       <- unflagged default, consistent with the 2026-09-12 finding
+
+RESULT 2 - what the CLI put on the wire, read from the server's own /slots after the probe
+  slot 0 params: max_tokens 8192, n_predict 8192, n_keep 0, n_probs 0
+  slot 0 n_ctx : 98304
+  So CLAUDE_CODE_MAX_OUTPUT_TOKENS reaches the request. THIS IS THE CHECK THAT MATTERS: the CLI's
+  own modelUsage block in the same run still reported "maxOutputTokens": 32000, which would have
+  made the knob look inert if the client were the only thing consulted.
+
+WHY IT MATTERS ARITHMETICALLY
+  llama-server budgets prompt + completion against n_ctx. Raising the compaction trigger to
+  54,067 (60% of 90,112) puts a worst-case overshoot turn near 79K of prompt; with the CLI's
+  default 32,000 ask that is ~111K against a 98,304 server, i.e. a hard error hours into a leg.
+  With 8,192 it is ~87K, inside the ceiling. Largest single-turn thinking burst measured on this
+  arm: 3,257 tokens, so 8,192 is not a constraint on the model.
+
+CHOSEN
+  CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=60  -> trigger 54,067, working conversation 35,124 after the
+                                         18,943 prefix. A 200K-window Claude row on this board
+                                         gets 41,057 from the inherited 30. This arm still gets
+                                         LESS than the cloud rows, not more.
+  CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192
+
+OPEN, AND NOT THIS ARM'S TO SETTLE
+  Every Claude row on this board inherited PCT=30 silently. On a 200K or 1M window that is 60K or
+  300K and nobody noticed; on any future small-window arm it is the difference between a score and
+  a DNF. Worth stating per-arm rather than inheriting from a file no receipt records.

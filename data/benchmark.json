@@ -6,12 +6,12 @@
     "repo1_total": 45,
     "repo2_total": 60,
     "survivors": 33,
-    "models": 32,
+    "models": 33,
     "bug_count": 105,
     "repo1_bug_count": 45,
-    "rows": 99,
-    "runs": 136,
-    "updated": "2026-09-17",
+    "rows": 100,
+    "runs": 139,
+    "updated": "2026-09-21",
     "source_repo": "https://github.com/phuryn/bug-hunt-bench/tree/main/results",
     "repo_url": "https://github.com/phuryn/bug-hunt-bench",
     "author": "Pawel Huryn",
@@ -41,7 +41,7 @@
     "effort_default": "No reasoning setting was asked for, because this route offers none to ask for. Unlike an ignored dial, nothing was tested here - this says what we requested, not what the route does with it."
   },
   "caveats": [
-    "MOST ROWS ARE ONE RUN. 16 configurations have now been run three times at identical settings - same model, prompt, harness, route, effort flag and judge - and their three-run ranges are 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9 points of 105. The widest spread was 16, 20 and 25; the tightest was 33, 33 and 35. Rows on this board routinely sit within a point or two of each other, so a small gap between two single runs may be nothing at all. WHAT THIS DOES NOT SAY: which settings are steady. The ranges do not fall cleanly as effort rises - the replicated rungs of one dial came out 9, 6, 3, 9 and 2 going up - and a range drawn from three runs is a very noisy estimate of spread. Only one model has been measured three times at its top setting so far. Treat every one of these as a spread that has been SEEN, not a spread that has been bounded.",
+    "MOST ROWS ARE ONE RUN. 17 configurations have now been run three times at identical settings - same model, prompt, harness, route, effort flag and judge - and their three-run ranges are 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 8, 8, 9, 9 points of 105. The widest spread was 16, 20 and 25; the tightest was 33, 33 and 35. Rows on this board routinely sit within a point or two of each other, so a small gap between two single runs may be nothing at all. WHAT THIS DOES NOT SAY: which settings are steady. The ranges do not fall cleanly as effort rises - the replicated rungs of one dial came out 9, 6, 3, 9 and 2 going up - and a range drawn from three runs is a very noisy estimate of spread. Only one model has been measured three times at its top setting so far. Treat every one of these as a spread that has been SEEN, not a spread that has been bounded.",
     "Wall clock is the same measure on every row: repo 1 plus repo 2 agent time, with dependency install and health checks excluded. Two things bend it, and both are marked on the score-and-time map. Three runs took their two repo legs concurrently - the sum is still like-for-like, but two agents sharing one machine and one API key contend, so those figures can run high rather than low. And one figure is adjusted: the retired-Gemini-CLI run excludes a 35-minute harness stall, the only number here that is not what the harness measured.",
     "Cost is not one kind of number: some figures are an actual bill, some are a token-count estimate at published list rates, one CLI only allows a reconstructed lower bound, and one run was free. The key under the board names which is which - they are not interchangeable, and none of them is a quote for what you would pay.",
     "33 of the 105 bugs have survived every model in every run to date. The count moves as new runs land: it fell from 49 to 44 during the 27-28 August waves."
@@ -1897,7 +1897,7 @@
       "effort": "xhigh",
       "effort_status": "verified",
       "date": "2026-09-14",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 28.7,
       "repo1_fixed": 11.7,
       "repo2_fixed": 17,
@@ -1997,6 +1997,118 @@
         "99": 3,
         "100": 3,
         "102": 3
+      },
+      "coverage_runs": 3,
+      "group_rank": 101
+    },
+    {
+      "id": "Grok 4.7 (xhigh) seq - mean of 3",
+      "n_runs": 3,
+      "model": "Grok 4.7",
+      "vendor": "xAI",
+      "local": false,
+      "harness": "Grok Build CLI (ACP)",
+      "effort": "xhigh",
+      "effort_status": "verified",
+      "date": "2026-09-21",
+      "color": "#414852",
+      "fixed": 28.7,
+      "repo1_fixed": 13.3,
+      "repo2_fixed": 15.3,
+      "partial": 1.7,
+      "claimed_only": 0.3,
+      "extras": 31.7,
+      "false_positive_fixes": 0,
+      "wall_min": 46.2,
+      "cost_usd": 23.17,
+      "cost_kind": "floor",
+      "wall_note": null,
+      "ceiling": true,
+      "featured": false,
+      "superseded": null,
+      "caveat": "A mean of three runs, not a single measurement; the three span 25 to 31 of 105 against 4.6's 27 to 30, so this tie rests on the wider of the two distributions. Cost uses a per-session reconstruction the other grok rows do not yet use; the note gives both figures and the gap holds either way. The wall is contended upward on four of the six legs and is not a basis for a speed comparison. The three runs spawned different numbers of subagent sessions on identical arm definitions, which the board's regime check cannot verify on this harness.",
+      "note": "Grok 4.7 at xhigh through xAI's own CLI, the first 4.7 row on this board, published as the MEAN OF THREE INDEPENDENT RUNS. Runs scored 25, 30 and 31 of 105 (repo 1: 12, 12, 16 - repo 2: 13, 18, 15). Mean 28.7, range 6. *** THE HEADLINE IS THAT NOTHING MOVED *** Grok 4.6 at the SAME tier, also a mean of three, stands at 28.7 of 105. This row is 28.7. Three runs a side at a verified ceiling, and the totals are identical to the decimal - the cleanest null result this board has produced for a generation step. It is published as one. A tie is a measurement, and publishing only when a number improves would make this a scoreboard for vendors rather than a benchmark. *** THE IDENTICAL TOTAL HIDES A SWAP *** Repo 1 scored 12, 12, 16 of 45 against 4.6's mean of 11.7; repo 2 scored 13, 18, 15 of 60 against 17.0. Up about a point and a half on one codebase, down about the same on the other. Both movements sit inside the spread of the runs that produced them, so this is a direction worth testing and not a finding. *** WHAT DOES MOVE, AND IT MOVES THE WRONG WAY: COST *** Reconstructed floors of $16.54, $23.04, $29.94 for a mean of $23.17, against $16.89 for the three 4.6 runs on the SAME arithmetic - about 37% more for the same score. READ THE COST COLUMN CAREFULLY: the reconstruction used to take the largest context in a run and charge every request in that run against it, which overstates any run that fans out into subagents by up to 25%, and it now measures each session separately. This row carries the corrected figure. The 4.6 row still shows $18.60 on the old arithmetic and has not yet been restated; on that same old arithmetic these three runs come to $26.18. So the gap is about a third either way. What is inconsistent across the board right now is the arithmetic, not the finding. Both numbers are floors twice over: the grok CLI reports context occupancy rather than cumulative usage, so every grok row here is reconstructed from the CLI's own session logs at xAI list rates - the same 2/0.5/6 per MTok basis, and xAI prices 4.7 identically to 4.6 - and xAI bills a request whose prompt reaches 200K at DOUBLE those rates, which these runs did, by an amount this method cannot see. *** AND WHAT MOVES IN 4.7'S FAVOUR: BUGS NOBODY PLANTED *** Genuine extras - real defects found in the repo that are not part of the planted set - ran 26, 35, 34 across the three runs, a mean of 31.7, against 18.0 for 4.6: roughly 76% more. The most defensible reading of this wave is that 4.7 finds materially more real bugs than 4.6 and no more of the ones being counted. Whether that is a better bug-hunter or a worse instruction-follower is a judgment the number does not settle. *** PER BUG, THE TWO MODELS ARE NEARLY THE SAME MODEL *** Across three runs a side, on repo 1 each touched 18 distinct planted bugs with 15 shared; on repo 2 it was 21 against 22 with 18 shared. There is not one bug on either repo that 4.6 found on all three runs and 4.7 never found - zero hard regressions - and exactly one that 4.7 found on all three and 4.6 never did. Every other bug unique to one model was a single-run hit: noise, not capability. Consistency shifted in opposite directions per repo: 4.7 holds 10 bugs on all three runs against 4.6's 5 on repo 1, and 10 against 14 on repo 2. *** THE RUNS DID NOT BEHAVE ALIKE, AND THE AUTOMATIC CHECK CANNOT SEE IT HERE *** The regime check that refuses a mean over mismatched configurations parses Claude Code transcripts, so it returns NOT CHECKED for every grok row on this board. The CLI's own session logs show what it would have looked for. Sessions spawned per leg (repo 1 / repo 2) - this model: run 1 1 and 1; run 2 1 and 3; run 3 5 and 1. The 4.6 rows at the same tier: run 1 3 and 3; run 2 4 and 3; run 3 5 and 3. 4.6 never once ran a leg as a single session; this model did it four times out of six, and when it does fan out it commits far harder - 184 and 206 inference requests against 4.6's 88 to 128. Fan-out tracks COST almost perfectly across these runs and tracks SCORE not at all: 4.6's weakest repo-1 leg fanned out to three sessions, and the two single-session repo-1 legs here scored the same as each other. The arm definitions are byte-identical clones, so this is emergent agent behaviour rather than configuration - the same class of hidden difference the regime check was built for. An OBSERVATION over three runs, not a mechanism. *** THE TIER IS THE MODEL CEILING AND THAT WAS CHECKED, NOT ASSUMED *** A zero-token ACP readback before each launch returned reasoning_effort xhigh for a requested xhigh, and the enum grok-4.7 advertises is low, medium, high, xhigh with high as the CLI default - nothing above xhigh exists to ask for. The grok CLI silently clamps an unknown effort string, so an echo is the only thing that makes this label honest. The served model is named by the session itself (currentModelId grok-4.7) rather than inferred from the -m flag, which has been inert on this bridge since it was probed on 2026-09-04. *** RECEIPTS *** All six legs exited 0. Per-run wall 39.6, 47.3, 51.8 minutes against 43.1 for the 4.6 mean - but that comparison is NOT decidable from this wave: only run 1 had the machine to itself, runs 2 and 3 overlapped each other, and contention biases a wall upward. On the one uncontended run this was the fastest run at this tier the board has recorded. Legs SEQUENTIAL within every run, one repo at a time - that is what seq means here. Judge: blind Codex gpt-5.5 on all six legs, which is neither this model nor a sibling of it.",
+      "fixed_bugs": [
+        13,
+        16,
+        20,
+        22,
+        23,
+        25,
+        27,
+        28,
+        29,
+        30,
+        33,
+        34,
+        37,
+        38,
+        39,
+        40,
+        43,
+        45,
+        47,
+        49,
+        50,
+        57,
+        60,
+        62,
+        70,
+        71,
+        76,
+        82,
+        83,
+        84,
+        89,
+        91,
+        92,
+        95,
+        97,
+        98,
+        99,
+        100,
+        102
+      ],
+      "bug_hits": {
+        "13": 3,
+        "16": 3,
+        "20": 3,
+        "22": 2,
+        "23": 1,
+        "25": 3,
+        "27": 1,
+        "28": 1,
+        "29": 3,
+        "30": 3,
+        "33": 1,
+        "34": 2,
+        "37": 3,
+        "38": 1,
+        "39": 3,
+        "40": 1,
+        "43": 3,
+        "45": 3,
+        "47": 3,
+        "49": 2,
+        "50": 2,
+        "57": 1,
+        "60": 3,
+        "62": 3,
+        "70": 1,
+        "71": 3,
+        "76": 3,
+        "82": 1,
+        "83": 3,
+        "84": 2,
+        "89": 1,
+        "91": 2,
+        "92": 3,
+        "95": 3,
+        "97": 1,
+        "98": 1,
+        "99": 3,
+        "100": 3,
+        "102": 2
       },
       "coverage_runs": 3,
       "group_rank": 1
@@ -2128,7 +2240,7 @@
       "effort": "xhigh",
       "effort_status": "verified",
       "date": "2026-08-28",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 27,
       "repo1_fixed": 8,
       "repo2_fixed": 19,
@@ -2174,7 +2286,7 @@
         100,
         102
       ],
-      "group_rank": 1
+      "group_rank": 101
     },
     {
       "id": "Grok 4.6 (xhigh)",
@@ -2186,7 +2298,7 @@
       "effort": "xhigh",
       "effort_status": "verified_ceiling",
       "date": "2026-08-12",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 27,
       "repo1_fixed": 10,
       "repo2_fixed": 17,
@@ -2232,7 +2344,7 @@
         100,
         102
       ],
-      "group_rank": 1
+      "group_rank": 101
     },
     {
       "id": "Opus 5 (max effort)",
@@ -2793,7 +2905,7 @@
       "effort": "medium",
       "effort_status": "verified",
       "date": "2026-08-14",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 23,
       "repo1_fixed": 7,
       "repo2_fixed": 16,
@@ -2835,7 +2947,7 @@
         100,
         102
       ],
-      "group_rank": 3
+      "group_rank": 103
     },
     {
       "id": "Grok 4.6 (high)",
@@ -2847,7 +2959,7 @@
       "effort": "high",
       "effort_status": "verified",
       "date": "2026-08-28",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 23,
       "repo1_fixed": 7,
       "repo2_fixed": 16,
@@ -2889,7 +3001,7 @@
         100,
         102
       ],
-      "group_rank": 2
+      "group_rank": 102
     },
     {
       "id": "Grok 4.6 (medium) seq",
@@ -2901,7 +3013,7 @@
       "effort": "medium",
       "effort_status": "verified",
       "date": "2026-08-28",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 22,
       "repo1_fixed": 9,
       "repo2_fixed": 13,
@@ -2942,7 +3054,7 @@
         100,
         102
       ],
-      "group_rank": 3
+      "group_rank": 103
     },
     {
       "id": "Gemini 3.7 Flash (high)",
@@ -4298,7 +4410,7 @@
         100,
         102
       ],
-      "group_rank": 102
+      "group_rank": 202
     },
     {
       "id": "Muse Spark 1.2 (xhigh, Meta API)",
@@ -4534,7 +4646,7 @@
         100,
         102
       ],
-      "group_rank": 102
+      "group_rank": 202
     },
     {
       "id": "Gemini 3.7 Flash seq",
@@ -4639,7 +4751,7 @@
       "effort": "low",
       "effort_status": "verified",
       "date": "2026-08-27",
-      "color": "#414852",
+      "color": "#757A82",
       "fixed": 15,
       "repo1_fixed": 6,
       "repo2_fixed": 9,
@@ -4673,7 +4785,7 @@
         97,
         99
       ],
-      "group_rank": 4
+      "group_rank": 104
     },
     {
       "id": "Qwen3.8-27B (xhigh effort, Alibaba API) - mean of 3",
@@ -5191,7 +5303,7 @@
         99,
         100
       ],
-      "group_rank": 102
+      "group_rank": 202
     },
     {
       "id": "Qwen3.8-27B 8-bit (OpenRouter/Parasail) - mean of 3",
