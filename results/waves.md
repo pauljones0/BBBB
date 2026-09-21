@@ -3191,3 +3191,10 @@ session dirs instead, and they are on the row.
 overlapped each other. Contention biases a wall upward, so it cannot manufacture a speed win — only
 hide one. On the one uncontended run this was the fastest run at this tier the board has recorded.
 Legs stayed sequential within every run throughout.
+
+
+**Updated to n=4 the same evening.** A fourth run scored 29 of 105 (repo 1 12, repo 2 17), putting the four at 25, 30, 31, 29 for a mean of 28.8 against Grok 4.6's 28.7. The fourth draw was run specifically to test whether the tie was an artefact of three runs. It was not. The row was superseded to the mean of four rather than left at three, because a null result that holds on more evidence is a stronger version of the same claim, not a different one.
+
+It did settle one thing the n=3 row had published as undecidable. Runs 2 and 3 overlapped each other, so only one of the first three had a clean wall; the fourth also ran alone. The two uncontended runs came in at 39.6 and 45.4 minutes, a mean of 42.5 against 43.1 for the three 4.6 runs. Under two minutes apart on runs of three quarters of an hour: on this benchmark the generation step is not faster, and an earlier reading that it was came from a single run.
+
+Repo 1 is worth a second look across four runs: 12, 12, 16, 12 of 45. Three landed on the same number. That makes the odd one out look like the outlier rather than the ceiling, and it is a tighter distribution than repo 2's 13, 18, 15, 17 of 60.
