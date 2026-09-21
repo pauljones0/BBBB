@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 21, 2026 · 101 rows from 143 scored runs. Superseded rows are listed last.
+Updated Sep 21, 2026 · 102 rows from 144 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -225,6 +225,14 @@ The FOURTH rung of Meta's first-party dial to be run three times, published as t
 **Caveat.** The honesty profile is worse at this tier than at max, which is the opposite of the usual direction: 3 partials and 2 claimed-only here against 0 and 0 at max. At n=1 per tier that is a difference of a handful of bugs, not a demonstrated property of the tier.
 
 The dial companion to the max row: same model, same first-party endpoint, same day, one tier down. It costs 5 strict fixes (19/105 against 24) and every one of them is on repo 1 - 9/45 against 14/45, while repo 2 lands on exactly the same 10/60. The tier is doing visibly less work for that: 26.1 min against 42.6, 160K output tokens against 240K, 57M cached reads against 82M, $0.31 against $1.08. high is DeepSeek's documented default, but it is requested explicitly here rather than left implicit, because on this endpoint the omitted field measured as neither high nor max.
+
+## Grok 4.7 (high)
+
+**19 / 105** · repo 1 9/45 · repo 2 10/60 · 18 unplanted · 40.5 min · $11.53 floor · `high` · Grok Build CLI (ACP) · single run · 2026-09-21
+
+**Caveat.** ONE RUN, not a mean. The same model at its top rung spanned 25 to 31 of 105 across three runs, so read this number with several points of slack in either direction. Cost is a reconstructed FLOOR rather than a bill, and it uses a per-session arithmetic the older grok rows on this board do not yet use; the note gives both figures.
+
+Grok 4.7 at high through xAI's own CLI - the CLI DEFAULT rung - what someone gets who never touches the effort setting, and the only number on this dial that describes the out-of-the-box experience. 19 of 105: 9 of 45 on repo 1 and 10 of 60 on repo 2, 18 genuine extras, 40.5 minutes, a reconstructed floor of $11.53. ONE RUN. *** AGAINST THE PREVIOUS GENERATION AT THE SAME RUNG *** Grok 4.6 (high) scored 23.0 of 105 (7 on repo 1, 16 on repo 2), also a single run, for a difference of -4. Both sides are n=1, so this is one draw against one draw. The scale of the doubt is not a guess: three runs of the 4.6 configuration one rung up spanned 27 to 30 of 105, and three runs of this model at that rung spanned 25 to 31 - so a gap of a few points between two single runs is inside what the same configuration produces run to run. *** WHERE IT SITS ON ITS OWN DIAL *** This model at xhigh is 28.8 of 105, published as a mean of four. This rung is 19, a single run. The 4.6 dial for comparison ran low 15, medium 23, high 23, xhigh 28.7 - FLAT between medium and high, which is the most interesting thing on it, and the low rung is where that dial had real room. Whether either shape repeats here is a question the rungs answer together: read this row beside its siblings rather than on its own. *** THE TIER WAS CHECKED, NOT ASSUMED, AND FOR THE LOWER RUNGS THAT MATTERS MORE *** A zero-token ACP readback before launch returned reasoning_effort high for a requested high. The grok CLI silently clamps an unknown effort string AND its default is `high`, so a rung that failed to apply would look identical to one that worked in every artefact except this readback - the run would simply be a default-effort run wearing another label. The enum grok-4.7 advertises is low, medium, high, xhigh. The served model is named by the session itself (currentModelId grok-4.7) rather than inferred from the -m flag, which has been inert on this bridge since it was probed on 2026-09-04. *** COST IS A FLOOR *** The grok CLI reports context occupancy rather than cumulative usage, so every grok row here is reconstructed from the CLI's own session logs at xAI list rates, the same 2/0.5/6 per MTok basis. This row uses the per-session arithmetic corrected on 2026-09-21; on the older run-level arithmetic the other grok rows still use it would read $11.54. It is a floor twice over: xAI bills a request whose prompt reaches 200K at DOUBLE those rates. *** RECEIPTS *** Both legs exited 0. Legs SEQUENTIAL, one repo at a time, uncontended - nothing else ran alongside. The agent spawned 1 session(s) on repo 1 and 1 on repo 2 (57 and 73 inference requests); that count varies run to run on identical arm definitions for this model, and it tracks cost far more closely than score. Judge: blind Codex gpt-5.5, which is neither this model nor a sibling of it.
 
 ## GLM-5.3 (max effort, Z.ai API)
 
