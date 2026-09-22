@@ -3198,3 +3198,28 @@ Legs stayed sequential within every run throughout.
 It did settle one thing the n=3 row had published as undecidable. Runs 2 and 3 overlapped each other, so only one of the first three had a clean wall; the fourth also ran alone. The two uncontended runs came in at 39.6 and 45.4 minutes, a mean of 42.5 against 43.1 for the three 4.6 runs. Under two minutes apart on runs of three quarters of an hour: on this benchmark the generation step is not faster, and an earlier reading that it was came from a single run.
 
 Repo 1 is worth a second look across four runs: 12, 12, 16, 12 of 45. Three landed on the same number. That makes the odd one out look like the outlier rather than the ceiling, and it is a tighter distribution than repo 2's 13, 18, 15, 17 of 60.
+
+## MiMo-V2.6-Pro — Xiaomi's first row (Sep 22)
+
+First measurement of a Xiaomi model on this board. One run, Claude Code through an Anthropic-API
+shim onto OpenRouter's own first-party Xiaomi endpoint, pinned with no fallback hosts. 20 of 105: 9
+of 45 on repo 1, 11 of 60 on repo 2, 3 genuine extras, 56.4 minutes (contended - two other legs were
+running on the same box for parts of this run, which can only inflate that figure), $0.79 real
+OpenRouter bill.
+
+**No effort dial exists on this route at all**, which is a stronger guarantee than the usual
+zero-token readback probe used elsewhere on this board: the endpoint's parameter list carries no
+`reasoning_effort`, so nothing was requested and nothing could have been silently clamped. The row
+is labelled `default` for exactly that reason, not because a tier was asked for and ignored.
+
+**Same real bill as GLM-5.3 Flash, seven more bugs.** Both are billed rows, not estimates, and both
+land at $0.79 to the cent - GLM-5.3 Flash (OpenRouter) fixed 13, MiMo fixed 20. At the score MiMo
+actually posted, its nearest neighbours cost far more: GPT-5.6 Terra (xhigh effort) and Gemini 3.8
+Flash both also landed on 20, at $8.98 and $9.78.
+
+**Not a new capability ceiling.** The board's survivor count - bugs no model here has ever fixed -
+held at 33 before and after this row. Everything MiMo fixed, something else had already fixed
+first. One run, labelled as one: the usual single-draw caveat applies the same as anywhere else on
+this board.
+
+Not featured - a new row joins the default view by decision, not by score (Sep 16).
