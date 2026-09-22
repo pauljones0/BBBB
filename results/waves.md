@@ -3269,3 +3269,33 @@ table: these rows are re-covering known ground faster, not opening new ground.
 
 One run, labelled as one. This board has already measured a 13-point spread between two runs of a
 single identical max-effort configuration, so treat 43 as one draw rather than a settled level.
+
+## MiMo-V2.6-Flash — the cheap sibling matches the flagship (Sep 22)
+
+Three independent runs, Claude Code through an Anthropic-API shim onto OpenRouter, run as n=3 from
+the start. **23.3 of 105** mean — runs of 19, 25 and 26, spread 7. Repo 1: 8, 7, 9 of 45. Repo 2:
+11, 18, 17 of 60. Mean 70.7 minutes (contended), **$0.49 per run**, a real OpenRouter bill.
+
+**The result is the comparison, not the number.** MiMo-V2.6-Pro's mean of three, same board, same
+harness, same route, is 22.7 of 105 at $0.86 a run. Flash's 23.3 is nominally higher at roughly half
+the price. Both means sit inside the other's run-to-run spread, so the honest claim is **parity** —
+on this benchmark Xiaomi's cheap model is not measurably worse than its flagship — not that Flash
+wins.
+
+**The parity is an average of two opposite tilts.** Flash is *weaker* than Pro on repo 1 (8, 7, 9
+against 9, 7, 8) and *stronger* on repo 2 (11, 18, 17 against 11, 15, 14). A single-repo benchmark
+would have ranked these two models in opposite orders depending which repo it happened to use. That
+is the same lesson the July baseline opened with, now showing up between two checkpoints of one
+vendor rather than between vendors.
+
+**Flash also finds more unplanted defects than Pro** — 5, 8 and 9 genuine extras per run against
+Pro's smaller counts. Those are real bugs in the repos that nobody planted, reported separately and
+never folded into the score.
+
+Effort is `default`. The reasoning dial on this route was measured inert on the *Pro* model, n=3 per
+condition with fully overlapping ranges. That probe was never run on Flash, so here the dial is
+untested rather than known-inert, and none of these three runs asserted a reasoning state.
+
+Judged blind by Codex gpt-5.5 on all six legs, with no judge switching anywhere in this mean.
+
+Not featured — a new row joins the default view by decision, not by score (Sep 16).

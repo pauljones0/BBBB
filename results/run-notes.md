@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 22, 2026 · 114 rows from 168 scored runs. Superseded rows are listed last.
+Updated Sep 22, 2026 · 115 rows from 171 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -171,6 +171,14 @@ Runs scored 28, 24 and 25 of 105 (repo 1: 13, 11, 13 - repo 2: 15, 13, 12). Mean
 ## Fable 5
 
 **24 / 105** · repo 1 9/45 · repo 2 15/60 · 3 unplanted · 31.4 min · $68.07 · `high` · Claude Code · single run · 2026-07-26
+
+## MiMo-V2.6-Flash - mean of 3
+
+**23.3 / 105** · repo 1 8/45 · repo 2 15.3/60 · 7.3 unplanted · 70.7 min · $0.49 bill · `default` · Claude Code / OpenRouter · mean of 3 runs · 2026-09-22
+
+**Caveat.** Three runs of an identical configuration scoring 19, 25 and 26 of 105 - spread 7 - so read the mean with that width. The comparison against the Pro model is PARITY, not a win: the two means are inside each other's spread, and Flash is actually weaker on repo 1 and stronger on repo 2, so the overall match is an average of two opposite tilts. Cost is a real OpenRouter bill. Effort is `default`: the reasoning dial was measured inert on the Pro model but never probed on this one, so this is not a measurement at any asserted reasoning level. Wall figures are contended and biased upward.
+
+Xiaomi's MiMo-V2.6-Flash - the cheap sibling released alongside the Pro model - driven by Claude Code through an Anthropic-API shim onto OpenRouter, published as the MEAN OF THREE INDEPENDENT RUNS. Runs scored 19, 25 and 26 of 105 (repo 1: 8, 7, 9 of 45 - repo 2: 11, 18, 17 of 60). Mean 23.3, spread 7. Run as n=3 from the start rather than promoted to a mean later. *** THE CHEAP MODEL MATCHES THE FLAGSHIP, AND THAT IS THE RESULT *** the Pro model's mean of three on this same board, same harness, same route is 22.7 of 105. Flash's 23.3 is nominally higher at roughly half the cost per run ($0.49 against $0.86). Both means sit comfortably inside the other's run-to-run spread, so the claim this supports is PARITY, not victory: on this benchmark Xiaomi's cheap model is not measurably worse than its flagship. Read it that way rather than as a ranking. *** THE PARITY IS AN AVERAGE OF TWO OPPOSITE TILTS, NOT A UNIFORM MATCH *** Flash is weaker than Pro on repo 1 (8, 7, 9 of 45, against Pro's 9, 7 and 8) and stronger on repo 2 (11, 18, 17 of 60, against Pro's 11, 15 and 14). A single-repo benchmark would have ranked these two models in opposite orders depending on which repo it used. *** WALL AND COST *** Walls 66.6, 81.1, 64.3 minutes, mean 70.7; cost $0.44, $0.59, $0.45, mean $0.49. COST IS A REAL BILL, the OpenRouter credits delta across each run's legs, comparable to other billed rows here and not to list-priced or floor-reconstructed ones. *** GENUINE EXTRAS *** 5, 8 and 9 across the three runs, mean 7.3 - real defects found in the repos that are not part of the planted set, and consistently more than the Pro model found. *** THE DIAL *** effort is `default`. This route's `reasoning` field was measured inert on the Pro model (n=3 per condition, ranges fully overlapping); that probe was run on Pro, NOT on Flash, so for this model the dial is untested rather than known-inert. None of these three runs asserted a reasoning state. *** RECEIPTS *** All six legs exited 0. Legs SEQUENTIAL within every run, one repo at a time, and the three runs ran one at a time in order. Judge: blind Codex gpt-5.5 on all six legs - neither this model nor a sibling of it - with no judge switching anywhere in this mean. The runs shared the laptop with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that, only the clock.
 
 ## Qwen3.8-Flash (low effort)
 
