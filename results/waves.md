@@ -3365,6 +3365,14 @@ GPT-6 Astra scores 48 at max and 43 at xhigh on this same benchmark. GPT-5.6 Sol
 This row lands below all three — at a seventh of GPT-5.6 Sol's cost. One run cannot settle a gap
 that size against a mean, but it is a large gap pointing the opposite way from the release order.
 
+**It killed an all-time survivor.** Repo-1 bug A6 had outlived every model in every scored run
+on this board. It is a settings-persistence ordering defect: a preference was written to storage
+*before* the change it described had actually taken effect, so a switch that failed — or a
+restart the user dismissed — left the saved value and the running session disagreeing. The
+survivor count goes 32 → 31. A row in the middle of the scoring table opened ground nothing
+above it had touched. As always: a survivor kill is a variance event, not a capability a model
+repeats on demand.
+
 **48 genuine extras is the part that doesn't fit the score.** Those are real defects in the repos
 that nobody planted, and that count is near the top of the board — from a row in the middle of the
 scoring table. Extras are reported separately and never folded in. A model flagging this many
