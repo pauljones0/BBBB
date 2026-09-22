@@ -3330,3 +3330,28 @@ repo you benchmark on decides how much the effort dial appears to be worth.
 
 All four rows run the 1M window with zero compactions, so they compare cleanly to *each other* and
 not to the 200K Opus 5 ladder. The three lower rungs are published unfeatured; max stays featured.
+
+## A pricing correction across fifteen Anthropic rows (Sep 22)
+
+Not a new measurement — a correction to published ones. Anthropic charges 1.25x base input for a
+five-minute prompt cache write and **2x for a one-hour** one. Claude Code writes one-hour caches.
+Fifteen rows on this board had been priced at the five-minute rate.
+
+Cache writes are a small share of an agentic run's tokens, so the error is not huge — but it is
+systematic and it is one-directional. Every corrected row got **more expensive**, from 5 per cent
+(Opus 5) to 32 per cent (Fable 5.1 xhigh, $40.42 → $53.61). Scores did not move; only costs did.
+
+**How each row was checked matters more than the number.** The rate was not applied by rule.
+Claude's usage records split cache creation into one-hour and five-minute buckets, so every arm was
+re-read from its own stored stream and repriced only if that stream was 100 per cent one-hour. One
+arm was not: it wrote 8.3 million tokens of five-minute cache and no one-hour at all, and it kept
+its original rate. A blanket "Anthropic bills 2x" sweep would have overcharged it silently, and
+nothing in its published row would have looked wrong.
+
+The published CSVs still carry what the harness computed at the time — a receipt should keep saying
+what the leg actually cost. The corrected list-equivalent lives in the site generator, which is
+where this board already keeps list prices that went stale after a run.
+
+One claim on the board changed with the numbers. Opus 4.8 (max effort) was described as the worst
+cost-per-fix of any Anthropic row here; after the correction Fable 5 (max effort) edges past it, at
+$3.88 a fix against $3.87. Both notes now say so.
