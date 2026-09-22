@@ -76,6 +76,7 @@ Ox Alpha (stealth; free),Claude Code / OpenRouter,default,16,1,20 23 25 27 29 30
 "DeepSeek V4-Pro (max effort, DeepSeek API)",Claude Code / DeepSeek API,max,16,1,20 23 25 27 29 30 39 43 71 76 83 84 92 97 98 99
 Grok 4.5,Grok Build CLI (ACP),high,16,1,16 20 30 37 40 47 50 60 62 71 76 83 84 99 100 102
 Gemini 3.7 Flash seq,Antigravity CLI,high,16,1,20 30 43 45 47 50 60 71 76 82 83 92 97 98 99 102
+Grok 4.7 (low) - mean of 3,Grok Build CLI (ACP),low,15.7,3,13x2 16x2 20x3 21x1 22x2 23x2 25x2 29x1 30x3 37x3 39x3 41x2 43x2 44x1 45x2 49x2 60x1 76x2 83x3 84x2 95x1 99x2 100x3
 GPT-5.6 Terra (medium effort),Codex CLI,medium,15,1,20 28 30 39 47 71 76 77 82 84 97 98 99 100 102
 Grok 4.6 (low),Grok Build CLI (ACP),low,15,1,16 20 30 33 34 45 47 60 71 76 83 84 92 97 99
 "Qwen3.8-27B (xhigh effort, Alibaba API) - mean of 3",Claude Code / Alibaba API,xhigh,15,3,16x2 20x3 27x1 30x3 32x1 39x2 43x3 44x1 45x1 47x1 49x1 50x3 60x3 61x1 62x1 71x3 76x3 83x3 84x1 92x1 97x2 98x2 99x3
