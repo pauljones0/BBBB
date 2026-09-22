@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 22, 2026 · 111 rows from 161 scored runs. Superseded rows are listed last.
+Updated Sep 22, 2026 · 112 rows from 164 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -182,13 +182,13 @@ The board's first Qwen row that does not go through an aggregator: Claude Code s
 
 The missing Grok 4.6 dial tier (between medium 23 and xhigh, a rung since run three times for a mean of 29 - this row is still a single run and the gap above it is smaller than it looked when both endpoints were n=1), run on Windows when the macOS delegation stalled. Effort verified active by zero-token ACP readback. Wall ran alongside the Codex xhigh chains on a separate subscription - minor concurrency.
 
-## MiMo-V2.6-Pro - mean of 2
+## MiMo-V2.6-Pro - mean of 3
 
-**22 / 105** · repo 1 10.5/45 · repo 2 11.5/60 · 5.5 unplanted · 96.6 min · $0.91 bill · `default` · Claude Code / OpenRouter · mean of 2 runs · 2026-09-22
+**22.7 / 105** · repo 1 11.3/45 · repo 2 11.3/60 · 5.3 unplanted · 90.9 min · $0.86 bill · `default` · Claude Code / OpenRouter · mean of 3 runs · 2026-09-22
 
-**Caveat.** Two runs of an identical configuration scoring 20 and 24 of 105 - spread 4, in line with what this board has already measured elsewhere. Cost is a real OpenRouter bill across both runs. Effort is `default`: this route's reasoning field is accepted but measured inert on this model, so this is not a measurement of the model at any particular reasoning level. Runs shared the laptop with benchmark legs from other vendors, so wall figures are contended and biased upward; scores and cost are unaffected.
+**Caveat.** Three runs of an identical configuration scoring 20, 24 and 24 of 105 - spread 4. The middle run was judged by Grok 4.5 rather than the Codex gpt-5.5 used for the other two, a deliberate per-run choice, not a silent inconsistency - but it means this mean blends two judge standards. Cost is a real OpenRouter bill across all three runs. Effort is `default`: this route's reasoning field is accepted but measured inert on this model, so this is not a measurement of the model at any particular reasoning level. Runs shared the laptop with benchmark legs from other vendors, so wall figures are contended and biased upward; scores and cost are unaffected.
 
-Xiaomi's MiMo-V2.6-Pro driven by Claude Code through an Anthropic-API shim onto OpenRouter, published as the MEAN OF TWO INDEPENDENT RUNS. Runs scored 20 and 24 of 105 (repo 1: 9, 12 of 45 - repo 2: 11, 12 of 60). Mean 22.0, spread 4. *** THIS SUPERSEDES A SINGLE RUN OF 20 *** the earlier row was one draw on a model nothing on this board had seen before; two runs of the same configuration give a spread instead of a single, unreplicated number. *** WALL AND COST *** Walls 56.4, 136.9 minutes, mean 96.7; cost $0.79, $1.03, mean $0.91. COST IS A REAL BILL, the OpenRouter credits delta across both runs' legs, comparable to other billed rows here and not to list-priced or floor-reconstructed ones. *** GENUINE EXTRAS *** 3 and 8 across the two runs, mean 5.5 - real defects found in the repos that are not part of the planted set. *** THE DIAL, OR LACK OF ONE *** this route's `reasoning` field is accepted but measured inert on this model (see the sibling first-party and default-row notes on this board); `default` never named a state that could be asked for again, and neither run in this mean tried to assert one. *** RECEIPTS *** All four legs exited 0. Legs SEQUENTIAL within every run, one repo at a time. The runs shared the laptop with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that - only the clock is. Judge: blind Codex gpt-5.5, neither this model nor a sibling of it.
+Xiaomi's MiMo-V2.6-Pro driven by Claude Code through an Anthropic-API shim onto OpenRouter, published as the MEAN OF THREE INDEPENDENT RUNS. Runs scored 20, 24 and 24 of 105 (repo 1: 9, 13, 12 of 45 - repo 2: 11, 11, 12 of 60). Mean 22.7, spread 4. *** THIS SUPERSEDES THE MEAN OF TWO (22.0 of 105) *** a third independent run tightens the estimate rather than changing its shape - the mean moved from 22.0 to 22.7. *** JUDGE IS NOT UNIFORM ACROSS THE THREE RUNS, BY CHOICE - SAID PLAINLY *** the first and third runs (mimo26pro, mimo26pror3) were judged by blind Codex gpt-5.5. The second run (mimo26pror2) was judged by Grok 4.5 instead, a deliberate choice for this replicate rather than a drift - both are valid non-sibling judges for a Xiaomi model. This mean therefore blends two judge standards rather than replicating one; read the spread with that in mind alongside ordinary run-to-run variance. *** WALL AND COST *** Walls 56.4, 79.4, 136.9 minutes, mean 90.9; cost $0.79, $0.77, $1.03, mean $0.86. COST IS A REAL BILL, the OpenRouter credits delta across each run's legs, comparable to other billed rows here and not to list-priced or floor-reconstructed ones. *** GENUINE EXTRAS *** 3, 5 and 8 across the three runs, mean 5.3 - real defects found in the repos that are not part of the planted set. *** THE DIAL, OR LACK OF ONE *** this route's `reasoning` field is accepted but measured inert on this model (see the sibling first-party and default-row notes on this board); `default` never named a state that could be asked for again, and none of the three runs in this mean tried to assert one. *** RECEIPTS *** All six legs exited 0. Legs SEQUENTIAL within every run, one repo at a time. The runs shared the laptop with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that - only the clock is.
 
 ## Grok 4.6 (medium) seq
 
@@ -597,6 +597,16 @@ DeepSeek newest Flash generation, benchmarked on DeepSeek OWN Anthropic-compatib
 **23 / 105** · repo 1 7/45 · repo 2 16/60 · 11 unplanted · 20.5 min · $13.35 floor · `medium` · Grok Build CLI (ACP) · single run · 2026-08-14
 
 **Superseded.** Sequential re-run on 2026-08-28 (22/105) supersedes this concurrent-legs run for a comparable wall.
+
+## MiMo-V2.6-Pro - mean of 2
+
+**22 / 105** · repo 1 10.5/45 · repo 2 11.5/60 · 5.5 unplanted · 96.6 min · $0.91 bill · `default` · Claude Code / OpenRouter · mean of 2 runs · 2026-09-22
+
+**Superseded.** Superseded 2026-09-22 by the mean of three (22.7 of 105). This row was the mean of two runs at 22.0, and it was featured. A third independent run tightened the estimate to 20, 24 and 24 across the three. Nothing here is retracted - the n=2 mean is kept as the receipt for what the board showed before this third run.
+
+**Caveat.** Two runs of an identical configuration scoring 20 and 24 of 105 - spread 4, in line with what this board has already measured elsewhere. Cost is a real OpenRouter bill across both runs. Effort is `default`: this route's reasoning field is accepted but measured inert on this model, so this is not a measurement of the model at any particular reasoning level. Runs shared the laptop with benchmark legs from other vendors, so wall figures are contended and biased upward; scores and cost are unaffected.
+
+Xiaomi's MiMo-V2.6-Pro driven by Claude Code through an Anthropic-API shim onto OpenRouter, published as the MEAN OF TWO INDEPENDENT RUNS. Runs scored 20 and 24 of 105 (repo 1: 9, 12 of 45 - repo 2: 11, 12 of 60). Mean 22.0, spread 4. *** THIS SUPERSEDES A SINGLE RUN OF 20 *** the earlier row was one draw on a model nothing on this board had seen before; two runs of the same configuration give a spread instead of a single, unreplicated number. *** WALL AND COST *** Walls 56.4, 136.9 minutes, mean 96.7; cost $0.79, $1.03, mean $0.91. COST IS A REAL BILL, the OpenRouter credits delta across both runs' legs, comparable to other billed rows here and not to list-priced or floor-reconstructed ones. *** GENUINE EXTRAS *** 3 and 8 across the two runs, mean 5.5 - real defects found in the repos that are not part of the planted set. *** THE DIAL, OR LACK OF ONE *** this route's `reasoning` field is accepted but measured inert on this model (see the sibling first-party and default-row notes on this board); `default` never named a state that could be asked for again, and neither run in this mean tried to assert one. *** RECEIPTS *** All four legs exited 0. Legs SEQUENTIAL within every run, one repo at a time. The runs shared the laptop with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that - only the clock is. Judge: blind Codex gpt-5.5, neither this model nor a sibling of it.
 
 ## MiMo-V2.6-Pro
 
