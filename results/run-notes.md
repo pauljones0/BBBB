@@ -34,7 +34,7 @@ Anthropic's Opus 5.5 at max effort through Claude Code on the first-party API. 4
 
 ## Fable 5.1 (max effort)
 
-**43 / 105** · repo 1 19/45 · repo 2 24/60 · 11 unplanted · 73.1 min · $77.55 · `max` · Claude Code · single run · 2026-09-01
+**43 / 105** · repo 1 19/45 · repo 2 24/60 · 11 unplanted · 73.1 min · $87.18 · `max` · Claude Code · single run · 2026-09-01
 
 ## GPT-5.6 Sol (xhigh effort)
 
@@ -64,7 +64,7 @@ Anthropic's Opus 5.5 at xhigh effort through Claude Code on the first-party API.
 
 ## Fable 5.1
 
-**33 / 105** · repo 1 15/45 · repo 2 18/60 · 7 unplanted · 36.3 min · $41.52 · `high` · Claude Code · single run · 2026-09-01
+**33 / 105** · repo 1 15/45 · repo 2 18/60 · 7 unplanted · 36.3 min · $48.58 · `high` · Claude Code · single run · 2026-09-01
 
 ## Muse Spark 1.3 (max effort, Muse Code, Meta API) - mean of 5
 
@@ -118,13 +118,13 @@ The Sol dial: medium 29 -> high 34 -> xhigh 39 -> max 42.
 
 ## Fable 5.1 (low effort)
 
-**29 / 105** · repo 1 13/45 · repo 2 16/60 · 6 unplanted · 33.2 min · $27.27 · `low` · Claude Code · single run · 2026-09-02
+**29 / 105** · repo 1 13/45 · repo 2 16/60 · 6 unplanted · 33.2 min · $33.00 · `low` · Claude Code · single run · 2026-09-02
 
 **Caveat.** Mixed judges within this row: repo 1 by GPT-5.5, repo 2 by Grok 4.5 after the Codex judge returned a malformed verdict on that packet. Every other Fable 5.1 row is Codex-judged throughout. The repo 2 leg was also re-run: the first attempt spanned a network outage that voided its wall clock (862 vs 2183 output tokens/min) and scored 18/60 under Codex, against 16/60 under Grok here. The diff and the judge both changed between those two, so the difference cannot be attributed to either one.
 
 ## Fable 5.1 (xhigh effort)
 
-**29 / 105** · repo 1 13/45 · repo 2 16/60 · 4 unplanted · 59.5 min · $40.42 · `xhigh` · Claude Code · single run · 2026-09-10
+**29 / 105** · repo 1 13/45 · repo 2 16/60 · 4 unplanted · 59.5 min · $53.61 · `xhigh` · Claude Code · single run · 2026-09-10
 
 **Caveat.** One run per tier, five tiers - so this is five samples describing a surface, not a measured response curve. The board's own variance evidence (three runs of one model at one setting scoring 16, 13 and 17) means a twelve-point spread across four single runs is entirely consistent with noise, which is precisely the point: if noise can produce this ordering, the ordering carries no information. The one claim that survives is max against the rest, and even that rests on a single run at each end.
 
@@ -132,7 +132,7 @@ The row that completes Fable 5.1's dial, and the one that shows the dial does no
 
 ## Fable 5 (max effort)
 
-**29 / 105** · repo 1 12/45 · repo 2 17/60 · 5 unplanted · 57.3 min · $104.49 · `max` · Claude Code · single run · 2026-08-01
+**29 / 105** · repo 1 12/45 · repo 2 17/60 · 5 unplanted · 57.3 min · $112.40 · `max` · Claude Code · single run · 2026-08-01
 
 ## Grok 4.7 (xhigh) seq - mean of 4
 
@@ -156,7 +156,7 @@ The FIRST configuration outside Meta's effort dial to be run three times, publis
 
 ## Opus 5 (max effort)
 
-**27 / 105** · repo 1 13/45 · repo 2 14/60 · 2 unplanted · 60.0 min · $51.33 · `max` · Claude Code · single run · 2026-08-01
+**27 / 105** · repo 1 13/45 · repo 2 14/60 · 2 unplanted · 60.0 min · $54.94 · `max` · Claude Code · single run · 2026-08-01
 
 ## Grok 4.7 (medium) - mean of 3
 
@@ -176,7 +176,7 @@ The top of Alibaba's own accept-list on Alibaba's own Anthropic-compatible endpo
 
 ## Opus 5 (xhigh effort)
 
-**26 / 105** · repo 1 14/45 · repo 2 12/60 · 3 unplanted · 49.9 min · $59.59 · `xhigh` · Claude Code · single run · 2026-08-28
+**26 / 105** · repo 1 14/45 · repo 2 12/60 · 3 unplanted · 49.9 min · $63.25 · `xhigh` · Claude Code · single run · 2026-08-28
 
 The Opus dial is nearly flat at the top: high 21, medium 24, xhigh 26, max 27.
 
@@ -190,11 +190,11 @@ Runs scored 28, 24 and 25 of 105 (repo 1: 13, 11, 13 - repo 2: 15, 13, 12). Mean
 
 ## Opus 5 (medium effort)
 
-**24 / 105** · repo 1 11/45 · repo 2 13/60 · 4 unplanted · 30.5 min · $34.77 · `medium` · Claude Code · single run · 2026-08-27
+**24 / 105** · repo 1 11/45 · repo 2 13/60 · 4 unplanted · 30.5 min · $37.40 · `medium` · Claude Code · single run · 2026-08-27
 
 ## Fable 5
 
-**24 / 105** · repo 1 9/45 · repo 2 15/60 · 3 unplanted · 31.4 min · $68.07 · `high` · Claude Code · single run · 2026-07-26
+**24 / 105** · repo 1 9/45 · repo 2 15/60 · 3 unplanted · 31.4 min · $74.52 · `high` · Claude Code · single run · 2026-07-26
 
 ## MiMo-V2.6-Flash - mean of 3
 
@@ -252,7 +252,7 @@ DeepSeek's top Flash rung, RUN THREE TIMES. Runs scored 24, 19 and 22 of 105 (re
 
 ## Fable 5.1 (medium effort)
 
-**21 / 105** · repo 1 8/45 · repo 2 13/60 · 3 unplanted · 23.0 min · $17.46 · `medium` · Claude Code · single run · 2026-09-10
+**21 / 105** · repo 1 8/45 · repo 2 13/60 · 3 unplanted · 23.0 min · $23.73 · `medium` · Claude Code · single run · 2026-09-10
 
 **Caveat.** One run per tier. A single non-monotonic point is a finding about this run, not a demonstrated property of the medium tier - the board's own variance evidence (three Grok 4.5 runs at one setting scoring 16, 13 and 17) is the reason that distinction is enforced here. What the row does establish is that the shell-first strategy and the low score arrived together, which is a mechanism worth having on record either way.
 
@@ -264,7 +264,7 @@ Fable 5.1's dial does not run in a straight line: medium scores 21/105, BELOW it
 
 ## Opus 5
 
-**21 / 105** · repo 1 11/45 · repo 2 10/60 · 6 unplanted · 37.4 min · $38.77 · `high` · Claude Code · single run · 2026-07-26
+**21 / 105** · repo 1 11/45 · repo 2 10/60 · 6 unplanted · 37.4 min · $41.51 · `high` · Claude Code · single run · 2026-07-26
 
 ## Muse Spark 1.3 (xhigh effort, Muse Code, Meta API) - mean of 3
 
@@ -408,11 +408,11 @@ THE MIDDLE SIZE OF THE QWEN3.8 FAMILY, RUN THREE TIMES ON ALIBABA'S OWN FIRST-PA
 
 ## Opus 4.8 (max effort)
 
-**15 / 105** · repo 1 6/45 · repo 2 9/60 · 3 unplanted · 108.8 min · $52.07 · `max` · Claude Code · single run · 2026-09-10
+**15 / 105** · repo 1 6/45 · repo 2 9/60 · 3 unplanted · 108.8 min · $58.11 · `max` · Claude Code · single run · 2026-09-10
 
 **Caveat.** One run at this tier. The board's own variance evidence - three runs of one model at one setting scoring 16, 13 and 17 - is why a six-bug gap between two single runs is reported as what happened rather than as the size of the tier effect.
 
-Opus 4.8's top tier, and the row exists to answer what the dial buys on a model the board already measured. It buys six bugs: the default-effort Opus 4.8 row is 9/105 (2/45 + 7/60), max is 15/105 (6/45 + 9/60), and the gain shows on both repos rather than on one. That is a real move and still leaves this model near the bottom of the frontier field - Opus 5 runs 21-27 across its tiers and Fable 5.1 runs 21-43 across its four. Both legs exited success with a report written, so nothing here is a harness failure. The price of the six bugs is the part worth reading twice: $52.07 at list for 15 fixes is the worst cost-per-fix of any Anthropic row on the board.
+Opus 4.8's top tier, and the row exists to answer what the dial buys on a model the board already measured. It buys six bugs: the default-effort Opus 4.8 row is 9/105 (2/45 + 7/60), max is 15/105 (6/45 + 9/60), and the gain shows on both repos rather than on one. That is a real move and still leaves this model near the bottom of the frontier field - Opus 5 runs 21-27 across its tiers and Fable 5.1 runs 21-43 across its four. Both legs exited success with a report written, so nothing here is a harness failure. The price of the six bugs is the part worth reading twice: $58.11 at list for 15 fixes is $3.87 a fix - level with Fable 5 (max effort) for the worst cost-per-fix of any Anthropic row here, and about seven times what Opus 5.5 pays per fix at medium effort.
 
 ## DeepSeek V4-Flash 0731
 
@@ -476,19 +476,19 @@ The BOTTOM of Z.ai's three-tier dial for this family, run first-party on the sam
 
 ## Sonnet 5
 
-**9 / 105** · repo 1 1/45 · repo 2 8/60 · 4 unplanted · 32.8 min · $15.12 · `high` · Claude Code · single run · 2026-07-26
+**9 / 105** · repo 1 1/45 · repo 2 8/60 · 4 unplanted · 32.8 min · $17.06 · `high` · Claude Code · single run · 2026-07-26
 
 ## Opus 4.8
 
-**9 / 105** · repo 1 2/45 · repo 2 7/60 · 1 unplanted · 34.8 min · $19.35 · `high` · Claude Code · single run · 2026-07-26
+**9 / 105** · repo 1 2/45 · repo 2 7/60 · 1 unplanted · 34.8 min · $21.30 · `high` · Claude Code · single run · 2026-07-26
 
 ## Sonnet 5 (max effort)
 
-**9 / 105** · repo 1 3/45 · repo 2 6/60 · 3 unplanted · 61.3 min · $24.04 · `max` · Claude Code · single run · 2026-09-10
+**9 / 105** · repo 1 3/45 · repo 2 6/60 · 3 unplanted · 61.3 min · $26.94 · `max` · Claude Code · single run · 2026-09-10
 
 **Caveat.** A null from one run per setting is not proof the tier is inert - it is the absence of evidence that it is active, on a benchmark where this model finds few bugs at either setting, which is exactly the regime where a real effect would be hardest to see.
 
-The clearest null on the board's Anthropic dial: Sonnet 5 at max scores 9/105, exactly what the default-effort Sonnet 5 row scored. The totals match and the split does not - default was 1/45 + 8/60, max is 3/45 + 6/60 - so the tier moved two bugs onto repo 1 and two off repo 2 and finished where it started. Two runs cannot separate that from ordinary run-to-run noise, and the honest reading is that asking Sonnet 5 for maximum effort bought nothing measurable on this benchmark. Both legs exited success with a report written. Cost roughly doubled for it: $24.05 at list against $15.12 for the default row.
+The clearest null on the board's Anthropic dial: Sonnet 5 at max scores 9/105, exactly what the default-effort Sonnet 5 row scored. The totals match and the split does not - default was 1/45 + 8/60, max is 3/45 + 6/60 - so the tier moved two bugs onto repo 1 and two off repo 2 and finished where it started. Two runs cannot separate that from ordinary run-to-run noise, and the honest reading is that asking Sonnet 5 for maximum effort bought nothing measurable on this benchmark. Both legs exited success with a report written. Cost rose about 58 per cent for it: $26.94 at list against $17.06 for the default row.
 
 ## GPT-5.6 Luna (low effort)
 
