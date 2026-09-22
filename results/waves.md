@@ -3239,7 +3239,7 @@ That is the strongest Anthropic result here by a wide margin. The Opus 5 sweep p
 at the same max effort, and 43 puts this row level with the best non-OpenAI rows on the board.
 
 **Read the context window before reading the gain.** This arm ran with a 1M context window: it held
-a peak of 665,594 tokens and compacted **zero** times, carrying both repos whole through every
+a peak of 847,590 tokens on the larger repo and crossed **zero** compaction boundaries, carrying both repos whole through every
 turn. Every Opus 5 row here ran at the 200K window the harness assumes by default, and those runs
 compacted repeatedly mid-task. Two variables moved at once — the model version, and how much of the
 codebase the model could hold while reasoning about it. The claim this row supports is *"Opus 5.5
@@ -3299,3 +3299,34 @@ untested rather than known-inert, and none of these three runs asserted a reason
 Judged blind by Codex gpt-5.5 on all six legs, with no judge switching anywhere in this mean.
 
 Not featured — a new row joins the default view by decision, not by score (Sep 16).
+
+## The Opus 5.5 effort ladder — monotone, and that is all it is (Sep 22)
+
+The max row above now has three siblings. Same arm definition, same day, same machine, same two
+repos, same blind judge — one character different, the effort dial. Nothing else moved.
+
+| Effort | Score | Repo 1 | Repo 2 | Wall | Cost | Repo-2 tokens |
+|---|---|---|---|---|---|---|
+| max | **43** / 105 | 18 / 45 | 25 / 60 | 68.5 min | $60.49 | 150.2M |
+| xhigh | 35 / 105 | 16 / 45 | 19 / 60 | 43.7 min | $35.14 | 82.7M |
+| high | 32 / 105 | 14 / 45 | 18 / 60 | 23.8 min | $23.03 | 46.8M |
+| medium | 30 / 105 | 11 / 45 | 19 / 60 | 17.2 min | $16.55 | 33.4M |
+
+**The dial binds, and that is worth saying out loud.** This board has caught several routes that
+accept a reasoning parameter and quietly ignore it, so a first-party label is not taken on trust.
+Here the evidence is mechanical: token spend on repo 2 climbs 33.4M → 46.8M → 82.7M → 150.2M, a
+4.5x span, and wall climbs with it. Whatever the scores say, the setting is reaching the model and
+changing how hard it works.
+
+**But four single runs are a trend, not four levels.** Every rung is n=1. This board has already
+measured a 13-point spread between two runs of one identical max-effort configuration. The largest
+gap on this ladder — max over xhigh — is 8. So the *direction* is credible across four points, and
+the *ordering of any two adjacent rungs is not*. Nothing here establishes that high beats medium.
+
+**What the ladder does establish is the price of the top.** Going from medium to max costs 3.7x the
+money and 4x the clock for 13 more of 105. On repo 2 alone the entire ladder spans 6 points, 18 to
+25 — most of the visible gain is on repo 1, where max found 18 of 45 against medium's 11. Which
+repo you benchmark on decides how much the effort dial appears to be worth.
+
+All four rows run the 1M window with zero compactions, so they compare cleanly to *each other* and
+not to the 200K Opus 5 ladder. The three lower rungs are published unfeatured; max stays featured.
