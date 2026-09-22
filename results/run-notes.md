@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 22, 2026 · 109 rows from 157 scored runs. Superseded rows are listed last.
+Updated Sep 22, 2026 · 110 rows from 159 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -46,10 +46,6 @@ Second only to Sol max (42) on the board; the Sol dial runs high 34 -> xhigh 39 
 
 **34 / 105** · repo 1 13/45 · repo 2 21/60 · 28 unplanted · 66.7 min · $33.92 · `high` · Codex CLI · single run · 2026-07-31
 
-## GPT-5.6 Luna (max effort)
-
-**33 / 105** · repo 1 17/45 · repo 2 16/60 · 31 unplanted · 85.7 min · $1.80 · `max` · Codex CLI · single run · 2026-07-31
-
 ## Fable 5.1
 
 **33 / 105** · repo 1 15/45 · repo 2 18/60 · 7 unplanted · 36.3 min · $41.52 · `high` · Claude Code · single run · 2026-09-01
@@ -67,6 +63,14 @@ THE DEEPEST REPLICATION ON THIS BOARD: FIVE RUNS OF ONE CONFIGURATION. Runs scor
 **32 / 105** · repo 1 16/45 · repo 2 16/60 · 45 unplanted · 159.7 min · $27.98 · `max` · Codex CLI · single run · 2026-08-27
 
 The $2/Mtok mid tier at max: 32/105, just below Luna max (33) and above Grok xhigh / Opus max (27) at a fraction of Sol's cost. 45 genuine unplanted extras, the bug-max signature.
+
+## GPT-5.6 Luna (max effort) - mean of 2
+
+**31.5 / 105** · repo 1 16.5/45 · repo 2 15/60 · 44 unplanted · 170.0 min · $2.82 · `max` · Codex CLI · mean of 2 runs · 2026-09-22
+
+**Caveat.** Two runs of an identical configuration scoring 33 and 30 of 105 - n=2, not the n=3 originally planned, because a third replicate's judging failed on a Grok bridge initialization error unrelated to Luna. Cost is a TOKEN ESTIMATE at list rates, not a bill, and is comparable only to other list-priced rows. Runs shared the laptop with benchmark legs from other vendors, so wall figures are contended and biased upward; scores and cost are unaffected.
+
+GPT-5.6 Luna at max effort through OpenAI's own Codex CLI, published as the MEAN OF TWO INDEPENDENT RUNS. Runs scored 33 and 30 of 105 (repo 1: 17, 16 of 45 - repo 2: 16, 14 of 60). Mean 31.5, spread 3. *** THIS SUPERSEDES A SINGLE RUN THAT WAS THE HIGHEST NUMBER ON THIS BOARD *** The earlier row said 33 of 105 from one draw, and it was FEATURED, which makes it the first number a reader meets. That is the most over-read kind of figure a benchmark can publish: nothing about it was false - it said n=1 on its face - but a top-of-board score from a single draw invites a confidence the sample cannot carry. *** WHY n=2 AND NOT n=3 *** A third replicate (gpt56lunamaxr3) was attempted and its two legs ran clean, but judging it failed identically 3 times per bench (`TimeoutError: ACP request timed out: initialize` in the Grok ACP judge bridge, before any real judging began) - a bridge/initialization problem, not a Luna problem, and not resolved before today's benchmarking window closed. This row is published honestly as n=2 rather than waiting on or faking a third value; r3 may be added as a further replicate later if the judge bridge issue is resolved. *** WALL AND COST *** Walls 85.8, 254.3 minutes, mean 170.1; cost $1.80, $3.85, mean $2.83. COST IS A TOKEN ESTIMATE at OpenAI's published rates, not an invoice - the Codex CLI on a subscription does not expose a per-run bill, so this column is `list` and comparable only to other list rows. *** GENUINE EXTRAS *** 31 and 57 across the two runs, mean 44.0 - real defects found in the repos that are not part of the planted set. Not scored, reported because a model that finds bugs nobody planted is doing something the planted total cannot see. *** THE TIER IS FIRST-PARTY AND THAT IS WHY IT CAN BE ASSERTED *** max is Luna's top tier on OpenAI's own endpoint, which validates and separates its effort levels rather than silently clamping an unknown string the way several third-party routes on this board do. *** THE JUDGE IS NOT THIS BOARD'S DEFAULT, BY RULE *** A model may never judge itself or a sibling, and this is an OpenAI model, so the default Codex judge is disqualified. All four legs were judged by grok-4.5, blinded to the arm's identity. The runs themselves shared the machine with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that - only the clock is. *** RECEIPTS *** All four legs exited 0. Legs SEQUENTIAL within every run.
 
 ## Union Alpha (stealth; free) - mean of 3
 
@@ -495,6 +499,12 @@ THE ZERO SURVIVES REPLICATION. Runs scored 0, 0 and 0 of 105 (repo 1: 0, 0, 0 - 
 **Caveat.** Every figure on this row is a MEAN of three runs, carried to one decimal - 33.7 of 105, not a 34 that happens to be an average. The three runs span 33 to 35. This row SUPERSEDES the single-run max row (33/105) published 2026-09-13, which sat 0.7 below the mean; the supersession is about method, not a correction. The two repo figures are rounded independently and sum to 33.6 rather than 33.7 - the combined figure is the mean of the three TOTALS, which is the one that reconciles with the runs; a tenth of a bug is the cost of a fixed precision and is not hidden. THE THREE RUNS DIFFER IN HARNESS VERSION (1.1.1 for the first, 1.2.1 for the other two), which no other replicated rung on this board does - see the note. With this row Meta's dial is the first on this board measured at n=3 on every rung.
 
 THE TOP RUNG OF META'S DIAL, RUN THREE TIMES - and with it, the FIRST EFFORT DIAL ON THIS BOARD REPLICATED END TO END. Runs scored 33, 33 and 35 of 105 (repo 1: 14, 17, 15 - repo 2: 19, 16, 20). Mean 33.7, range 2. *** THE WHOLE DIAL, ALL FIVE RUNGS AT n=3 *** low 9.7, medium 13.0, high 18.7, xhigh 20.3, max 33.7. Monotone, with no dip and no dead middle. Three-run ranges, in the same order: 9, 6, 3, 9, 2. *** WHAT THAT DOES AND DOES NOT LICENSE *** Two adjacent rungs are distinguishable here only where the step clears the run-to-run range at both ends. max over xhigh is a 13.4-point step against ranges of 9 and 2, and is the one gap on this dial that no amount of run-to-run noise explains away. high over medium (5.7 against ranges of 6 and 3) and xhigh over high (under two points against 3 and 9) are NOT separated by anything this board can measure. What is established is the ORDER of the endpoints and the size of the top step; what is not established is that every rung is a rung. *** THE THREE RUNS ARE NOT HARNESS-IDENTICAL, AND THAT IS A REAL ASTERISK *** Run 1 ran Muse Code 1.1.1 (1.1.1-R2514.1); runs 2 and 3 ran 1.2.1 (1.2.1-R2847.1). Muse Code self-updates and did so between waves. Every other replicated rung on this board held the harness version fixed across all three runs, so this rung's mean carries one source of variation the others do not. It is not a reason to discount the row - 1.1.1 scored 33 and the 1.2.1 pair scored 33 and 35, so the update did not move the number in any direction this sample can see - but a mean is a claim that its members differ only by chance, and here they also differ by a version string. Stated so nobody has to reconstruct it from two CSVs. *** WHAT IS SOLID *** Counts, not inferences. A fixed configuration produced 33, 33 and 35 on this rung - the TIGHTEST spread of any rung on this dial, a range of 2 against 9 at the bottom. Across the three runs this rung ever fixed 45 distinct bugs of 105, well above the 33.7 any single run manages: 25 of those 45 fell in all three runs, 6 in two of them and 14 in exactly one. The gap between 'ever' and 'reliably' is the thing a single run cannot show. All six legs were clean: the Linux install returned 0, the shim logged zero errors, every leg exited 0, and no leg carries a handicap note. Per-leg receipts (repo 1 / repo 2): shim calls 471/557, 467/351, 363/484; wall 102.3, 86.6 and 80.4 minutes; cost 19.83, 19.83 and 17.81 dollars. Genuine extras 16, 25 and 38 - a range of 22 on a count that is not scored and is not meant to be, and a useful reminder of how noisy the unplanted column is at n=1. Claimed-only is 0 on five of the six legs; run 2's repo-2 leg claimed 4 fixes the judge did not confirm. Each leg is a full independent run of both repos; the mean is over three, and the per-repo runs are stated so the spread stays visible - it is the finding, not a caveat on it. THE EFFORT LABEL DESCRIBES THE MAIN LOOP, NOT EVERY CALL THIS ROW IS BILLED FOR: Muse Code runs a reminder-observer side agent at fixed efforts the flag does not control. billing=LIST ESTIMATE, NOT A BILL: a subscription account with no per-run credits delta, costed at the same Meta list rates as the other first-party rows, which is what keeps them comparable. ctx 1M.
+
+## GPT-5.6 Luna (max effort)
+
+**33 / 105** · repo 1 17/45 · repo 2 16/60 · 31 unplanted · 85.7 min · $1.80 · `max` · Codex CLI · single run · 2026-07-31
+
+**Superseded.** Superseded 2026-09-22 by the n=2 row at the same configuration (31.5 of 105). This row was a SINGLE run at 33, and it was featured, so it was the first number most readers met. Two runs of the same configuration scored 33 and 30. Nothing it claimed is retracted; it said n=1 and it was one run. Kept rather than deleted because it is the receipt for what the board showed before this replicate.
 
 ## Muse Spark 1.3 (max effort, Muse Code, Meta API)
 
