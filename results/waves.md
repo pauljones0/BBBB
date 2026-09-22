@@ -3207,10 +3207,15 @@ of 45 on repo 1, 11 of 60 on repo 2, 3 genuine extras, 56.4 minutes (contended -
 running on the same box for parts of this run, which can only inflate that figure), $0.79 real
 OpenRouter bill.
 
-**No effort dial exists on this route at all**, which is a stronger guarantee than the usual
-zero-token readback probe used elsewhere on this board: the endpoint's parameter list carries no
-`reasoning_effort`, so nothing was requested and nothing could have been silently clamped. The row
-is labelled `default` for exactly that reason, not because a tier was asked for and ignored.
+**Correction, same day: the dial exists, it's just inert.** This wave originally said no effort dial
+exists on this route at all, reading the endpoint's parameter list - which carries no flat
+`reasoning_effort` field - as proof there was nothing to ask for. That overstated it: the list does
+include `reasoning`, the field OpenRouter's own `{effort: low|medium|high}` convention uses, and the
+endpoint accepts it. A direct probe (n=3 per condition, same prompt, no-field vs `effort: low` vs
+`effort: high`) found reasoning-token counts that fully overlap - 738-1704 no-field, 739-997 low,
+814-1023 high - with no ordering between low and high. Same failure mode already on this board for
+Qwen3.8-Max: accepted, not binding. The row is labelled `default` because that's what ran, before
+this probe existed - not because there was no dial to probe.
 
 **Same real bill as GLM-5.3 Flash, seven more bugs.** Both are billed rows, not estimates, and both
 land at $0.79 to the cent - GLM-5.3 Flash (OpenRouter) fixed 13, MiMo fixed 20. At the score MiMo

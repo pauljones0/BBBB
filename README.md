@@ -7,7 +7,7 @@
 If the numbers save you a benchmark run of your own, **star this repo** — that is what keeps the bench findable, and new models are added as they ship.
 
 <!-- leaderboard:start -->
-![Bug Hunt Bench leaderboard, the featured runs, updated Sep 22, 2026](assets/leaderboard.png?v=2026-09-22-9499c177)
+![Bug Hunt Bench leaderboard, the featured runs, updated Sep 22, 2026](assets/leaderboard.png?v=2026-09-22-1406c30e)
 
 **Updated Sep 22, 2026 · 106 rows from 150 scored runs · 34 models · 33 of 105 bugs have never been fixed by any model.**
 
