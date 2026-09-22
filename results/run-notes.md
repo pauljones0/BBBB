@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 22, 2026 · 110 rows from 159 scored runs. Superseded rows are listed last.
+Updated Sep 22, 2026 · 111 rows from 161 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -181,6 +181,14 @@ The board's first Qwen row that does not go through an aggregator: Claude Code s
 **23 / 105** · repo 1 7/45 · repo 2 16/60 · 16 unplanted · 33.0 min · $15.73 floor · `high` · Grok Build CLI (ACP) · single run · 2026-08-28
 
 The missing Grok 4.6 dial tier (between medium 23 and xhigh, a rung since run three times for a mean of 29 - this row is still a single run and the gap above it is smaller than it looked when both endpoints were n=1), run on Windows when the macOS delegation stalled. Effort verified active by zero-token ACP readback. Wall ran alongside the Codex xhigh chains on a separate subscription - minor concurrency.
+
+## MiMo-V2.6-Pro - mean of 2
+
+**22 / 105** · repo 1 10.5/45 · repo 2 11.5/60 · 5.5 unplanted · 96.6 min · $0.91 bill · `default` · Claude Code / OpenRouter · mean of 2 runs · 2026-09-22
+
+**Caveat.** Two runs of an identical configuration scoring 20 and 24 of 105 - spread 4, in line with what this board has already measured elsewhere. Cost is a real OpenRouter bill across both runs. Effort is `default`: this route's reasoning field is accepted but measured inert on this model, so this is not a measurement of the model at any particular reasoning level. Runs shared the laptop with benchmark legs from other vendors, so wall figures are contended and biased upward; scores and cost are unaffected.
+
+Xiaomi's MiMo-V2.6-Pro driven by Claude Code through an Anthropic-API shim onto OpenRouter, published as the MEAN OF TWO INDEPENDENT RUNS. Runs scored 20 and 24 of 105 (repo 1: 9, 12 of 45 - repo 2: 11, 12 of 60). Mean 22.0, spread 4. *** THIS SUPERSEDES A SINGLE RUN OF 20 *** the earlier row was one draw on a model nothing on this board had seen before; two runs of the same configuration give a spread instead of a single, unreplicated number. *** WALL AND COST *** Walls 56.4, 136.9 minutes, mean 96.7; cost $0.79, $1.03, mean $0.91. COST IS A REAL BILL, the OpenRouter credits delta across both runs' legs, comparable to other billed rows here and not to list-priced or floor-reconstructed ones. *** GENUINE EXTRAS *** 3 and 8 across the two runs, mean 5.5 - real defects found in the repos that are not part of the planted set. *** THE DIAL, OR LACK OF ONE *** this route's `reasoning` field is accepted but measured inert on this model (see the sibling first-party and default-row notes on this board); `default` never named a state that could be asked for again, and neither run in this mean tried to assert one. *** RECEIPTS *** All four legs exited 0. Legs SEQUENTIAL within every run, one repo at a time. The runs shared the laptop with legs from other vendors, which the row's wall marker discloses; scores, tokens and cost are untouched by that - only the clock is. Judge: blind Codex gpt-5.5, neither this model nor a sibling of it.
 
 ## Grok 4.6 (medium) seq
 
@@ -594,7 +602,7 @@ DeepSeek newest Flash generation, benchmarked on DeepSeek OWN Anthropic-compatib
 
 **20 / 105** · repo 1 9/45 · repo 2 11/60 · 3 unplanted · 56.4 min · $0.79 bill · `default` · Claude Code / OpenRouter · single run · 2026-09-22
 
-**Superseded.** Superseded 2026-09-22 by the first-party row (18/105, effort explicitly asserted). This row ran at `default` over an aggregator hop - the aggregator's reasoning dial is accepted but measured inert, so `default` never named a state that could be asked for again. The first-party row asserts the model's one real toggle (`thinking.type=enabled`) explicitly and drops the aggregator hop entirely; it scored 2 points lower (18 vs 20), inside the noise this board has already measured elsewhere (widest observed spread: 6 of 105) and expected here since both rows almost certainly ran with reasoning already on. Nothing here is retracted - the 20 happened and this is its receipt - but it is no longer the row that best answers whether reasoning is on for this model.
+**Superseded.** Superseded 2026-09-22 by the first-party row (18/105, effort explicitly asserted). This row ran at `default` over an aggregator hop - the aggregator's reasoning dial is accepted but measured inert, so `default` never named a state that could be asked for again. The first-party row asserts the model's one real toggle (`thinking.type=enabled`) explicitly and drops the aggregator hop entirely; it scored 2 points lower (18 vs 20), inside the noise this board has already measured elsewhere (widest observed spread: 6 of 105) and expected here since both rows almost certainly ran with reasoning already on. Nothing here is retracted - the 20 happened and this is its receipt - but it is no longer the row that best answers whether reasoning is on for this model. The OpenRouter route itself was also independently replicated: see 'MiMo-V2.6-Pro - mean of 2' (mean of two runs, 22.0 of 105) for the same-route, same-configuration successor. This row is superseded on two separate axes - route (the first-party row) and sample size (the mean row) - neither displacing the other.
 
 **Caveat.** ONE RUN, not a mean. Models on this board have moved several points between runs of an identical configuration - the widest observed spread is 6 of 105 - so read this number with that much slack in either direction. Effort is `default`: the route's `reasoning` field is accepted but measured inert (n=3 per condition, 2026-09-22), so a dial does exist here, contrary to what an earlier version of this row said, but it does not change behaviour - this is still not a measurement of the model at any particular reasoning level. The wall figure is contended: other vendors' legs shared the machine.
 
