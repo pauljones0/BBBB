@@ -3355,3 +3355,37 @@ where this board already keeps list prices that went stale after a run.
 One claim on the board changed with the numbers. Opus 4.8 (max effort) was described as the worst
 cost-per-fix of any Anthropic row here; after the correction Fable 5 (max effort) edges past it, at
 $3.88 a fix against $3.87. Both notes now say so.
+
+## GPT-6 Sol at max effort — the newer checkpoint does not lead its own family (Sep 23)
+
+Measured the night it shipped. One run, Codex CLI on a ChatGPT account, max effort. **32 of 105**:
+18 of 45 on repo 1, 14 of 60 on repo 2, 48 genuine extras, 60.4 minutes (contended), $10.03.
+
+GPT-6 Astra scores 48 at max and 43 at xhigh on this same benchmark. GPT-5.6 Sol scores 42 at max.
+This row lands below all three — at a seventh of GPT-5.6 Sol's cost. One run cannot settle a gap
+that size against a mean, but it is a large gap pointing the opposite way from the release order.
+
+**48 genuine extras is the part that doesn't fit the score.** Those are real defects in the repos
+that nobody planted, and that count is near the top of the board — from a row in the middle of the
+scoring table. Extras are reported separately and never folded in. A model flagging this many
+unplanted problems while fixing fewer planted ones is spending its attention somewhere the planted
+total can't see.
+
+**One caveat is structural and can't be engineered away.** The Codex build every other OpenAI row
+here uses refuses this model outright — it is not supported on a ChatGPT account on that version.
+A newer build runs it on the same account, same auth, same machine, so the blocker was the client,
+not entitlement. There was no version of this measurement that held the harness fixed against the
+other OpenAI rows: a one-version harness delta, or no row at all.
+
+**And two earlier attempts at this row were void, for a reason worth publishing.** The arm was
+first pointed at npm's launcher shim rather than the real executable. On Windows that shim is a
+`.cmd`, running a `.cmd` makes the shell re-parse the whole argument list, and *a newline ends the
+command*. The model received the prompt's first line — the repo description — and none of the
+numbered instructions. Both legs launched, billed, and exited zero. One edited code and wrote no
+report it had never been asked for; the other replied asking what to work on. Nothing in either
+leg's output said the prompt had been cut. Those rows are kept in the ledger, voided and labelled,
+and the harness now refuses a shim outright.
+
+That is the failure mode worth carrying away from this row: a benchmark can be silently asking a
+different question than the one it prints, and every guardrail — exit code, token spend, wall time,
+a repo full of edits — can agree that nothing went wrong.
