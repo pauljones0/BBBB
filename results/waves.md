@@ -3228,3 +3228,44 @@ first. One run, labelled as one: the usual single-draw caveat applies the same a
 this board.
 
 Not featured - a new row joins the default view by decision, not by score (Sep 16).
+
+## Opus 5.5 at max effort — the strongest Anthropic row, and a window you have to read first (Sep 22)
+
+First measurement of Opus 5.5 on this board. One run, Claude Code straight onto Anthropic's own
+API, max effort. **43 of 105**: 18 of 45 on repo 1, 25 of 60 on repo 2, 9 genuine extras, 68.5
+minutes (contended — legs from another vendor shared the box), $60.49.
+
+That is the strongest Anthropic result here by a wide margin. The Opus 5 sweep peaked at 27 of 105
+at the same max effort, and 43 puts this row level with the best non-OpenAI rows on the board.
+
+**Read the context window before reading the gain.** This arm ran with a 1M context window: it held
+a peak of 665,594 tokens and compacted **zero** times, carrying both repos whole through every
+turn. Every Opus 5 row here ran at the 200K window the harness assumes by default, and those runs
+compacted repeatedly mid-task. Two variables moved at once — the model version, and how much of the
+codebase the model could hold while reasoning about it. The claim this row supports is *"Opus 5.5
+with a 1M window scores 43"*, not *"Opus 5.5 is 16 points better than Opus 5"*. Separating the two
+needs an Opus 5 arm re-run at the larger window, which has not been done.
+
+**The window was verified, not assumed.** Requesting 1M is not the same as getting it: an earlier
+Anthropic arm on this board requested the larger window and was silently normalised back to the
+default by the harness, so it measured something other than what its own config said. This time the
+resolved model string was probed before any token was spent, and checked again in the running leg's
+own startup record. Both say the larger window was served.
+
+**A price correction that reaches further than this row.** Opus 5.5's published rates are $4 input,
+$20 output, and $0.20 per million cache reads — a 0.05x cache multiplier, where every other model on
+this board uses 0.1x. Cache reads dominate an agentic run by two orders of magnitude, so that one
+factor is most of the difference. This row's cost was initially computed with Opus 5's table and came
+out 2.02x too high. The corrected table reproduces the harness's own cost figure to the cent on both
+legs. The same audit found the smaller version of the flaw on the published Opus 5 rows: they assume
+a 5-minute cache write when the harness actually writes 1-hour caches, understating their own cost by
+about 7 per cent. Long context itself carries no surcharge — the full window is priced at standard
+rates.
+
+**43 of 105, and not one new bug killed.** The survivor count — bugs no model on this board has ever
+fixed — did not move. Everything Opus 5.5 fixed, something else had already fixed first. A high
+score and a stationary survivor count is the same pattern MiMo showed at the other end of the
+table: these rows are re-covering known ground faster, not opening new ground.
+
+One run, labelled as one. This board has already measured a 13-point spread between two runs of a
+single identical max-effort configuration, so treat 43 as one draw rather than a settled level.

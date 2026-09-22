@@ -2,7 +2,7 @@
 
 Every row on the board, with the note and caveat it carries. Generated from `data/benchmark.json` by `bench_golive.py` - do not edit by hand.
 
-Updated Sep 22, 2026 · 113 rows from 167 scored runs. Superseded rows are listed last.
+Updated Sep 22, 2026 · 114 rows from 168 scored runs. Superseded rows are listed last.
 
 ## GPT-6 Astra (max effort) - mean of 3
 
@@ -23,6 +23,14 @@ THE FIRST REPLICATION OF THIS MODEL'S TOP EFFORT SETTING. Runs scored 40 and 47 
 ## GPT-6 Astra (xhigh effort)
 
 **43 / 105** · repo 1 23/45 · repo 2 20/60 · 53 unplanted · 58.8 min · $24.22 · `xhigh` · Codex CLI · single run · 2026-09-04
+
+## Opus 5.5 (max effort)
+
+**43 / 105** · repo 1 18/45 · repo 2 25/60 · 9 unplanted · 68.5 min · $60.49 · `max` · Claude Code · single run · 2026-09-22
+
+**Caveat.** ONE RUN, not a mean - and this board has already measured a 13-point spread between two runs of one identical max-effort configuration, so treat 43 as a single draw, not a settled level. Runs a 1M context window with zero compactions; every Opus 5 row here runs 200K and compacted, so the gap against them mixes model version with context and is not a clean version comparison. Cost is a list-rate estimate - verified against the harness's own figure to the cent, but not an invoice. The wall figure is contended.
+
+Anthropic's Opus 5.5 at max effort through Claude Code on the first-party API. 43 of 105: 18 of 45 on repo 1 and 25 of 60 on repo 2, 9 genuine extras, 68.5 minutes, $60.49. ONE RUN. The strongest Anthropic result on this board - the Opus 5 sweep peaked at 27 of 105 (max effort) - and level with the best non-OpenAI rows here. *** READ THE CONTEXT WINDOW BEFORE READING THE GAIN - THIS IS NOT A CLEAN VERSION DELTA *** This arm runs the model string claude-opus-5-5[1m] and therefore a 1M context window: it held a peak of 665,594 tokens and compacted ZERO times, carrying both repos whole through every turn. Every Opus 5 row on this board runs a bare slug, which the CLI treats as a 200K window, and those runs compacted repeatedly mid-task. Two variables moved at once - the model version AND how much of the codebase the model could hold while reasoning about it. The honest claim this row supports is 'Opus 5.5 with a 1M window scores 43', not 'Opus 5.5 is 16 points better than Opus 5'. Separating them needs an Opus 5 arm re-run at [1m], which has not been done. *** THE SUFFIX WAS VERIFIED, NOT ASSUMED *** [1m] is not always honoured: on CLI 2.1.272 the string claude-fable-5-1[1m] was recognised and silently normalised to the bare slug, so an earlier arm on this board requested a window it never received. Probed here before any token was spent, on CLI 2.1.280: init.model returns 'claude-opus-5-5[1m]' verbatim, and the running leg's own init record says the same. *** AUTOCOMPACT RAN AT THE CLI DEFAULT, ALSO DELIBERATE *** A user-level CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=30 had been reaching every leg on this machine, which on a 1M window forces a compaction roughly every 300K tokens - the same setting that turned one earlier arm definition into two different machines six weeks apart. It was removed before this run and its absence re-verified in a leg-shaped probe. *** COST IS A LIST ESTIMATE, BUT A VERIFIED ONE *** $60.49 is token counts at Anthropic's published Opus 5.5 rates: $4 input, $20 output, $0.20 cache read - a 0.05x cache multiplier unique to this model, where every other model here uses 0.1x - and $8 cache write, the 1-hour rate, which is what this harness actually writes. That table reproduces the harness's own computed cost to the cent on both legs (delta $0.00000000), so it is confirmed rather than estimated. It is still not an invoice, hence `list`. The row this arm shipped with initially was 2.02x too high because it inherited Opus 5's price table; the published opus5* rows have the smaller version of the same flaw, understating their own cost about 7 per cent by assuming a 5-minute cache write. Long context carries no surcharge - Anthropic prices the full 1M window at standard rates. *** RECEIPTS *** Both legs exited 0, run SEQUENTIALLY, one repo at a time. Judge: blind Codex gpt-5.5 - an OpenAI model scoring an Anthropic one, so neither the model itself nor a sibling of it. The repo 2 judge returned a malformed empty verdict set on its first attempt and was retried once; the retry is the scored result. The run shared the laptop with benchmark legs from another vendor, which the wall marker discloses - scores, tokens and cost are untouched by that, only the clock.
 
 ## Fable 5.1 (max effort)
 
