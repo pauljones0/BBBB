@@ -3397,3 +3397,66 @@ and the harness now refuses a shim outright.
 That is the failure mode worth carrying away from this row: a benchmark can be silently asking a
 different question than the one it prints, and every guardrail — exit code, token spend, wall time,
 a repo full of edits — can agree that nothing went wrong.
+
+## The Opus 5.5 effort ladder at n=3 — the dial resolves at the top and not at the bottom (Sep 23)
+
+The four single runs above are now four means of three. Twelve runs, twenty-four legs, every one
+of them clean, every replicate byte-identical to its original but for the arm name — same model
+string, same effort, same timeout, same price table, same blind judge. Published rung by rung as
+each landed, so the board never sat on a number that had been measured but not shown.
+
+| Effort | Score | Runs | Spread | Repo 1 | Repo 2 | Wall | Cost |
+|---|---|---|---|---|---|---|---|
+| max | **41.7** / 105 | 39, 43, 43 | 4 | 19.0 / 45 | 22.7 / 60 | 66.9 min | $58.53 |
+| xhigh | 36.0 / 105 | 35, 36, 37 | 2 | 17.0 / 45 | 19.0 / 60 | 42.5 min | $34.98 |
+| high | 31.7 / 105 | 31, 32, 32 | 1 | 13.0 / 45 | 18.7 / 60 | 23.9 min | $22.25 |
+| medium | 30.3 / 105 | 30, 30, 31 | 1 | 12.7 / 45 | 17.7 / 60 | 17.0 min | $15.68 |
+
+**The ordering survived replication at the top, and it still does not exist at the bottom.** The
+n=1 note said the direction was credible across four points but the ordering of any two adjacent
+rungs was not, and that nothing on it established that high beats medium. Three runs a rung changes
+the first half of that sentence and leaves the second half standing. xhigh over high is 4.3 points
+against spreads of 2 and 1; max over xhigh is 5.7 against 4 and 2. Both gaps are now wider than the
+variation seen within either rung. **High over medium is 1.4 points against spreads of 1 and 1** —
+one bug of 105, from configurations whose own runs move by that much. After twelve runs those two
+rungs are still not separated, and the honest reading is that the bottom of this dial does very
+little while costing about 40 per cent more.
+
+**Spread widens as effort rises, which is the opposite of what the other replicated ladders do.**
+1, 1, 2, 4 going up. The two other effort dials measured three times a rung on this board move
+10, 7, 5, 6 and 9, 6, 3, 9, 2 — no pattern either way. Opus 5.5's is clean and monotone, and the
+mechanism is not mysterious: the top rung is the one with room to make different choices. It is
+still four points estimated from three draws each, so it is a shape worth watching rather than a
+finding. The board's variance caveat now counts twenty-five three-run configurations and derives
+every number in that sentence, including this one.
+
+**The price of the top, restated on means.** medium to max is 3.7x the money and 3.9x the clock for
+11.4 more of 105. Nothing about that changed from the single-run reading — the gain was never in
+doubt, only whether the rungs beneath it were distinguishable from each other.
+
+One thing the means hand back that single runs hid: **the highest extras counts sit at the bottom
+of the ladder, not the top.** medium and xhigh each average 13.3 genuine unplanted defects against
+max's 9.0. Extras are reported separately and never folded into the score, but a cheaper setting
+that surfaces more real bugs nobody planted is not obviously the weaker tool for a first pass.
+
+All twelve runs hold the 1M window with zero compactions, so this ladder compares cleanly to itself
+and not to the 200K Opus 5 ladder. max keeps the featured slot; the other three stay unfeatured.
+
+## A correction to the variance caveat — it was counting 28 replications where 21 existed (Sep 23)
+
+Not a measurement. The site's standing caveat about run-to-run variance reports how many
+configurations have been run three times at identical settings and what their ranges were. It was
+derived from the published mean rows rather than typed, which was the right instinct and the wrong
+set: it walked **every** mean row, including a mean-of-2 that a mean-of-3 later replaced and the
+mean-of-4 and mean-of-5 that replaced a mean-of-3. So it said 28 configurations had been run three
+times when 21 had, quoted two-run and five-run spreads inside a list of "three-run ranges", and
+counted a configuration twice wherever it had a supersession trail.
+
+Two further numbers in the same paragraph were typed and had gone stale: a claim about one
+replicated effort dial, when two had been replicated by then, and "only one model has been measured
+three times at its top setting", which six had. All three are computed from the receipts now.
+
+The bug surfaced by crashing the build — the first replicate pair that scored identically sorted to
+the end of the list, where the sentence reaches for a third run that a two-run group does not have.
+It had been quietly miscounting for weeks before it ever failed loudly. The count on the live board
+is 25 as of this wave.
