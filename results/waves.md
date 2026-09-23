@@ -3652,8 +3652,48 @@ something distinctive. At max it is in fact *below* both of them. What is unusua
 ratio, not the count: it finds roughly as many unplanted defects as models that fix twice as many
 planted ones.
 
+**Correction, same day: the wall figures on the four lower rungs are cleaner than they were
+published as.** Each of those rows first went out saying its run had shared the laptop with
+another vendor's legs. It had not - all eight legs recorded no peer at all. The claim was a
+literal copied from a publish script, and it is the wrong direction to be wrong in: contention can
+only inflate a wall, so a note that says "contended" tells a reader to discount the very column
+that shows the effort dial reaching the model. The rung walls above (11, 24, 34, 51 minutes) are
+uncontended measurements. The max row is the mixed one - three of its six legs did share the
+machine - so if anything the 63-minute figure at the top is the generous one, and the slope is
+real either way. The board now derives that sentence from each leg's own receipt instead of
+carrying it as text, and refuses to publish a note that claims a shared machine when no leg
+recorded a peer.
+
 Every rung runs a Codex build one version newer than the rest of the board's OpenAI rows, because
 the build the others use refuses this model on a ChatGPT account — so the five rungs compare
 cleanly to each other and carry a one-version harness delta against everything else. Costs are
 list-rate estimates and floors. Judged by grok-4.7, blinded, with the id read from each scoring
 receipt rather than the judge config.
+
+## GPT-6 Luna — the cheap end of the family (Sep 23)
+
+GPT-6 Luna joins the board at max effort, then goes to three runs, then gets the same five-rung
+effort sweep the other OpenAI ladders have. It is on here for one reason: **list price is a
+twentieth of GPT-6 Sol's on both sides of the meter** — $0.10 in and $0.50 out per million against
+Sol's $2 and $10. The question is not whether it wins. It is how much of a family's score survives
+a 20x price cut, which is the question a buyer actually has and the one a leaderboard sorted by
+score alone never answers.
+
+The comparison it is being measured against, as published here today: GPT-6 Astra 45.0 (n=3), GPT-6
+Sol 29.3 (n=3), and its own direct predecessor GPT-5.6 Luna 31.3 (n=3). Scores and the full ladder
+land in the rows above as each run is judged; this section gets its table when the sweep is done.
+
+**Existence was proved positively, not inferred from a rejection.** The slug appears in the
+account's own model list and the pinned CLI accepted it and answered. That distinction is load
+bearing on this board: the CLI returns *"The &lt;slug&gt; model is not supported when using Codex
+with a ChatGPT account"* word for word for a deliberately fake slug, so a rejection is evidence
+about the client and never about whether a model exists. By that same test **GPT-6 Terra does not
+exist as of this date** — the slug is absent from the model list, and the rejection it returns is
+byte-identical to the fake one's.
+
+Like the GPT-6 Sol rows, every Luna row runs a Codex build one version newer than the rest of the
+board's OpenAI rows, because the build the others use refuses these models on a ChatGPT account.
+The two GPT-6 ladders therefore compare cleanly to each other and carry a one-version harness delta
+against everything else. Costs are list-rate estimates and floors — the long-context surcharge
+above 272K input is not modelled. Judged by a blind grok checkpoint, with the id read from each
+scoring receipt rather than the judge config.
