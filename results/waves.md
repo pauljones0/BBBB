@@ -3602,3 +3602,58 @@ sixth. A single identical request returned different checkpoints on the same day
 field at all. Rows resting on them name the judge that was *requested*, and this board cannot prove
 which checkpoint replied. They are not being relabelled on a guess. Read any pre-September judge
 attribution here as a request, not a measurement — including the ones that say grok-4.5.
+
+## The GPT-6 Sol effort ladder — the dial works, so the score is the model (Sep 23)
+
+GPT-6 Sol published at max and landed below every GPT-6 Astra row on this board, which invited one
+obvious objection: maybe the effort flag never reached it. Four more rungs answer that. One run
+each below max; max is the mean of three.
+
+| Effort | Score | Repo 1 | Repo 2 | Extras | Wall | Cost |
+|---|---|---|---|---|---|---|
+| max (n=3) | **29.3** / 105 | 15.3 / 45 | 14.0 / 60 | 41.3 | 63.4 min | $9.33 |
+| xhigh | 25 / 105 | 10 / 45 | 15 / 60 | 24 | 51.4 min | $7.67 |
+| high | 20 / 105 | 10 / 45 | 10 / 60 | 15 | 33.9 min | $4.16 |
+| medium | 14 / 105 | 3 / 45 | 11 / 60 | 13 | 24.5 min | $2.39 |
+| low | 6 / 105 | 3 / 45 | 3 / 60 | 5 | 11.1 min | $1.08 |
+
+**The dial is live and it is the steepest on this board.** Max scores nearly five times low, and
+wall and cost scale with it end to end — 11 minutes and $1.08 at the bottom, 63 minutes and $9.33 at
+the top. Whatever is wrong with this checkpoint's score, a flag that never arrived is not it. The
+objection is closed: GPT-6 Sol sits below GPT-6 Astra because of the model, not the configuration.
+
+**Its own family disagrees about what an effort dial is for.** All three OpenAI ladders on this
+board now have five rungs:
+
+| Effort | GPT-6 Astra | GPT-6 Sol | GPT-5.6 Luna |
+|---|---|---|---|
+| max | 45.0 (n=3) | 29.3 (n=3) | 31.3 (n=3) |
+| xhigh | 43 | 25 | 23 |
+| high | 35 | 20 | 13 |
+| medium | 34 | 14 | 9 |
+| low | 27 | 6 | 4 |
+| max ÷ low | **1.7x** | **4.9x** | **7.8x** |
+
+Astra's dial barely moves at the top (45 to 43) and its floor is high: 27 of 105 at its cheapest
+setting, which is most of the way to Sol's best. Sol and Luna fall off a cliff instead. A buyer
+reading only the max row of each would conclude these are three points on one quality scale; the
+ladders say Astra is a model you can run cheaply and the other two are not.
+
+**The clean ladder is repo 1 plus noise.** Repo 2 is not monotone — xhigh's 15 of 60 beats max's 14,
+and medium's 11 beats high's 10 — while repo 1 falls 15.3, 10, 10, 3, 3. Every rung below max is a
+single draw, and this board has measured a 13-point spread between two runs of one identical
+configuration, so read the individual steps as noisy even where the overall slope is not. The
+slope is the finding; the rung-to-rung gaps are not.
+
+**The unplanted-defect count is an effort behaviour, not a property of the model.** Sol's genuine
+extras run 41.3 at max down to 5 at low. That slope is not special to it — Astra goes 55 to 25 and
+Luna 54.7 to 1 — which is worth saying because Sol's first note leaned on its extras count as
+something distinctive. At max it is in fact *below* both of them. What is unusual about Sol is the
+ratio, not the count: it finds roughly as many unplanted defects as models that fix twice as many
+planted ones.
+
+Every rung runs a Codex build one version newer than the rest of the board's OpenAI rows, because
+the build the others use refuses this model on a ChatGPT account — so the five rungs compare
+cleanly to each other and carry a one-version harness delta against everything else. Costs are
+list-rate estimates and floors. Judged by grok-4.7, blinded, with the id read from each scoring
+receipt rather than the judge config.
