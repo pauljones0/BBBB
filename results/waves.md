@@ -3559,3 +3559,46 @@ runs a Codex build one version newer than every other OpenAI row here, because t
 use refuses this model on a ChatGPT account. The GPT-6 Sol rungs compare cleanly to each other; the
 comparison to other OpenAI rows carries a one-version harness delta. Cost is a list-rate estimate
 and a floor — the long-context surcharge is not modelled. Wall figures are contended.
+
+## The judge id in six notes was the one we asked for, not the one that answered (Sep 23)
+
+Fourteen scoring legs run on Sep 22 and Sep 23 asked the grok judge bridge for `grok-4.5`. Thirteen
+of them were answered by **grok-4.7**. The receipts recorded both ids the whole time — every scoring
+run writes `judge_model` (what was requested) and `judge_model_served` (what replied) — and the
+scoring harness printed a warning on each affected run. Six published rows said grok-4.5 anyway,
+because the judge id was a string literal in the publish script instead of a value read back from
+the run.
+
+Corrected on the board now, with no re-scoring: **GPT-6 Sol (max)** single run and its means of 2
+and 3, **GPT-5.6 Luna (max)** means of 2 and 3, and **MiMo-V2.6-Pro** mean of 3. No verdict, score,
+spread or cost changes — the judging that happened is the judging that happened; only the label on
+it was wrong.
+
+**The blind-judge rule was not broken.** Every affected arm is an OpenAI or a Xiaomi model, so an
+xAI judge was a valid non-sibling either way. Had the substitution gone the other direction — a grok
+arm silently drawing a grok judge — it would have invalidated the runs rather than mislabelled them.
+That is the version of this that was worth being afraid of, and the reason it is worth saying out
+loud that the id in a note was never being checked against the id in the receipt.
+
+**This board had already learned this lesson once, which is the part worth publishing.** On Sep 4 a
+deliberate probe found the bridge's model flag inert: `grok-4.5`, `grok-4.6` and a model string
+invented on the spot all came back as grok-4.6. `judge_model_served` exists **because** of that
+probe. The GPT-5.6 Sol mean-of-2 note on this board has said since Sep 13 that its July judging
+pass "recorded a REQUEST as though it were a fact." Five weeks later a new publish script did the
+identical thing, with the field it needed already sitting in the file it was reading. A finding
+written into prose does not propagate to the next script that needs it.
+
+So the fix is a gate rather than six corrections. `judge_gate()` now runs inside both publish paths
+and **refuses to publish a row whose note names a judge its own receipts do not record**. It is
+deliberately narrow: it looks only at sentences about judging, and only at ones that name a specific
+checkpoint. A note that says "blind Codex judge" with no version claims nothing and passes — most of
+the older board reads that way. A note that says grok-4.5 when the receipt says grok-4.7 cannot
+ship. The id itself now comes from `judge_sentence()`, which reads it back per leg and names the
+split when the legs disagree, which on this board they now do:
+`GPT-6 Sol (max) - mean of 3` was judged by grok-4.7 on five of its six legs and grok-4.5 on the
+sixth. A single identical request returned different checkpoints on the same day.
+
+**What cannot be corrected, stated plainly.** Receipts written before Sep 4 carry no served-model
+field at all. Rows resting on them name the judge that was *requested*, and this board cannot prove
+which checkpoint replied. They are not being relabelled on a guess. Read any pre-September judge
+attribution here as a request, not a measurement — including the ones that say grok-4.5.
