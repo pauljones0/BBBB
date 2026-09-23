@@ -131,3 +131,4 @@ Opus 5.5 (low effort),Claude Code,12,1,4,13,0,8.5,5.15
 Opus 5.5 (low effort) - mean of 2,Claude Code,12.0,1.0,2.5,8.5,0,7.0,4.3
 Opus 5.5 (low effort) - mean of 3,Claude Code,11.0,0.7,1.7,8.7,0,7.3,3.88
 GPT-6 Sol (max effort) - mean of 3,Codex CLI,14.0,0.7,0.0,25.3,0,29.7,3.86
+GPT-6 Sol (xhigh effort),Codex CLI,15,0,0,12,0,20.0,2.8
