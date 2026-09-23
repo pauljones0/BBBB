@@ -3460,3 +3460,42 @@ The bug surfaced by crashing the build — the first replicate pair that scored 
 the end of the list, where the sentence reaches for a third run that a two-run group does not have.
 It had been quietly miscounting for weeks before it ever failed loudly. The count on the live board
 is 25 as of this wave.
+
+## Opus 5.5 gets a fifth rung, and the dead spot is not where twelve runs suggested (Sep 23)
+
+The ladder above stopped at medium because medium was the bottom of the dial we had measured. It
+was not the bottom of the dial. A `low` rung, three runs like the rest:
+
+| Effort | Score | Runs | Spread | Wall | Cost | Gap to rung below |
+|---|---|---|---|---|---|---|
+| max | **41.7** / 105 | 39, 43, 43 | 4 | 66.9 min | $58.53 | +5.7 |
+| xhigh | 36.0 / 105 | 35, 36, 37 | 2 | 42.5 min | $34.98 | +4.3 |
+| high | 31.7 / 105 | 31, 32, 32 | 1 | 23.9 min | $22.25 | +1.4 |
+| medium | 30.3 / 105 | 30, 30, 31 | 1 | 17.0 min | $15.68 | +8.0 |
+| low | 22.3 / 105 | 19, 23, 25 | 6 | 11.5 min | $8.34 | — |
+
+**The earlier reading was wrong in an instructive way.** Four rungs said the dial resolves at the
+top and not at the bottom, because the only unresolved pair was the lowest one measured. Add a rung
+beneath it and medium-to-low turns out to be the LARGEST step on the whole ladder - 8.0 points of
+105, against per-rung spreads of 1 and 6. The dial is not weak at the bottom. There is one dead rung
+in the middle of a working dial, and it is `high`: 1.4 points over medium for 42 per cent more money
+and 41 per cent more clock, from two configurations whose own three runs span 1 point each. Every
+other adjacent step on this ladder is 4.3 or more.
+
+**Spread does not track effort, and the four-rung shape that suggested it was an artefact of where
+the ladder was cut.** At four rungs the spreads read 1, 1, 2, 4 going up, which is clean and
+monotone and was worth about one sentence of caution. The fifth rung reads 6 - the widest on the
+ladder - and the shape becomes 6, 1, 1, 2, 4. Both ends of the dial are noisy and the middle is
+stable. Three draws a rung is a very noisy estimate of spread and this is what that looks like from
+the inside: a monotone pattern across four points that a fifth point destroys.
+
+**One run would have got the direction right and the size wrong.** low's first draw was 23, two
+points above the eventual mean of 22.3 - and its three runs span 19 to 25, so a single draw could
+have put this rung anywhere from 8 above max's worst run to level with it. The rung's own first-run
+note has been superseded, but it said the same thing the mean says. That is not always how it goes.
+
+Wall figures on this rung are contended - it ran alongside another vendor's legs on purpose, to get
+measured sooner - while the four rungs above it were measured on an otherwise idle machine.
+Contention can only inflate a wall, and low still came in fastest at 11.5 minutes, so the ordering
+is safe in the direction that matters. Token spend, which contention cannot touch, is the figure
+that shows the effort flag reaching the model at all.
