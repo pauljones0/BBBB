@@ -9,7 +9,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 <!-- leaderboard:start -->
 ![Bug Hunt Bench leaderboard, the featured runs, updated Sep 23, 2026](assets/leaderboard.png?v=2026-09-23-f20af987)
 
-**Updated Sep 23, 2026 · 121 rows from 179 scored runs · 37 models · 31 of 105 bugs have never been fixed by any model.**
+**Updated Sep 23, 2026 · 122 rows from 181 scored runs · 37 models · 31 of 105 bugs have never been fixed by any model.**
 
 **Current leader:** GPT-6 Astra at `max` effort — **45 / 105** (22/45 on repo 1, 23/60 on repo 2).
 
@@ -30,7 +30,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 | 11 | Fable 5.1 | Claude Code | high | 1 | **33** | 15 | 18 | 7 | 36 min | $48.58 | 2026-09-01 |
 | 12 | Muse Spark 1.3 | Muse Code / Meta API | max | 5 | **32.2** | 14.2 | 18 | 24 | 86 min | $18.11 | 2026-09-17 |
 | 13 | GPT-6 Sol | Codex CLI | max | 1 | **32** | 18 | 14 | 48 | 60 min | $10.03 | 2026-09-23 |
-| 14 | Opus 5.5 | Claude Code | high | 1 | **32** | 14 | 18 | 7 | 24 min | $23.03 | 2026-09-22 |
+| 14 | Opus 5.5 | Claude Code | high | 2 | **32** | 13.5 | 18.5 | 9.5 | 24 min | $22.40 | 2026-09-23 |
 | 15 | GPT-5.6 Terra | Codex CLI | max | 1 | **32** | 16 | 16 | 45 | 160 min | $27.98 | 2026-08-27 |
 | 16 | GPT-5.6 Luna | Codex CLI | max | 3 | **31.3** | 16 | 15.3 | 54.7 | 187 min | $3.15 | 2026-09-22 |
 | 17 | Pareto (ex-Union Alpha) | Claude Code / OpenRouter | default | 3 | **30.7** | 16 | 14.7 | 10.3 | 38 min | $4.81 | 2026-09-17 |
@@ -105,7 +105,7 @@ If the numbers save you a benchmark run of your own, **star this repo** — that
 Extras are real, unplanted defects a model fixed on the way; they are counted and never added to the score. Costs are token estimates at published list rates unless tagged **bill** (an actual invoice or credits delta) or **floor** (a reconstructed lower bound). `default` effort means the serving path had no working effort dial; *ran lower* marks a run whose CLI quietly replaced the requested tier. Wall clock is repo 1 plus repo 2 agent time, dependency install excluded.
 Every row's full note, caveat and supersession history is in [results/run-notes.md](https://github.com/phuryn/bug-hunt-bench/blob/main/results/run-notes.md); the runs behind each one are in the metrics CSVs.
 
-39 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
+40 superseded re-runs stay in the CSVs and on the [live board](https://bughunt.productcompass.pm/?preset=all) but are left off this table.
 <!-- leaderboard:end -->
 
 ## What Bug Hunt Bench is
