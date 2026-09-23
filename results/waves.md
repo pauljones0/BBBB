@@ -3365,6 +3365,15 @@ GPT-6 Astra scores 48 at max and 43 at xhigh on this same benchmark. GPT-5.6 Sol
 This row lands below all three — at a seventh of GPT-5.6 Sol's cost. One run cannot settle a gap
 that size against a mean, but it is a large gap pointing the opposite way from the release order.
 
+> **Corrected Sep 23.** Those three peer figures were each peer's best single run, and two of
+> them had already been superseded on the board — GPT-6 Astra at max publishes 45.0 as a mean of
+> three (since Sep 14) and GPT-5.6 Sol at max publishes 43.5 as a mean of two (since Sep 16); the
+> Astra xhigh figure of 43 still stands. The cost multiple was wrong for the same reason. Quoting
+> a peer's best draw instead of its published mean tilts every such comparison toward the row
+> being written up, which is the direction a writer never notices. The generator now reads peer
+> figures off the live scoreboard at publish time rather than taking them from prose. Corrected,
+> the gap is 13 points to the nearest peer rather than 16 — and it widened again at n=3.
+
 **It killed an all-time survivor.** Repo-1 bug A6 had outlived every model in every scored run
 on this board. It is a settings-persistence ordering defect: a preference was written to storage
 *before* the change it described had actually taken effect, so a switch that failed — or a
@@ -3499,3 +3508,54 @@ measured sooner - while the four rungs above it were measured on an otherwise id
 Contention can only inflate a wall, and low still came in fastest at 11.5 minutes, so the ordering
 is safe in the direction that matters. Token spend, which contention cannot touch, is the figure
 that shows the effort flag reaching the model at all.
+
+## GPT-6 Sol at n=3 — 29.3, and every draw came in lower (Sep 23)
+
+Three byte-identical runs of the configuration published the night the model shipped. Same model
+string, same effort, same timeout, same pinned executable, same price table, same blind judge — only
+the arm name differs, so everything below is run-to-run variance and nothing else.
+
+| Run | Score | Repo 1 | Repo 2 | Extras | Wall | Cost |
+|---|---|---|---|---|---|---|
+| 1 | 32 / 105 | 18 / 45 | 14 / 60 | 48 | 60.4 min | $10.03 |
+| 2 | 30 / 105 | 16 / 45 | 14 / 60 | 34 | 58.2 min | $8.17 |
+| 3 | 26 / 105 | 12 / 45 | 14 / 60 | 42 | 71.6 min | $9.81 |
+| **mean of 3** | **29.3 / 105** | 15.3 | 14.0 | 41.3 | 63.4 min | $9.33 |
+
+**The published single run was the top of its own distribution.** 32 was the highest of the three
+draws, not the centre. The row now reads 29.3 and the gap to its own family got wider, not
+narrower: GPT-6 Astra publishes 45.0 at max (mean of 3) and 43 at xhigh, and GPT-5.6 Sol — the
+older checkpoint carrying the same name — publishes 43.5 at max (mean of 2). This row lands 13.7
+points below the nearest of them, at a tenth of GPT-5.6 Sol's cost. The conclusion the one-run
+entry reached survives replication. Its size did not.
+
+**Do not read the 32 → 30 → 26 sequence as a trend.** Three draws in run order look like a decline
+and there is no mechanism that would produce one — identical configuration, no shared state between
+legs, no warm-up. A spread of 6 over three draws is the finding; the ordering inside it is the sort
+of pattern that three points will produce by chance about as often as not. It is recorded because
+it is what happened, not because it means anything.
+
+**Repo 2 returned 14 of 60 three times, and it was not the same 14.** That column looks like the
+most deterministic result on the board until you open the verdicts: thirteen bugs were fixed in all
+three runs, and the fourteenth was a swap — run 1 fixed one defect the other two missed, runs 2 and
+3 fixed a different one run 1 missed. An identical total three times running hid a real difference
+in what the model actually did. Repo 1 has no such illusion: 18, 16, 12, with eleven bugs fixed
+every time, nineteen fixed at least once, and three fixed by exactly one run out of three. All of
+this row's variance is in repo 1 — which is also the repo where its single survivor kill happened.
+
+**The survivor kill stands, and it was a one-run event.** Run 1 fixed repo-1 bug A6, which no
+scored pass by any model on this board had ever fixed. Neither replicate touched it. That is the
+honest shape of a survivor kill: a real result that the model does not repeat on demand, which is
+exactly why the board reports them as events and not as capability.
+
+**Extras stay high and stay unstable.** 48, 34, 42 genuine extras — unplanted defects the model
+found in repos it was asked to fix something else in. The mean of 41.3 is near the top of the board
+from a row in the middle of the scoring table, and the spread of 14 across identical runs says the
+count is a draw too. Extras are reported separately and never folded into the score. Whatever this
+model is spending attention on, the planted total cannot see it.
+
+The structural caveat from the first entry is unchanged and cannot be engineered away: this row
+runs a Codex build one version newer than every other OpenAI row here, because the build the others
+use refuses this model on a ChatGPT account. The GPT-6 Sol rungs compare cleanly to each other; the
+comparison to other OpenAI rows carries a one-version harness delta. Cost is a list-rate estimate
+and a floor — the long-context surcharge is not modelled. Wall figures are contended.
