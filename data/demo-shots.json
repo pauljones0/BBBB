@@ -1,0 +1,255 @@
+{
+  "_comment": "DEMO ONLY — sample multi-shot trajectories for layout review. NOT measured runs; every number below is illustrative. Loaded only when the board URL carries ?demo=1, merged in memory, never persisted. TO STRIP: delete this file — the loader degrades to no-demo when it is absent, and the default board never requests it. Shot endpoints match each row's published fixed/cost exactly, so the demo agrees with the table.",
+  "demo": true,
+  "glossary": {
+    "false_positive_fixes": "False-positive fix — the diff fixed a thing the judge says was not a bug. Unplanted extras are real defects and never count here; the rate is false positives over everything the run touched (planted fixes plus extras).",
+    "attempted_failed": "Attempted but not fixed — the diff touched a planted bug and the judge says it is still broken. A failed attempt earns no partial credit: the score counts verified fixes only.",
+    "shot": "Shot — one loop iteration: the model is re-prompted on each repo with its prior context cached, until it declares no more bugs (at most five shots). Each point plots cumulative fixes against cumulative cost after that shot."
+  },
+  "run_overrides": {
+    "_comment": "Applied to in-memory copies of real runs, in demo mode only. Keys are run slugs. Real data carries these same fields from the generator instead (docs/shots.md).",
+    "gpt-6-astra-max-effort-mean-of-3": {
+      "shots": [
+        {
+          "shot": 1,
+          "phase": 1,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 26,
+          "new_fixed": 26,
+          "cum_cost_usd": 14.2,
+          "cum_cost_cache_read_usd": 1.1,
+          "repo1_fixed": 14,
+          "repo2_fixed": 12,
+          "model_declared_done": false
+        },
+        {
+          "shot": 2,
+          "phase": 1,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 35,
+          "new_fixed": 9,
+          "cum_cost_usd": 21.9,
+          "cum_cost_cache_read_usd": 5.4,
+          "repo1_fixed": 18,
+          "repo2_fixed": 17,
+          "model_declared_done": false
+        },
+        {
+          "shot": 3,
+          "phase": 1,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 42,
+          "new_fixed": 7,
+          "cum_cost_usd": 28.6,
+          "cum_cost_cache_read_usd": 10.2,
+          "repo1_fixed": 21,
+          "repo2_fixed": 21,
+          "model_declared_done": false
+        },
+        {
+          "shot": 4,
+          "phase": 1,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 45,
+          "new_fixed": 3,
+          "cum_cost_usd": 33.03,
+          "cum_cost_cache_read_usd": 14.8,
+          "repo1_fixed": 22,
+          "repo2_fixed": 23,
+          "model_declared_done": true
+        }
+      ]
+    },
+    "gpt-5-6-luna-max-effort-mean-of-3": {
+      "attempted_failed": 2,
+      "shots": [
+        {
+          "shot": 1,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 14,
+          "new_fixed": 14,
+          "cum_cost_usd": 1.1,
+          "cum_cost_cache_read_usd": 0.05,
+          "repo1_fixed": 7,
+          "repo2_fixed": 7,
+          "model_declared_done": false
+        },
+        {
+          "shot": 2,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 21,
+          "new_fixed": 7,
+          "cum_cost_usd": 1.7,
+          "cum_cost_cache_read_usd": 0.3,
+          "repo1_fixed": 10,
+          "repo2_fixed": 11,
+          "model_declared_done": false
+        },
+        {
+          "shot": 3,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 26,
+          "new_fixed": 5,
+          "cum_cost_usd": 2.25,
+          "cum_cost_cache_read_usd": 0.62,
+          "repo1_fixed": 13,
+          "repo2_fixed": 13,
+          "model_declared_done": false
+        },
+        {
+          "shot": 4,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 29.5,
+          "new_fixed": 3.5,
+          "cum_cost_usd": 2.72,
+          "cum_cost_cache_read_usd": 0.95,
+          "repo1_fixed": 15,
+          "repo2_fixed": 14.5,
+          "model_declared_done": false
+        },
+        {
+          "shot": 5,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 31.3,
+          "new_fixed": 1.8,
+          "cum_cost_usd": 3.15,
+          "cum_cost_cache_read_usd": 1.25,
+          "repo1_fixed": 16,
+          "repo2_fixed": 15.3,
+          "model_declared_done": true
+        }
+      ]
+    },
+    "deepseek-v4-1-flash-max-effort-mean-of-3": {
+      "false_positive_fixes": 2,
+      "attempted_failed": 1,
+      "shots": [
+        {
+          "shot": 1,
+          "phase": 1,
+          "phase_model": "DeepSeek V4.1 Flash",
+          "cum_fixed": 12,
+          "new_fixed": 12,
+          "cum_cost_usd": 0.38,
+          "cum_cost_cache_read_usd": 0.02,
+          "repo1_fixed": 6,
+          "repo2_fixed": 6,
+          "model_declared_done": false
+        },
+        {
+          "shot": 2,
+          "phase": 1,
+          "phase_model": "DeepSeek V4.1 Flash",
+          "cum_fixed": 18,
+          "new_fixed": 6,
+          "cum_cost_usd": 0.6,
+          "cum_cost_cache_read_usd": 0.12,
+          "repo1_fixed": 9,
+          "repo2_fixed": 9,
+          "model_declared_done": false
+        },
+        {
+          "shot": 3,
+          "phase": 1,
+          "phase_model": "DeepSeek V4.1 Flash",
+          "cum_fixed": 21.7,
+          "new_fixed": 3.7,
+          "cum_cost_usd": 0.78,
+          "cum_cost_cache_read_usd": 0.24,
+          "repo1_fixed": 11.3,
+          "repo2_fixed": 10.4,
+          "model_declared_done": true
+        }
+      ]
+    }
+  },
+  "synthetic_series": [
+    {
+      "_comment": "Rendered ONLY in the Shots view, ONLY in demo mode. Never a leaderboard row, never in the picker.",
+      "run": {
+        "id": "DEMO cheap-first pipeline (Luna x3 -> Astra x2)",
+        "model": "Luna → Astra pipeline",
+        "vendor": "DEMO",
+        "effort": "max",
+        "color": "#A2672A",
+        "pipeline": {
+          "phases": [
+            {
+              "model": "GPT-5.6 Luna"
+            },
+            {
+              "model": "GPT-6 Astra"
+            }
+          ]
+        }
+      },
+      "shots": [
+        {
+          "shot": 1,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 14,
+          "new_fixed": 14,
+          "cum_cost_usd": 1.1,
+          "cum_cost_cache_read_usd": 0.05,
+          "repo1_fixed": 7,
+          "repo2_fixed": 7,
+          "model_declared_done": false
+        },
+        {
+          "shot": 2,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 21,
+          "new_fixed": 7,
+          "cum_cost_usd": 1.7,
+          "cum_cost_cache_read_usd": 0.3,
+          "repo1_fixed": 10,
+          "repo2_fixed": 11,
+          "model_declared_done": false
+        },
+        {
+          "shot": 3,
+          "phase": 1,
+          "phase_model": "GPT-5.6 Luna",
+          "cum_fixed": 26,
+          "new_fixed": 5,
+          "cum_cost_usd": 2.25,
+          "cum_cost_cache_read_usd": 0.62,
+          "repo1_fixed": 13,
+          "repo2_fixed": 13,
+          "model_declared_done": false
+        },
+        {
+          "shot": 4,
+          "phase": 2,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 34,
+          "new_fixed": 8,
+          "cum_cost_usd": 5.4,
+          "cum_cost_cache_read_usd": 1.5,
+          "repo1_fixed": 17,
+          "repo2_fixed": 17,
+          "model_declared_done": false
+        },
+        {
+          "shot": 5,
+          "phase": 2,
+          "phase_model": "GPT-6 Astra",
+          "cum_fixed": 39,
+          "new_fixed": 5,
+          "cum_cost_usd": 8.9,
+          "cum_cost_cache_read_usd": 3.1,
+          "repo1_fixed": 19,
+          "repo2_fixed": 20,
+          "model_declared_done": true
+        }
+      ]
+    }
+  ]
+}

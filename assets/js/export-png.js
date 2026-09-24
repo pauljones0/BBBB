@@ -11,11 +11,14 @@
 import {
   COLUMNS, GROUPS, TOTALS, BAR_SCALE_NOTE, NOTE_MARK, fmtCost, fmtWall, fmtInt,
   fmtDate, barRatio, barScales, effortSuffix, compareRuns, firstSentence,
-  costSentence, segmentsText,
-} from './format.js?v=d69cab3767';
-import { scatterLayout, AXES } from './scatter.js?v=d69cab3767';
-import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=d69cab3767';
-import { runColor, activeTheme } from './theme.js?v=d69cab3767';
+  costSentence, segmentsText, falsePositiveSentence, attemptedSentence, trimNum,
+} from './format.js?v=1ff76947fb';
+import { scatterLayout, AXES } from './scatter.js?v=1ff76947fb';
+import {
+  buildSeries, shotsLayout, shotsNoteText, pipelineSuffix, SHOTS_META,
+} from './shots.js?v=1ff76947fb';
+import { coverageLayout, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=1ff76947fb';
+import { runColor, activeTheme } from './theme.js?v=1ff76947fb';
 
 const SCALE = 2;
 const PAD = 32;
@@ -597,22 +600,188 @@ function drawCoverage(ctx, T, L, w) {
   return L;
 }
 
+/* -------------------------------------------------------------------- shots
+
+   Same trajectories, same domain, same colours as the on-screen view — both
+   read them from the one pure shotsLayout(series, domain, best, w, h), which
+   knows nothing about pixels. Only the geometry below is canvas-only, the way
+   drawScatter's plot size is; the DOM version gets its geometry from the host
+   width instead. Computed once in exportView() and passed straight into
+   drawShots, so the exported card never disagrees with the screen it was
+   exported from. */
+
+function drawShots(ctx, T, shotsCtx, w, defLines) {
+  const { L } = shotsCtx;
+  const top = ctx.__y + 20;
+  const height = L.height;
+  ctx.save();
+  ctx.translate(PAD, top);
+
+  L.yTicks.forEach((t) => {
+    line(ctx, L.m.left, t.y, L.m.left + L.plotW, t.y, T.hairline);
+    text(ctx, String(t.v), L.m.left - 8, t.y + 4, `10.5px ${SANS}`, T.muted, 'right');
+  });
+  L.xTicks.forEach((t) => {
+    line(ctx, t.x, L.m.top, t.x, L.m.top + L.plotH, T.hairline);
+    text(ctx, t.label, t.x, L.m.top + L.plotH + 18, `10.5px ${SANS}`, T.muted, 'center');
+  });
+  line(ctx, L.m.left, L.baseY, L.m.left + L.plotW, L.baseY, T.rule);
+  ctx.strokeStyle = T.rule;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(L.m.left + 0.5, L.m.top);
+  ctx.lineTo(L.m.left + 0.5, L.baseY);
+  ctx.stroke();
+
+  if (L.ceilingY !== null) {
+    line(ctx, L.m.left, L.ceilingY, L.m.left + L.plotW, L.ceilingY, T.rule);
+    text(ctx, '105 — every planted bug', L.m.left + L.plotW, L.ceilingY - 7, `10.5px ${SANS}`, T.muted, 'right');
+  }
+  text(ctx, SHOTS_META.corner.toUpperCase(), L.m.left + 8, L.m.top + 16, `10px ${SANS}`, T.muted);
+
+  text(ctx, SHOTS_META.exportTitle, L.m.left, height - 12, `600 10px ${SANS}`, T.ink2);
+  ctx.save();
+  ctx.translate(12, L.m.top + L.plotH / 2);
+  ctx.rotate(-Math.PI / 2);
+  text(ctx, 'CUMULATIVE PLANTED BUGS FIXED, OUT OF 105', 0, 0, `600 10px ${SANS}`, T.ink2, 'center');
+  ctx.restore();
+
+  L.series.forEach((s) => {
+    if (s.points.length > 1) {
+      ctx.strokeStyle = s.color;
+      ctx.globalAlpha = 0.8;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(s.points[0].cx, s.points[0].cy);
+      for (let i = 1; i < s.points.length; i += 1) ctx.lineTo(s.points[i].cx, s.points[i].cy);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  });
+
+  L.series.forEach((s) => {
+    s.points.forEach((p) => {
+      // the cached dollars behind the point, flat neutral grey — never the
+      // run's colour, because cache share is not the score
+      if (p.cacheX0 !== null) {
+        ctx.save();
+        ctx.strokeStyle = T.neutral;
+        ctx.globalAlpha = 0.85;
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(p.cacheX0, p.cy);
+        ctx.lineTo(p.cx, p.cy);
+        ctx.stroke();
+        ctx.restore();
+      }
+      ctx.fillStyle = T.plate;
+      ctx.beginPath();
+      ctx.arc(p.cx, p.cy, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = T.hairline;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.fillStyle = p.color;
+      if (p.handoff) {
+        // a pipeline handoff: a diamond, not a dot — shape carries the state
+        const r = 6;
+        ctx.beginPath();
+        ctx.moveTo(p.cx, p.cy - r);
+        ctx.lineTo(p.cx + r, p.cy);
+        ctx.lineTo(p.cx, p.cy + r);
+        ctx.lineTo(p.cx - r, p.cy);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.cx, p.cy, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (p.numPos) {
+        text(ctx, String(p.shot.shot), p.numPos.x, p.numPos.y, `9px ${SANS}`, T.muted,
+          p.numPos.anchor === 'middle' ? 'center' : p.numPos.anchor);
+      }
+    });
+  });
+  L.series.forEach((s) => {
+    if (!s.labelPos) return;
+    haloText(ctx, s.label, s.labelPos.x, s.labelPos.y, `10.5px ${SANS}`,
+      T.ink2, s.labelPos.anchor === 'middle' ? 'center' : s.labelPos.anchor, T.plate);
+  });
+
+  ctx.restore();
+  ctx.__y = top + height + 8;
+
+  /* What the marks ARE, drawn with the plot rather than left to the footer: an
+     exported card travels on its own, and a reader who meets it there has no
+     page to read it against. */
+  if (defLines && defLines.length) {
+    let dy = ctx.__y + 14;
+    line(ctx, PAD, dy - 10, w - PAD, dy - 10, T.hairline);
+    defLines.forEach((l) => {
+      text(ctx, l, PAD, dy, `11.5px ${SANS}`, T.ink2);
+      dy += 15;
+    });
+    ctx.__y = dy - 4;
+  }
+
+  // legend — identity is never colour alone
+  const cols = 3;
+  const colW = (w - PAD * 2) / cols;
+  let ly = ctx.__y + 16;
+  L.series.slice().sort((a, b) => {
+    const ea = a.points.length ? a.points[a.points.length - 1].shot.cum_fixed : -1;
+    const eb = b.points.length ? b.points[b.points.length - 1].shot.cum_fixed : -1;
+    return eb - ea;
+  }).forEach((s, i) => {
+    const cx = PAD + (i % cols) * colW;
+    const cy = ly + Math.floor(i / cols) * 17;
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(cx + 5, cy - 4, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    const end = s.points.length ? s.points[s.points.length - 1].shot : null;
+    text(ctx, truncate(ctx, `${s.run.model}${s.run.effort ? ` · ${s.run.effort}` : ''}${pipelineSuffix(s.run)} — ${end ? trimNum(end.cum_fixed) : '—'} fixed${s.demo ? ' · DEMO' : ''}`, `11.5px ${SANS}`, colW - 26),
+      cx + 15, cy, `11.5px ${SANS}`, T.ink2);
+  });
+  ly += Math.ceil(L.series.length / cols) * 17;
+  ctx.__y = ly + 8;
+}
+
 /* -------------------------------------------------------------------- main */
 
 export async function exportView({
-  view, axis, runs, allRuns, state, meta, glossary, caveat, siteUrl, presetName,
+  view, axis, runs, allRuns, synthetic, demoOn, state, meta, glossary, caveat, siteUrl, presetName,
 }) {
   if (document.fonts && document.fonts.ready) await document.fonts.ready;
   const T = theme();
   const isChart = Boolean(axis);
   const isCoverage = view === 'coverage';
+  const isShots = view === 'shots';
   // computed once, used for the body-height estimate below and passed straight
   // into drawCoverage — the same rows, order, zones and counts either way,
   // pivot included, so the exported card never disagrees with the screen it
   // was exported from
   const covL = isCoverage ? coverageLayout(runs, meta, state.pivot) : null;
 
-  const w = isChart ? 1100 : 1240;
+  const w = (isChart || isShots) ? 1100 : 1240;
+
+  // the shots layout, computed once for the definition lines, the body-height
+  // estimate and drawShots below — same series, domain and best either way
+  let shotsCtx = null;
+  if (isShots) {
+    const built = buildSeries(runs, synthetic || [], demoOn);
+    const domain = [];
+    allRuns.forEach((r) => { if (Array.isArray(r.shots)) domain.push(...r.shots); });
+    (synthetic || []).forEach((s) => { if (Array.isArray(s.shots)) domain.push(...s.shots); });
+    const best = allRuns.reduce((a, b) => ((b.fixed || 0) > (a.fixed || 0) ? b : a), allRuns[0] || { fixed: 0 });
+    const plotW = w - PAD * 2;
+    shotsCtx = {
+      ...built,
+      L: shotsLayout(built.series, domain, best.fixed || 0, plotW, Math.round(plotW * 0.5)),
+    };
+  }
   const sortCol = COLUMNS.find((c) => c.key === state.sort);
   const sortLabel = `${sortCol ? sortCol.label : state.sort} ${state.dir === 'asc' ? 'ascending' : 'descending'}`;
 
@@ -626,6 +795,9 @@ export async function exportView({
     const defText = firstSentence(caveat)
       + (flagged ? ` ${NOTE_MARK} ${flagged} of the ${runs.length} runs shown carry a note on how that figure was taken.` : '');
     defLines = wrapText(measure, defText, `11.5px ${SANS}`, w - PAD * 2);
+  } else if (isShots && shotsCtx) {
+    defLines = shotsNoteText(shotsCtx.L, demoOn)
+      .flatMap((l) => wrapText(measure, l, `11.5px ${SANS}`, w - PAD * 2));
   }
 
   /* The card travels on its own, so every sentence the page keeps in the key
@@ -633,21 +805,34 @@ export async function exportView({
      dollar figures are bills. The cost sentence is generated from the runs on
      THIS card, exactly as the key generates it from the runs on screen. */
   // coverage has no cost sentence of its own — the caption there is the order
-  // note and the summary counts, added to the footer lines below instead
-  const costLine = (isChart ? axis.id === 'cost' : !isCoverage)
+  // note and the summary counts, added to the footer lines below instead.
+  // shots plots cost on x, so it carries the cost sentence like the cost map.
+  const costLine = (isChart ? axis.id === 'cost' : (!isCoverage || isShots))
     ? segmentsText(costSentence(runs, glossary))
     : '';
+  // the misses key travels on the cards whose views surface those buckets —
+  // the table and the shots view — and only while a row carries one
+  const missesLines = (isShots || (!isChart && !isCoverage))
+    ? [segmentsText(falsePositiveSentence(runs)), segmentsText(attemptedSentence(runs))]
+    : [];
+  const shotsSkip = isShots && shotsCtx && shotsCtx.withoutShots.length
+    ? `${shotsCtx.withoutShots.length} selected run${shotsCtx.withoutShots.length === 1 ? ' carries' : 's carry'} no shot data yet.`
+    : null;
   const footerLines = [
     isChart
       ? `${runs.length} of ${allRuns.length} runs shown — ${presetName}. ${axis.id === 'cost' ? 'Cost on a logarithmic axis' : 'Wall clock on a linear axis'}; the score axis stops above the board's best run, which is out of 105.`
       : isCoverage
         ? `${runs.length} of ${allRuns.length} runs shown — ${presetName}.`
-        : `${runs.length} of ${allRuns.length} runs shown — ${presetName}. Sorted by ${sortLabel}.`,
+        : isShots
+          ? `${runs.length} of ${allRuns.length} runs shown — ${presetName}. Cumulative fixes against cumulative cost; cost on a logarithmic axis, and the score axis stops above the board's best run, which is out of 105.`
+          : `${runs.length} of ${allRuns.length} runs shown — ${presetName}. Sorted by ${sortLabel}.`,
     'Score = planted bugs fixed, verified blind against a withheld answer key. Unplanted defects are real, but they are counted separately and never added to the score.',
     // the same sentence the page carries, because an exported PNG travels alone
-    isChart || isCoverage ? null : BAR_SCALE_NOTE,
+    (isChart || isCoverage || isShots) ? null : BAR_SCALE_NOTE,
     isCoverage ? coverageOrderNote(covL) : null,
     isCoverage ? coverageSummaryNote(covL) : null,
+    shotsSkip,
+    ...missesLines,
     costLine || null,
     siteUrl,
   ].filter(Boolean)
@@ -661,6 +846,14 @@ export async function exportView({
     bodyH = 20 + Math.round(plotW * 0.5) + 8
       + (defLines.length ? 14 + defLines.length * 15 - 4 : 0)
       + 16 + Math.ceil(runs.length / 3) * 17 + 16;
+  } else if (isShots) {
+    // the same rhythm drawShots() draws in — plot, definition lines, legend —
+    // so the canvas is never too short or too tall
+    const plotW = w - PAD * 2;
+    const seriesCount = shotsCtx ? shotsCtx.L.series.length : 0;
+    bodyH = 20 + Math.round(plotW * 0.5) + 8
+      + (defLines.length ? 14 + defLines.length * 15 - 4 : 0)
+      + 16 + Math.ceil(seriesCount / 3) * 17 + 16;
   } else if (isCoverage) {
     // the same rhythm drawCoverage() draws in, so the canvas is never too
     // short (clipped) or too tall (a band of empty plate before the footer) —
@@ -686,7 +879,9 @@ export async function exportView({
   ctx.lineWidth = 1;
   ctx.strokeRect(0.5, 0.5, w - 1, h - 1);
 
-  const title = isChart ? axis.chartTitle : isCoverage ? 'Coverage' : 'Leaderboard';
+  const title = isChart
+    ? axis.chartTitle
+    : isCoverage ? 'Coverage' : isShots ? `${SHOTS_META.chartTitle}${demoOn ? ' (DEMO)' : ''}` : 'Leaderboard';
   const subtitle = isCoverage
     ? 'Which of the 105 planted bugs each run fixed, and where models overlap.'
     : 'Planted bugs only — unplanted fixes are never added to the score.';
@@ -694,6 +889,7 @@ export async function exportView({
 
   if (isChart) drawScatter(ctx, T, runs, allRuns, w, axis, defLines);
   else if (isCoverage) drawCoverage(ctx, T, covL, w);
+  else if (isShots) drawShots(ctx, T, shotsCtx, w, defLines);
   else drawTable(ctx, T, runs, state, w);
 
   drawFooter(ctx, T, w, Math.max(ctx.__y + 10, h - footH), footerLines);
@@ -703,7 +899,7 @@ export async function exportView({
   const a = document.createElement('a');
   a.href = url;
   // the view and the theme are both baked into the file name, so two exports never collide
-  a.download = `bug-hunt-bench-${isChart ? axis.slug : isCoverage ? 'coverage' : 'leaderboard'}-${activeTheme()}-${meta.updated}.png`;
+  a.download = `bug-hunt-bench-${isChart ? axis.slug : isCoverage ? 'coverage' : isShots ? SHOTS_META.slug : 'leaderboard'}-${activeTheme()}-${meta.updated}.png`;
   document.body.appendChild(a);
   a.click();
   a.remove();

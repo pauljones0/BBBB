@@ -34,9 +34,9 @@
    pivot's dividers land in the same place all the way down the card, on
    screen and in the PNG export alike. */
 
-import { el, TOTALS } from './format.js?v=d69cab3767';
-import { effortBadge } from './table.js?v=d69cab3767';
-import { runColor } from './theme.js?v=d69cab3767';
+import { el, TOTALS } from './format.js?v=1ff76947fb';
+import { effortBadge } from './table.js?v=1ff76947fb';
+import { runColor } from './theme.js?v=1ff76947fb';
 
 /* Plain words, not a legend of single letters — a reader should not have to
    learn A/B/C/D to read the strip. Order here IS the left-to-right order of

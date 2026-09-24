@@ -614,6 +614,7 @@ h1 em { font-style: normal; color: var(--accent); }
   border: 1px dotted var(--neutral); border-radius: 2px; padding: 1px 4px;
 }
 .tag--superseded { border-style: solid; border-color: var(--hairline); background: var(--panel); }
+.tag--demo { border-style: solid; border-color: var(--accent); color: var(--accent); }
 
 /* ---------------------------------------------------------- the bar system
 
@@ -792,6 +793,26 @@ h1 em { font-style: normal; color: var(--accent); }
   max-width: 92ch; margin: 16px 0 0;
 }
 .chart__note strong { color: var(--ink-2); font-weight: 600; }
+
+/* -------------------------------------------------------------------- shots
+
+   The fifth view: cumulative fixes against cumulative cost, one trajectory per
+   run. The plot reuses every chart class above (.chart, .pt-ring, .pt-label,
+   .chart__tip, .chart__legend, .chart__def); only the three marks that are new
+   need rules of their own: the trajectory line, the grey cached-dollars stub
+   behind each point, and the handoff diamond. The DEMO banner marks sample
+   data that is on screen for layout review, never measured. */
+
+.chart .shot-line { fill: none; stroke-width: 2; stroke-opacity: 0.8; }
+.chart .shot-cache { stroke: var(--neutral); stroke-width: 3; stroke-linecap: round; stroke-opacity: 0.85; }
+.chart .shot-handoff { stroke: var(--plate); stroke-width: 2; }
+.chart .shot-num { font-family: var(--sans); font-size: 9px; fill: var(--muted); }
+.shots__demo {
+  margin: 0 0 12px; padding: 8px 12px;
+  border: 1px solid var(--accent); border-radius: 3px;
+  font-size: 12px; line-height: 1.5; color: var(--ink-2);
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+}
 
 /* ----------------------------------------------------------------- coverage
 

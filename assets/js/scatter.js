@@ -13,8 +13,9 @@
 
 import {
   pointLabels, fmtCost, fmtWall, fmtDate, COST_KIND_LABEL, NOTE_MARK, svgEl, el, measureText, EFFORT_RANK,
-} from './format.js?v=d69cab3767';
-import { runColor } from './theme.js?v=d69cab3767';
+  hallucinationRate, touchedCount, trimNum,
+} from './format.js?v=1ff76947fb';
+import { runColor } from './theme.js?v=1ff76947fb';
 
 const LABEL_FONT = '10.5px Inter, system-ui, sans-serif';
 const LOG_TICKS = [0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500];
@@ -253,6 +254,19 @@ function tooltipContent(p, axis) {
   }
   frag.appendChild(tipRow('Unplanted, not scored', String(r.extras)));
   frag.appendChild(tipRow('Claimed only', String(r.claimed_only)));
+  /* The two newer miss buckets ride here only when nonzero — unlike claimed
+     only, which predates the rule, a permanent pair of zeroes would be noise
+     on a tooltip that already carries seven rows. */
+  if ((r.false_positive_fixes || 0) > 0) {
+    const rate = hallucinationRate(r);
+    frag.appendChild(tipRow('False-positive fixes',
+      rate === null
+        ? String(r.false_positive_fixes)
+        : `${r.false_positive_fixes} (${(rate * 100).toFixed(1)}% of ${trimNum(touchedCount(r))} touched)`));
+  }
+  if ((r.attempted_failed || 0) > 0) {
+    frag.appendChild(tipRow('Attempted but not fixed', String(r.attempted_failed)));
+  }
   frag.appendChild(tipRow('Run date', fmtDate(r.date)));
   if (r.wall_note) frag.appendChild(el('div', { class: 'tip-note', text: `${NOTE_MARK} ${r.wall_note}` }));
   return frag;

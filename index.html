@@ -15,7 +15,7 @@
      <html> before the first paint, so a dark-theme visitor never sees a white
      flash. It is a file rather than an inline block because the CSP has no
      'unsafe-inline'. -->
-<script src="/assets/js/theme-boot.js?v=d69cab3767"></script>
+<script src="/assets/js/theme-boot.js?v=1ff76947fb"></script>
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bug Hunt Bench">
@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
-<link rel="stylesheet" href="/assets/css/site.css?v=d69cab3767">
+<link rel="stylesheet" href="/assets/css/site.css?v=1ff76947fb">
 
 <!-- dateModified and url are patched at runtime from data/benchmark.json; keep the static values in sync anyway. -->
 <script type="application/ld+json" id="dataset-schema">
@@ -76,9 +76,9 @@
   ]
 }
 </script>
-<script type="module" src="/assets/js/main.js?v=d69cab3767"></script>
+<script type="module" src="/assets/js/main.js?v=1ff76947fb"></script>
 <!-- Microsoft Clarity analytics. A file, not an inline block: the CSP has no 'unsafe-inline'. -->
-<script src="/assets/js/clarity.js?v=d69cab3767" async></script>
+<script src="/assets/js/clarity.js?v=1ff76947fb" async></script>
 </head>
 <body>
 <a class="skip-link" href="#leaderboard">Skip to the leaderboard</a>
@@ -159,6 +159,7 @@
           <button type="button" class="tab" role="tab" id="tab-scatter" aria-controls="panel-scatter" aria-selected="false" tabindex="-1" data-view="scatter">Score vs cost</button>
           <button type="button" class="tab" role="tab" id="tab-time" aria-controls="panel-time" aria-selected="false" tabindex="-1" data-view="time">Score vs time</button>
           <button type="button" class="tab" role="tab" id="tab-coverage" aria-controls="panel-coverage" aria-selected="false" tabindex="-1" data-view="coverage">Coverage</button>
+          <button type="button" class="tab" role="tab" id="tab-shots" aria-controls="panel-shots" aria-selected="false" tabindex="-1" data-view="shots">Shots</button>
         </div>
         <button type="button" class="btn btn--export" id="export-png">Export this view (PNG)</button>
       </div>
@@ -213,6 +214,17 @@
       <div class="coverage" id="coverage-host"></div>
       <p class="empty" id="coverage-empty" hidden>No runs selected. Pick some above, or hit <strong>Featured</strong>.</p>
       <div id="coverage-note"></div>
+    </div>
+
+    <div class="panel" id="panel-shots" role="tabpanel" tabindex="0" aria-labelledby="tab-shots" hidden>
+      <div class="chart" id="shots-host"></div>
+      <p class="empty" id="shots-empty" hidden>No runs selected. Pick some above, or hit <strong>Featured</strong>.</p>
+      <div class="chart__legend" id="shots-legend"></div>
+      <p class="chart__note">
+        Each line is one run's shots in order, cheapest to dearest. Cost is on a logarithmic axis, as on the score-vs-cost map.
+        <span id="shots-note"></span>
+        Per-shot figures live in the tooltips; run totals are in the <button type="button" class="linkbtn" data-goto-view="table">leaderboard table</button>.
+      </p>
     </div>
   </section>
 

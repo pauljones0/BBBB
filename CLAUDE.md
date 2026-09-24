@@ -17,6 +17,9 @@ The README leaderboard block (between the `leaderboard:start/end` markers), `ass
 
 - Do not edit `data/benchmark.json`. A hand edit will be silently overwritten on the next
   regeneration, and worse, it breaks the guarantee the site is built on.
+- The one exception is `data/demo-shots.json` (fork proposal, docs/shots.md):
+  hand-maintained sample trajectories, loaded only under `?demo=1`, stripped by
+  deleting the file. Never merge its illustrative numbers into real data.
 - If the site needs a field the data lacks, say so — the fix belongs in the generator, upstream.
 - **Colours are auto-assigned, not per-model.** The generator's `vendor_family_colors()` gives one
   hue per vendor (`VENDOR_HUE`) shaded by model rank (flagship darkest); every effort of a model

@@ -8,8 +8,8 @@
    straight at them: a reader who clicks "cost tag" under the table should land
    on that definition, not at the top of this page. */
 
-import { glossaryTerm, fmtDate, el } from './format.js?v=d69cab3767';
-import { initTheme } from './theme.js?v=d69cab3767';
+import { glossaryTerm, fmtDate, el } from './format.js?v=1ff76947fb';
+import { initTheme } from './theme.js?v=1ff76947fb';
 
 const $ = (id) => document.getElementById(id);
 
@@ -66,9 +66,26 @@ function render(DATA) {
   });
 }
 
+/* ?demo=1 only: the board's demo tooltips and key link at demo-only glossary
+   terms, so the method page merges the same demo block — new keys only, real
+   definitions always win. A missing file degrades to the real glossary. */
+async function demoGlossary() {
+  if (new URLSearchParams(location.search).get('demo') !== '1') return null;
+  try {
+    const res = await fetch('/data/demo-shots.json', { cache: 'no-cache' });
+    if (!res.ok) return null;
+    const demo = await res.json();
+    return demo && demo.demo === true && demo.glossary ? demo.glossary : null;
+  } catch (err) {
+    return null;
+  }
+}
+
 async function boot() {
   const res = await fetch('/data/benchmark.json', { cache: 'no-cache' });
   const DATA = await res.json();
+  const demo = await demoGlossary();
+  if (demo) DATA.glossary = { ...demo, ...(DATA.glossary || {}) };
   render(DATA);
   initTheme();
   scrollToHash();

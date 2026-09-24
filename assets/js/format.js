@@ -178,6 +178,66 @@ export function costSentence(runs, glossary) {
 /** The same sentence as flat text, for the canvas, which has no links. */
 export const segmentsText = (seg) => (seg ? seg.map((s) => s.text).join('') : '');
 
+/* Fixes that were not fixes. Two buckets the grid deliberately does not carry
+   (see the six-column rule above): `false_positive_fixes` — the diff "fixed" a
+   thing that was not a bug — and `attempted_failed` — the diff tried a planted
+   bug and the judge says it is still broken. Both surface the claimed-only way:
+   tooltip rows, a method-page definition, and one key sentence each that exists
+   only while a row on screen carries a nonzero count. */
+
+/** Everything a run touched: planted fixes plus unplanted extras. */
+export function touchedCount(run) {
+  return (run.fixed || 0) + (run.extras || 0);
+}
+
+/** Hallucination rate: false-positive fixes over everything touched. Null when
+    the run touched nothing, so a 0/0 row reads as "no rate" rather than 0%. */
+export function hallucinationRate(run) {
+  const touched = touchedCount(run);
+  if (!(touched > 0)) return null;
+  return (run.false_positive_fixes || 0) / touched;
+}
+
+/** A count that may be a mean (31.3), printed without a trailing ".0". */
+export function trimNum(v) {
+  return String(Number(Number(v).toFixed(1)));
+}
+
+/** Which runs fixed things that were not bugs, said once for the rows on
+    screen. Null when no row carries one — the key must not grow a permanent
+    paragraph about a thing nothing did. Segments, like costSentence, so the
+    page renders links and the PNG export renders the same words flat. */
+export function falsePositiveSentence(runs) {
+  const rows = runs.filter((r) => (r.false_positive_fixes || 0) > 0);
+  if (!rows.length) return null;
+  const seg = [];
+  rows.forEach((r, i) => {
+    if (i) seg.push({ text: '; ' });
+    const rate = hallucinationRate(r);
+    seg.push({ text: `${r.model} fixed ` });
+    seg.push({ text: `${r.false_positive_fixes} false-positive fix${r.false_positive_fixes === 1 ? '' : 'es'}`, def: 'false_positive_fixes' });
+    seg.push({ text: rate === null ? '' : ` (${(rate * 100).toFixed(1)}% of ${trimNum(touchedCount(r))} touched)` });
+  });
+  seg.push({ text: '.' });
+  return seg;
+}
+
+/** Which runs tried a planted bug and left it broken. Same shape and same
+    null-when-empty rule as falsePositiveSentence. */
+export function attemptedSentence(runs) {
+  const rows = runs.filter((r) => (r.attempted_failed || 0) > 0);
+  if (!rows.length) return null;
+  const seg = [];
+  rows.forEach((r, i) => {
+    if (i) seg.push({ text: '; ' });
+    seg.push({ text: `${r.model} attempted ` });
+    seg.push({ text: `${r.attempted_failed} fix${r.attempted_failed === 1 ? '' : 'es'}`, def: 'attempted_failed' });
+    seg.push({ text: ' the judge did not accept' });
+  });
+  seg.push({ text: '.' });
+  return seg;
+}
+
 /* How each effort key is NAMED on the definitions page. The board shows the
    badge and, in two cases, two words; a reader who follows one of those links
    has to land on the same words, not on the enum. Kept beside the suffix map so
@@ -204,6 +264,9 @@ export function glossaryTerm(key) {
   // the board's column heading and the glossary term must be the same word, or a
   // reader following a definition link lands on vocabulary the table never used
   if (key === 'extras') return 'Unplanted';
+  if (key === 'false_positive_fixes') return 'False-positive fix';
+  if (key === 'attempted_failed') return 'Attempted but not fixed';
+  if (key === 'shot') return 'Shot';
   const words = key.replace(/_/g, ' ');
   return words.charAt(0).toUpperCase() + words.slice(1);
 }

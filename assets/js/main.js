@@ -9,13 +9,15 @@
 import {
   COLUMNS, BAR_SCALE_NOTE, NOTE_MARK, costSentence, firstSentence,
   caveatHref, defHref, methodHref, slugify, fmtDate, el, EFFORT_RANK,
-} from './format.js?v=d69cab3767';
-import { renderHead, renderBody, renderColgroup } from './table.js?v=d69cab3767';
-import { renderScatter, AXES } from './scatter.js?v=d69cab3767';
-import { renderPicker, refreshGroups } from './selector.js?v=d69cab3767';
-import { exportView } from './export-png.js?v=d69cab3767';
-import { initTheme, hasAdjustedColors } from './theme.js?v=d69cab3767';
-import { renderCoverage, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=d69cab3767';
+  falsePositiveSentence, attemptedSentence, trimNum,
+} from './format.js?v=1ff76947fb';
+import { renderHead, renderBody, renderColgroup } from './table.js?v=1ff76947fb';
+import { renderScatter, AXES } from './scatter.js?v=1ff76947fb';
+import { buildSeries, renderShots, pipelineSuffix } from './shots.js?v=1ff76947fb';
+import { renderPicker, refreshGroups } from './selector.js?v=1ff76947fb';
+import { exportView } from './export-png.js?v=1ff76947fb';
+import { initTheme, hasAdjustedColors } from './theme.js?v=1ff76947fb';
+import { renderCoverage, coverageOrderNote, coverageSummaryNote } from './coverage.js?v=1ff76947fb';
 
 const PRESETS = {
   featured: { test: (r) => r.featured === true, name: 'Featured runs' },
@@ -51,10 +53,11 @@ function presetSlugs(key, runs) {
   return p.select ? p.select(runs) : new Set(runs.filter(p.test).map((r) => r.slug));
 }
 
-/* The four views and the panels they live in. Score-vs-cost and score-vs-time
-   share one axis-driven renderer (scatter.js) — a fifth x/y measure there
-   would mean an axis spec and a row here, not a new renderer. Coverage has no
-   axis: it is its own renderer (coverage.js), wired in below. */
+/* The five views and the panels they live in. Score-vs-cost and score-vs-time
+   share one axis-driven renderer (scatter.js) — another x/y measure there
+   would mean an axis spec and a row here, not a new renderer. Coverage and
+   Shots have no axis: each is its own renderer (coverage.js, shots.js),
+   wired in below. */
 const VIEWS = {
   table: { panel: 'panel-table', tab: 'tab-table' },
   scatter: {
@@ -68,6 +71,10 @@ const VIEWS = {
   coverage: {
     panel: 'panel-coverage', tab: 'tab-coverage',
     host: 'coverage-host', empty: 'coverage-empty', note: 'coverage-note',
+  },
+  shots: {
+    panel: 'panel-shots', tab: 'tab-shots',
+    host: 'shots-host', legend: 'shots-legend', empty: 'shots-empty', note: 'shots-note',
   },
 };
 const CHART_VIEWS = ['scatter', 'time'];
@@ -98,6 +105,19 @@ let RUNS = [];
 let SITE_URL = '';
 // set once at boot: whether any run on the board carries `fixed_bugs` at all
 let coverageEnabled = false;
+// whether any run carries per-shot data (`shots`) at all — real rows from the
+// generator, or the demo block below. The Shots tab hides without it, the same
+// way Coverage hides without per-bug data. Recomputed whenever ?demo=1 flips.
+// ?demo=1 only: sample trajectories merged in memory from data/demo-shots.json
+// for layout review. demoOn is true only while that file loads and parses;
+// without it the parameter degrades to nothing. demoSynthetic holds the
+// demo-only pipeline series, which the Shots view alone ever sees.
+let shotsEnabled = false;
+let demoOn = false;
+let demoSynthetic = [];
+let DEMO = null;
+let PRISTINE_RUNS = [];
+let PRISTINE_GLOSSARY = {};
 
 const NUMBER_WORD = ['no', 'one', 'Two', 'Three', 'Four', 'Five', 'Six'];
 
@@ -130,6 +150,43 @@ function detectPreset() {
    link that names it anyway falls back to the table. */
 function sanitizeView() {
   if (state.view === 'coverage' && !coverageEnabled) state.view = 'table';
+  if (state.view === 'shots' && !shotsEnabled) state.view = 'table';
+}
+
+/* Demo loading (?demo=1): sample multi-shot trajectories for layout review,
+   owned outright by this fork in data/demo-shots.json. Anything wrong with the
+   file — missing, unparsable, or not marked demo:true — degrades to no-demo,
+   never to a failed board. */
+async function loadDemo() {
+  try {
+    const res = await fetch('data/demo-shots.json', { cache: 'no-cache' });
+    if (!res.ok) return null;
+    const demo = await res.json();
+    if (!demo || demo.demo !== true) return null;
+    return demo;
+  } catch (err) {
+    return null;
+  }
+}
+
+/* Apply (or clear) the demo merge for the current ?demo=1 state. Overrides land
+   on fresh copies, never on the pristine rows, so toggling demo across a
+   back-button walk rebuilds rather than accumulates — and the real glossary
+   always wins over demo keys. */
+function applyDemoState() {
+  const active = demoOn && DEMO;
+  DATA.glossary = active
+    ? { ...(DEMO.glossary || {}), ...PRISTINE_GLOSSARY }
+    : PRISTINE_GLOSSARY;
+  const overrides = active && DEMO.run_overrides ? DEMO.run_overrides : {};
+  RUNS = PRISTINE_RUNS.map((r) => (overrides[r.slug]
+    ? { ...r, ...overrides[r.slug] }
+    : { ...r }));
+  demoSynthetic = active && Array.isArray(DEMO.synthetic_series) ? DEMO.synthetic_series : [];
+  shotsEnabled = RUNS.some((r) => Array.isArray(r.shots) && r.shots.length > 0)
+    || demoSynthetic.length > 0;
+  const shotsTab = $('tab-shots');
+  if (shotsTab) shotsTab.hidden = !shotsEnabled;
 }
 
 /* A pivot needs the run it names to still be on screen, with its own
@@ -169,6 +226,7 @@ function readUrl() {
   // checked by sanitizePivot() on the first render, same as a link typed by
   // hand rather than produced by this page.
   state.pivot = p.get('pivot') || null;
+  demoOn = p.get('demo') === '1';
 }
 
 function writeUrl() {
@@ -179,6 +237,7 @@ function writeUrl() {
   if (state.dir !== 'desc') p.set('dir', state.dir);
   if (state.view !== 'table') p.set('view', state.view);
   if (state.pivot) p.set('pivot', state.pivot);
+  if (demoOn) p.set('demo', '1');
   const qs = p.toString();
   history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
 }
@@ -336,6 +395,53 @@ function effortKey(runs) {
   return block;
 }
 
+/* The off-grid vocabulary, linked only where the data file actually defines
+   the term — a board whose generator predates the shots work links exactly
+   what it always linked, and the sentence counts what it names. */
+function offGridLine() {
+  const terms = [
+    ['partial', 'partial'],
+    ['claimed_only', 'claimed-only'],
+  ];
+  if (DATA.glossary.false_positive_fixes) terms.push(['false_positive_fixes', 'false-positive']);
+  if (DATA.glossary.attempted_failed) terms.push(['attempted_failed', 'attempted-but-not-fixed']);
+  const parts = ['Not on the grid: '];
+  terms.forEach(([key, label], i) => {
+    if (i > 0) parts.push(i === terms.length - 1 ? ' and ' : ', ');
+    parts.push(el('a', { class: 'deflink', href: defHref(key) }, [label]));
+  });
+  const total = terms.length + 2; // the two repo halves named next
+  const word = total === 4 ? 'four' : total === 6 ? 'six' : String(total);
+  parts.push(
+    terms.length === 2 ? ' fixes, and the repo 1 / repo 2 split. ' : ' counts, and the repo 1 / repo 2 split. ',
+    `All ${word} are in the data and on the `,
+    el('a', { class: 'deflink', href: methodHref('definitions') }, ['method page']),
+    '.',
+  );
+  return el('p', {}, parts);
+}
+
+/* Fixes that were not fixes, said once for the rows on screen — one sentence
+   per bucket, each printed only while a row on screen carries it. */
+function missesKey(runs) {
+  const fp = falsePositiveSentence(runs);
+  const att = attemptedSentence(runs);
+  if (!fp && !att) return null;
+  const block = el('div', {}, [el('h3', { text: 'Fixes that were not fixes' })]);
+  const para = (seg) => {
+    const p = el('p', {});
+    seg.forEach((part) => {
+      p.appendChild(part.def
+        ? el('a', { class: 'deflink', href: defHref(part.def) }, [part.text])
+        : document.createTextNode(part.text));
+    });
+    return p;
+  };
+  if (fp) block.appendChild(para(fp));
+  if (att) block.appendChild(para(att));
+  return block;
+}
+
 function renderKeys() {
   const keys = $('table-keys');
   const runs = selectedRuns();
@@ -361,15 +467,7 @@ function renderKeys() {
       el('span', { class: 'swatch-key swatch-key--meta' }),
       'Flat grey: wall clock and cost. Grey, never the run’s colour, because neither is the score.',
     ]),
-    el('p', {}, [
-      'Not on the grid: ',
-      el('a', { class: 'deflink', href: defHref('partial') }, ['partial']),
-      ' and ',
-      el('a', { class: 'deflink', href: defHref('claimed_only') }, ['claimed-only']),
-      ' fixes, and the repo 1 / repo 2 split. All four are in the data and on the ',
-      el('a', { class: 'deflink', href: methodHref('definitions') }, ['method page']),
-      '.',
-    ]),
+    offGridLine(),
     hasAdjustedColors(RUNS)
       ? el('p', { class: 'note', text: 'In the dark theme a run colour that would be invisible on a dark surface is shown lightened. The hue is the run’s own; only the brightness moves, and only on screen.' })
       : null,
@@ -378,6 +476,8 @@ function renderKeys() {
   const cost = costKey(runs);
   if (cost) keys.appendChild(cost);
   keys.appendChild(effortKey(runs));
+  const misses = missesKey(runs);
+  if (misses) keys.appendChild(misses);
 
   keys.appendChild(el('div', {}, [
     el('h3', { text: 'Variance' }),
@@ -395,7 +495,7 @@ function renderKeys() {
 
 /* ---------------------------------------------------------------- renderers */
 
-const lastChartWidth = { scatter: 0, time: 0 };
+const lastChartWidth = { scatter: 0, time: 0, shots: 0 };
 
 /** The sentence that belongs to a map, drawn inside the plate with the plot. */
 function chartFootnote(axisId) {
@@ -453,6 +553,77 @@ function renderCoverageView() {
    data makes it the new one. Re-render, re-sync the URL, then hand focus
    back to that same run's row — the whole view was just rebuilt out from
    under it, and a keyboard user should not lose their place over it. */
+/** The Shots footnote: what the marks are, with the term linked at its
+    definition. Says the same things as shotsNoteText (the export's flat
+    version) — the two are the same facts, with and without links. */
+function shotsFootnote() {
+  return (L) => {
+    const parts = [
+      document.createTextNode('Each line is one run\u2019s '),
+      el('a', { class: 'deflink', href: defHref('shot') }, ['shots']),
+      document.createTextNode(' in order; each point plots cumulative fixes against cumulative cost after that shot. Cost is on a logarithmic axis. '),
+    ];
+    if (L.hasCache) parts.push(document.createTextNode('The grey stub behind a point is the cached dollars inside its cost. '));
+    if (L.hasHandoff) parts.push(document.createTextNode('A diamond marks a pipeline handoff, where the cheap model hands the run to the smart one. '));
+    if (demoOn) {
+      parts.push(el('span', { class: 'tag tag--demo', text: 'DEMO' }));
+      parts.push(document.createTextNode(' Sample trajectories for layout review, not measured runs.'));
+    }
+    return parts;
+  };
+}
+
+/** Shots: cumulative fixes against cumulative cost, one trajectory per run.
+    Redrawn on every selection change, because the series are a property of
+    the selection — and the demo banner and skip notes live in the panel, not
+    the host, so they are cleared and rebuilt here rather than in shots.js. */
+function renderShotsView() {
+  const runs = selectedRuns();
+  const { series, withoutShots } = buildSeries(runs, demoSynthetic, demoOn);
+  const host = $('shots-host');
+  const legend = $('shots-legend');
+  legend.textContent = '';
+  host.parentElement.querySelectorAll('.shots__demo, .shots__note').forEach((n) => n.remove());
+  if (demoOn) {
+    host.parentElement.insertBefore(el('p', { class: 'shots__demo' }, [
+      el('span', { class: 'tag tag--demo', text: 'DEMO' }),
+      'Sample trajectories for layout review — illustrative, not measured. Delete data/demo-shots.json to strip.',
+    ]), host);
+  }
+  if (!series.length) {
+    if (withoutShots.length) {
+      host.parentElement.insertBefore(el('p', {
+        class: 'chart__note shots__note',
+        text: `None of the ${withoutShots.length} selected runs carries shot data yet. Per-shot loops have not been run for them; their totals are in the table.`,
+      }), legend);
+    }
+    return;
+  }
+  const domainShots = [];
+  RUNS.forEach((r) => { if (Array.isArray(r.shots)) domainShots.push(...r.shots); });
+  if (demoOn) demoSynthetic.forEach((s) => domainShots.push(...s.shots));
+  const best = RUNS.reduce((a, b) => (b.fixed > a.fixed ? b : a), RUNS[0]);
+  const L = renderShots(host, series, domainShots, best ? best.fixed : 0, shotsFootnote());
+  if (!L) return;
+  L.series.slice().sort((a, b) => {
+    const ea = a.points.length ? a.points[a.points.length - 1].shot.cum_fixed : -1;
+    const eb = b.points.length ? b.points[b.points.length - 1].shot.cum_fixed : -1;
+    return eb - ea;
+  }).forEach((s) => {
+    const end = s.points.length ? s.points[s.points.length - 1].shot : null;
+    legend.appendChild(el('span', {}, [
+      el('i', { style: { 'background-color': s.color } }),
+      `${s.run.model}${s.run.effort ? ` · ${s.run.effort}` : ''}${pipelineSuffix(s.run)} — ${end ? trimNum(end.cum_fixed) : '—'} fixed${s.demo ? ' · DEMO' : ''}`,
+    ]));
+  });
+  if (withoutShots.length) {
+    host.parentElement.insertBefore(el('p', {
+      class: 'chart__note shots__note',
+      text: `${withoutShots.length} selected run${withoutShots.length === 1 ? ' carries' : 's carry'} no shot data yet. ${withoutShots.length === 1 ? 'It is' : 'They are'} in the table.`,
+    }), legend);
+  }
+}
+
 function onPivotToggle(slug) {
   state.pivot = state.pivot === slug ? null : slug;
   renderViews();
@@ -490,6 +661,12 @@ function renderViews() {
   $('coverage-empty').hidden = !empty;
   $('coverage-host').hidden = empty;
   if (empty) $('coverage-note').textContent = '';
+  $('shots-empty').hidden = !empty;
+  $('shots-host').hidden = empty;
+  if (empty) {
+    $('shots-legend').textContent = '';
+    $('panel-shots').querySelectorAll('.shots__demo, .shots__note').forEach((n) => n.remove());
+  }
   $('export-png').disabled = empty;
   $('export-png').title = empty ? 'Select at least one run to export' : 'Download the current view as a PNG';
 
@@ -501,6 +678,7 @@ function renderViews() {
 
   if (!empty && VIEWS[state.view].axis) renderChart(state.view);
   else if (!empty && state.view === 'coverage') renderCoverageView();
+  else if (!empty && state.view === 'shots') renderShotsView();
 
   const label = state.preset ? PRESETS[state.preset].name : 'Custom selection';
   $('picker-summary').textContent = '';
@@ -563,6 +741,11 @@ function onToggleVendor(group, on) {
 
 function setView(view, focus) {
   state.view = VIEWS[view] ? view : 'table';
+  // a tab whose data is gone (demo toggled off across a back-button walk) is
+  // not a view any more than a stale ?view= link is — fall back, don't strand
+  if ((state.view === 'coverage' && !coverageEnabled) || (state.view === 'shots' && !shotsEnabled)) {
+    state.view = 'table';
+  }
   document.querySelectorAll('.tab').forEach((t) => {
     const on = t.dataset.view === state.view;
     t.setAttribute('aria-selected', String(on));
@@ -617,6 +800,8 @@ function wire() {
         axis,
         runs: selectedRuns(),
         allRuns: RUNS,
+        synthetic: demoSynthetic,
+        demoOn,
         state,
         meta: DATA.meta,
         glossary: DATA.glossary,
@@ -632,13 +817,14 @@ function wire() {
 
   window.addEventListener('popstate', () => {
     readUrl();
+    applyDemoState();
     sanitizeView();
     renderAll();
     setView(state.view);
   });
 
   if (window.ResizeObserver) {
-    CHART_VIEWS.forEach((k) => {
+    [...CHART_VIEWS, 'shots'].forEach((k) => {
       const ro = new ResizeObserver(() => {
         if (state.view !== k) return;
         const w = $(VIEWS[k].host).clientWidth;
@@ -699,12 +885,21 @@ async function boot() {
   DATA = await res.json();
 
   RUNS = newestPerTier(DATA.runs.filter((r) => !r.superseded)).map((r) => ({ ...r, slug: slugify(r.id) }));
+  PRISTINE_RUNS = RUNS.map((r) => ({ ...r }));
+  PRISTINE_GLOSSARY = DATA.glossary || {};
 
   // Coverage needs at least one run with per-bug data; hide the tab rather
   // than open onto a view that can only ever say "no per-bug data available".
   coverageEnabled = RUNS.some((r) => Array.isArray(r.fixed_bugs));
   const coverageTab = $('tab-coverage');
   if (coverageTab) coverageTab.hidden = !coverageEnabled;
+
+  // ?demo=1 only: sample trajectories for layout review (data/demo-shots.json).
+  // The default board never requests the file at all; when it is requested, a
+  // missing or invalid file degrades to no-demo — deleting that one file
+  // strips the demo with no other edit.
+  demoOn = new URLSearchParams(location.search).get('demo') === '1';
+  DEMO = demoOn ? await loadDemo() : null;
 
   const board = document.getElementById('board');
   board.setAttribute('role', 'table');
@@ -717,11 +912,14 @@ async function boot() {
     const node = $(VIEWS[k].note);
     if (node) node.textContent = axisNote;
   });
+  const shotsNote = $('shots-note');
+  if (shotsNote) shotsNote.textContent = 'The score axis stops short of 105 on purpose — it is ticked in real fixed counts, and it moves with the board rather than with the selection.';
 
   renderHero();
   patchSchema();
 
-  readUrl();
+  readUrl(); // also reads ?demo=1, before the demo merge below decides anything
+  applyDemoState(); // sets RUNS, glossary, shotsEnabled and the Shots tab
   sanitizeView();
   wire();
   // a theme change repaints every run colour, so the whole board is rebuilt
